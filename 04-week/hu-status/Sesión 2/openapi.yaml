@@ -1,0 +1,528 @@
+openapi: 3.0.3
+info:
+  title: Multi tour MVP 1 API
+  version: 1.0.0-mvp1
+  description: >
+    Contrato API del MVP 1 de Multi tour, alineado con el PDR v1.7.
+    Este MVP cubre el flujo minimo lanzable para: determinacion de tenant,
+    consulta de oferta, autenticacion basica del cliente final, creacion de
+    reserva, consulta de estado de reserva y registro de pago/abono con soporte
+    de transferencia cuando aplique.
+servers:
+  - url: https://api.multitour.local
+    description: Servidor de referencia
+tags:
+  - name: Health
+  - name: Tenants
+  - name: Auth
+  - name: Catalog
+  - name: Reservations
+  - name: Payments
+paths:
+  /health:
+    get:
+      tags: [Health]
+      summary: Verificar salud del servicio
+      operationId: getHealth
+      responses:
+        "200":
+          description: Servicio disponible
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HealthResponse"
+  /tenants/{tenantId}:
+    get:
+      tags: [Tenants]
+      summary: Consultar tenant activo
+      operationId: getTenantById
+      parameters:
+        - $ref: "#/components/parameters/TenantIdPath"
+      responses:
+        "200":
+          description: Tenant encontrado
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TenantResponse"
+        "404":
+          $ref: "#/components/responses/NotFound"
+  /auth/register:
+    post:
+      tags: [Auth]
+      summary: Registrar cliente final dentro de un tenant
+      operationId: registerClient
+      parameters:
+        - $ref: "#/components/parameters/TenantIdHeader"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/RegisterClientRequest"
+      responses:
+        "201":
+          description: Cliente registrado
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AuthResponse"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "409":
+          description: El correo ya existe en el tenant indicado
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+  /auth/login:
+    post:
+      tags: [Auth]
+      summary: Iniciar sesion del cliente final dentro de un tenant
+      operationId: loginClient
+      parameters:
+        - $ref: "#/components/parameters/TenantIdHeader"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/LoginRequest"
+      responses:
+        "200":
+          description: Sesion iniciada
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AuthResponse"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+  /auth/password-recovery:
+    post:
+      tags: [Auth]
+      summary: Solicitar recuperacion de contrasena dentro de un tenant
+      operationId: requestPasswordRecovery
+      parameters:
+        - $ref: "#/components/parameters/TenantIdHeader"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [email]
+              properties:
+                email:
+                  type: string
+                  format: email
+      responses:
+        "202":
+          description: Solicitud aceptada
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/MessageResponse"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+  /catalog/services:
+    get:
+      tags: [Catalog]
+      summary: Consultar oferta disponible para reserva
+      operationId: listServices
+      parameters:
+        - $ref: "#/components/parameters/TenantIdHeader"
+      responses:
+        "200":
+          description: Oferta consultada
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [items]
+                properties:
+                  items:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/ServiceSummary"
+  /reservations:
+    post:
+      tags: [Reservations]
+      summary: Crear reserva desde canal digital
+      operationId: createReservation
+      parameters:
+        - $ref: "#/components/parameters/TenantIdHeader"
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateReservationRequest"
+      responses:
+        "201":
+          description: Reserva creada
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ReservationResponse"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "409":
+          description: Conflicto de cupo o disponibilidad
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+  /reservations/{reservationId}:
+    get:
+      tags: [Reservations]
+      summary: Consultar detalle y estado de una reserva propia
+      operationId: getReservationById
+      parameters:
+        - $ref: "#/components/parameters/TenantIdHeader"
+        - $ref: "#/components/parameters/ReservationIdPath"
+      security:
+        - bearerAuth: []
+      responses:
+        "200":
+          description: Reserva encontrada
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ReservationResponse"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "404":
+          description: Reserva no encontrada o no visible para el usuario autenticado en el tenant indicado
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+  /reservations/{reservationId}/payments:
+    post:
+      tags: [Payments]
+      summary: Registrar pago o abono de una reserva
+      operationId: registerReservationPayment
+      parameters:
+        - $ref: "#/components/parameters/TenantIdHeader"
+        - $ref: "#/components/parameters/ReservationIdPath"
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/RegisterPaymentRequest"
+      responses:
+        "201":
+          description: Pago o abono registrado
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PaymentResponse"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "404":
+          description: Reserva no encontrada o no visible para el usuario autenticado en el tenant indicado
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "409":
+          description: La reserva ya no admite pagos por su estado actual
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+  parameters:
+    TenantIdHeader:
+      name: X-Tenant-Id
+      in: header
+      required: true
+      description: Tenant activo determinado para la operacion
+      schema:
+        type: string
+        example: travesia-natural
+    TenantIdPath:
+      name: tenantId
+      in: path
+      required: true
+      schema:
+        type: string
+    ReservationIdPath:
+      name: reservationId
+      in: path
+      required: true
+      schema:
+        type: string
+        format: uuid
+  responses:
+    BadRequest:
+      description: Solicitud invalida
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/ErrorResponse"
+    Unauthorized:
+      description: Credenciales invalidas o token ausente
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/ErrorResponse"
+    NotFound:
+      description: Recurso no encontrado
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/ErrorResponse"
+  schemas:
+    HealthResponse:
+      type: object
+      required: [status, timestamp]
+      properties:
+        status:
+          type: string
+          example: ok
+        timestamp:
+          type: string
+          format: date-time
+    TenantResponse:
+      type: object
+      required: [id, name, status]
+      properties:
+        id:
+          type: string
+          example: travesia-natural
+        name:
+          type: string
+          example: Travesia Natural
+        status:
+          type: string
+          enum: [Activo, Inactivo]
+    RegisterClientRequest:
+      type: object
+      required: [firstName, lastName, email, password]
+      properties:
+        firstName:
+          type: string
+        lastName:
+          type: string
+        email:
+          type: string
+          format: email
+        password:
+          type: string
+          minLength: 8
+    LoginRequest:
+      type: object
+      required: [email, password]
+      properties:
+        email:
+          type: string
+          format: email
+        password:
+          type: string
+    AuthResponse:
+      type: object
+      required: [accessToken, user]
+      properties:
+        accessToken:
+          type: string
+        user:
+          type: object
+          required: [id, email]
+          properties:
+            id:
+              type: string
+              format: uuid
+            email:
+              type: string
+              format: email
+    MessageResponse:
+      type: object
+      required: [message]
+      properties:
+        message:
+          type: string
+    ServiceSummary:
+      type: object
+      required:
+        [id, type, name, basePrice, availabilityPolicy, availableForSale]
+      properties:
+        id:
+          type: string
+        type:
+          type: string
+          enum: [tour, hospedaje, alimentacion, transporte]
+        name:
+          type: string
+        basePrice:
+          type: number
+          format: double
+        availabilityPolicy:
+          type: string
+          enum:
+            [sin_apartamiento_previo, apartamiento_temporal, confirmacion_directa]
+        availableForSale:
+          type: boolean
+        activeDiscounts:
+          type: array
+          items:
+            $ref: "#/components/schemas/DiscountSummary"
+    DiscountSummary:
+      type: object
+      required: [id, name, type, value]
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        type:
+          type: string
+          enum: [percentage, fixed]
+        value:
+          type: number
+          format: double
+    CreateReservationRequest:
+      type: object
+      required:
+        [serviceId, scheduledDate, holder, companions, paymentMode]
+      properties:
+        serviceId:
+          type: string
+        scheduledDate:
+          type: string
+          format: date
+        holder:
+          $ref: "#/components/schemas/ReservationPerson"
+        companions:
+          type: array
+          description: Lista obligatoria en el contrato; puede enviarse vacia cuando no existan acompanantes. No se permite duplicidad de `documentId` entre acompanantes ni repetir el documento del titular.
+          minItems: 0
+          items:
+            $ref: "#/components/schemas/ReservationPerson"
+        lodgingId:
+          type: string
+          nullable: true
+        foodSelections:
+          type: array
+          items:
+            type: string
+        paymentMode:
+          type: string
+          enum: [transferencia, efectivo, abono]
+        notes:
+          type: string
+          nullable: true
+    ReservationPerson:
+      type: object
+      required: [documentId, fullName, birthDateOrAge]
+      properties:
+        documentId:
+          type: string
+        fullName:
+          type: string
+        birthDateOrAge:
+          type: string
+        phone:
+          type: string
+          nullable: true
+        email:
+          type: string
+          format: email
+          nullable: true
+        emergencyContact:
+          type: string
+          nullable: true
+        bloodType:
+          type: string
+          nullable: true
+    ReservationResponse:
+      type: object
+      required:
+        [id, tenantId, reservationStatus, paymentStatus, projectedValue, finalValue, pendingBalance]
+      properties:
+        id:
+          type: string
+          format: uuid
+        tenantId:
+          type: string
+        reservationStatus:
+          type: string
+          enum:
+            [Pendiente de pago, Confirmada, En ejecucion, Finalizada, Cancelada]
+        paymentStatus:
+          type: string
+          enum:
+            [Sin pago, En validacion, Parcial, Pagado, Rechazado, Saldo a favor pendiente, Devuelto parcial o total]
+        projectedValue:
+          type: number
+          format: double
+        finalValue:
+          type: number
+          format: double
+        pendingBalance:
+          type: number
+          format: double
+        appliedDiscounts:
+          type: array
+          items:
+            $ref: "#/components/schemas/DiscountSummary"
+    RegisterPaymentRequest:
+      type: object
+      required: [paymentMode, amount]
+      properties:
+        paymentMode:
+          type: string
+          enum: [transferencia, efectivo, abono]
+        amount:
+          type: number
+          format: double
+        transferProofUrl:
+          type: string
+          format: uri
+          nullable: true
+          description: Debe enviarse cuando la modalidad sea `transferencia` y exista soporte cargado por el cliente para revision.
+        note:
+          type: string
+          nullable: true
+    PaymentResponse:
+      type: object
+      required: [paymentId, reservationId, amount, paymentStatus]
+      properties:
+        paymentId:
+          type: string
+          format: uuid
+        reservationId:
+          type: string
+          format: uuid
+        amount:
+          type: number
+          format: double
+        paymentStatus:
+          type: string
+          enum:
+            [Sin pago, En validacion, Parcial, Pagado, Rechazado]
+        registeredAt:
+          type: string
+          format: date-time
+    ErrorResponse:
+      type: object
+      required: [code, message]
+      properties:
+        code:
+          type: string
+        message:
+          type: string
