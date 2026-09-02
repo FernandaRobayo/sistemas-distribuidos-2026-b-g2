@@ -121,12 +121,22 @@ Los roles anteriores constituyen los perfiles base obligatorios confirmados para
 
 - El alta de un tenant en Fase 1 se realiza por proceso administrativo interno de la plataforma y no mediante autoservicio publico.
 - En Fase 1, dicho aprovisionamiento inicial se entiende como un proceso administrativo manual de plataforma, ejecutado fuera de las funciones operativas del tenant y antes de que exista el primer Administrador de ese tenant.
-- Cada tenant debe crearse con un identificador unico, un nombre comercial visible y un estado operativo.
+- Cada tenant debe crearse con los siguientes datos obligatorios para su operador y primer Administrador. La contrasena inicial y su confirmacion deben coincidir.
+
+| Campo | Obligatorio |
+| --- | --- |
+| Nombre comercial | Si |
+| Identificador unico | Si |
+| Estado inicial | Si |
+| Nombre del primer Administrador | Si |
+| Correo electronico | Si |
+| Contrasena inicial | Si |
+| Confirmar contrasena | Si |
 - Cada tenant podra configurar opcionalmente una identidad visual basica, incluyendo nombre comercial visible, logotipo, color principal, color secundario e imagenes comerciales, siempre dentro de los parametros permitidos por el sistema de diseno de la plataforma.
 - Cuando un tenant no tenga configuracion visual particular, debe utilizarse la identidad visual predeterminada de la plataforma.
 - La personalizacion visual basica no puede alterar layout, componentes, navegacion, tipografia base, colores semanticos ni reglas de accesibilidad definidas por la plataforma.
 - Los estados operativos minimos del tenant en Fase 1 son: Activo e Inactivo.
-- Al crear un tenant debe asignarse al menos un primer usuario con rol Administrador para ese tenant.
+- Al crear un tenant debe asignarse al menos un primer usuario con rol Administrador para ese tenant, usando el nombre, correo y credenciales iniciales definidos durante el alta.
 - Un tenant inactivo no puede recibir nuevas autenticaciones operativas ni nuevas reservas, pero debe conservar trazabilidad e informacion historica.
 - El tenant activo de una operacion debe quedar determinado antes de ejecutar autenticacion, consulta o registro sensible, por ejemplo por seleccion explicita del tenant, canal dedicado, enlace del tenant o configuracion operativa del acceso habilitado.
 - Solo el Administrador de plataforma puede crear, activar, inactivar o reactivar tenants.
@@ -391,7 +401,7 @@ Estado: CONFIRMADO
 - Descripcion: El sistema debe permitir disponer de informacion base de atractivos, alimentacion, hospedaje y transporte necesaria para registrar reservas y soportar el control operacional.
 - Actor: Administrador / Colaborador operativo
 - Precondiciones: Ninguna
-- Comportamiento esperado: Debe permitir como minimo consultar, registrar y actualizar la informacion parametrizada necesaria para usar esos servicios dentro de la reserva y del control operativo. Cuando un elemento deje de utilizarse, debe poder quedar inactivo para no seguir siendo ofrecido en nuevas reservas sin perder trazabilidad historica. En Fase 1, el Administrador puede crear, actualizar e inactivar catalogos, tarifas base, costos base y parametros de capacidad; el Colaborador operativo puede consultar catalogos y, cuando el negocio lo habilite, registrar o actualizar informacion descriptiva operativa que no altere descuentos, tarifas base, costos base ni parametros estructurales de caja.
+- Comportamiento esperado: Debe permitir como minimo consultar, registrar y actualizar la informacion parametrizada necesaria para usar esos servicios dentro de la reserva y del control operativo. En Fase 1, el Administrador puede crear, actualizar, inactivar y reactivar los elementos del catalogo operativo. La inactivacion impide que el elemento sea ofrecido en nuevas reservas sin eliminar su informacion ni trazabilidad historica. Un elemento inactivo puede ser reactivado posteriormente por el Administrador cuando vuelva a estar disponible para venta. El Administrador puede gestionar catalogos, tarifas base, costos base y parametros de capacidad; el Colaborador operativo puede consultar catalogos y, cuando el negocio lo habilite, registrar o actualizar informacion descriptiva operativa que no altere descuentos, tarifas base, costos base ni parametros estructurales de caja.
 - Resultado esperado: Base operativa centralizada y utilizable por los procesos del negocio.
 - Reglas relacionadas: RN-ATR-001, RN-ALI-001, RN-HOS-001, RN-HOS-003, RN-TRA-001, RN-TRA-002
 - Excepciones conocidas: La eliminacion fisica de informacion base no queda definida en este PDR y no debe asumirse como parte obligatoria de Fase 1.
@@ -697,6 +707,11 @@ Observacion funcional cerrada para Fase 1:
 ### RN-ALI-001
 
 - Regla: La alimentacion se maneja mediante opciones asociadas a restaurante y plato del dia.
+- Estado: CONFIRMADO
+
+### RN-ASO-001
+
+- Regla: Un tenant puede registrar y publicar establecimientos asociados a su operacion, especificamente hoteles y restaurantes, con fines de promocion comercial dentro de su experiencia digital. La asociacion corresponde al establecimiento como entidad comercial y no implica registrar habitaciones, platos, menus, cupos, tarifas de reserva ni disponibilidad operativa del establecimiento. Cada establecimiento asociado puede contener informacion comercial basica e imagen visible para los clientes del tenant. Los establecimientos asociados son visibles unicamente dentro del tenant que mantiene la asociacion. Al inactivar la asociacion, el hotel o restaurante deja de mostrarse como establecimiento asociado para nuevas consultas, conservando su informacion e historico.
 - Estado: CONFIRMADO
 
 ### RN-HOS-001
