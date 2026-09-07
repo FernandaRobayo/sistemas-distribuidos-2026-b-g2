@@ -1,0 +1,3 @@
+NAME                           IMAGE                   COMMAND                  SERVICE          CREATED              STATUS                        PORTS
+mvp1-tenant-service            sesin1-tenant-service   "docker-entrypoint.s…"   tenant-service   About a minute ago   Up 50 seconds                 0.0.0.0:3001->3001/tcp, [::]:3001->3001/tcp
+mvp1-tenant-service-postgres   postgres:16-alpine      "docker-entrypoint.s…"   postgres         About a minute ago   Up About a minute (healthy)   0.0.0.0:5433->5432/tcp, [::]:5433->5432/tcp

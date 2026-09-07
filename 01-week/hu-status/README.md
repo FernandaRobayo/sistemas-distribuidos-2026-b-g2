@@ -50,3 +50,5 @@
 - [Company evidence files](https://github.com/FernandaRobayo/sistemas-distribuidos-2026-b-g2/tree/main/01-week/hu-status/Evidencias%20de%20la%20empresa)
 - [Documentation repository](https://github.com/Molina211/Travesia-Natural-docs)
 - [ADR-001 template](https://github.com/Molina211/Travesia-Natural-docs/blob/main/ADRs/ADR-001.md)
+- [Week 1 - Session 1: team, real problem, initial task list, consistency and delivery semantics](https://github.com/FernandaRobayo/sistemas-distribuidos-2026-b-g2/tree/main/01-week/hu-status/Sesi%C3%B3n%201)
+- [Week 1 - Session 2: profile/fork evidence, docs repo, ADR-001 and MVP 1 backlog](https://github.com/FernandaRobayo/sistemas-distribuidos-2026-b-g2/tree/main/01-week/hu-status/Sesi%C3%B3n%202)

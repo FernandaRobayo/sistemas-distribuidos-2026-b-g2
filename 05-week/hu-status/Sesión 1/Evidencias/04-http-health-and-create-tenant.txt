@@ -1,0 +1,22 @@
+=== GET /health ===
+HTTP/1.1 200 OK
+X-Powered-By: Express
+Content-Type: application/json; charset=utf-8
+Content-Length: 76
+ETag: W/"4c-aTVGouxGqsfi8EDhebHFtzFi/1U"
+Date: Sat, 05 Sep 2026 17:19:54 GMT
+Connection: keep-alive
+Keep-Alive: timeout=5
+
+{"status":"ok","service":"tenant-service","date":"2026-09-05T17:19:54.791Z"}
+=== POST /tenants ===
+HTTP/1.1 201 Created
+X-Powered-By: Express
+Content-Type: application/json; charset=utf-8
+Content-Length: 126
+ETag: W/"7e-GRaopF/MsfHKTsrHuD/MRZNLgCo"
+Date: Sat, 05 Sep 2026 17:19:55 GMT
+Connection: keep-alive
+Keep-Alive: timeout=5
+
+{"id":"5678afc9-7e28-459f-ae92-1e1a66d970c6","name":"Multitour Demo","status":"ACTIVE","createdAt":"2026-09-05T17:19:55.080Z"}

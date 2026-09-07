@@ -1,0 +1,26 @@
+=== GET /tenants/5678afc9-7e28-459f-ae92-1e1a66d970c6 (before restart) ===
+HTTP/1.1 200 OK
+X-Powered-By: Express
+Content-Type: application/json; charset=utf-8
+Content-Length: 126
+ETag: W/"7e-GRaopF/MsfHKTsrHuD/MRZNLgCo"
+Date: Sat, 05 Sep 2026 17:20:03 GMT
+Connection: keep-alive
+Keep-Alive: timeout=5
+
+{"id":"5678afc9-7e28-459f-ae92-1e1a66d970c6","name":"Multitour Demo","status":"ACTIVE","createdAt":"2026-09-05T17:19:55.080Z"}
+=== docker compose down (containers removed, volume kept) ===
+
+=== docker compose up -d (recreate containers from the SAME volume) ===
+
+=== GET /tenants/5678afc9-7e28-459f-ae92-1e1a66d970c6 (after restart, no rebuild of data) ===
+HTTP/1.1 200 OK
+X-Powered-By: Express
+Content-Type: application/json; charset=utf-8
+Content-Length: 126
+ETag: W/"7e-GRaopF/MsfHKTsrHuD/MRZNLgCo"
+Date: Sat, 05 Sep 2026 17:20:26 GMT
+Connection: keep-alive
+Keep-Alive: timeout=5
+
+{"id":"5678afc9-7e28-459f-ae92-1e1a66d970c6","name":"Multitour Demo","status":"ACTIVE","createdAt":"2026-09-05T17:19:55.080Z"}

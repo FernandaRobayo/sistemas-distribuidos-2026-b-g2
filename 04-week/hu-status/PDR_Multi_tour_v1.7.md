@@ -4,8 +4,8 @@
 
 - Producto: Multi tour, plataforma multitenencia para operadores turisticos de naturaleza y aventura, con Travesia Natural como tenant principal de validacion y demostracion
 - Tipo de documento: Product Definition Requirements (PDR)
-- Fecha: 2026-08-29
-- Version: 1.7
+- Fecha: 2026-09-03
+- Version: 1.7.1
 - Estado documental: version final de entrega academica y linea base funcional final para iniciar alineacion documental y arquitectura de Fase 1
 - Regla de identidad del producto: Multi tour es el producto; Travesia Natural es el tenant principal de validacion y demostracion, y no equivale al producto completo
 
@@ -22,6 +22,7 @@ Este PDR debe tratarse como linea base funcional final de Fase 1 para la entrega
 
 ## 3.1 Control de cambios
 
+- Version 1.7.1 - 2026-09-03: se precisa la gestion de colaboradores operativos por el Administrador de cada tenant, incluyendo creacion de identidad de acceso, asociacion obligatoria al tenant activo, asignacion del perfil base y restriccion explicita de administracion avanzada de roles y permisos personalizados en Fase 1.
 - Version 1.7 - 2026-08-29: cierre editorial y de consistencia para entrega final del PDR, incluyendo alineacion de la version visible del documento con su historial, ajuste de la redaccion de la linea base no funcional vigente, aclaracion de la relacion entre perfiles base obligatorios y roles opcionales por tenant, y reformulacion de la regla de reagendamiento con nueva reserva vinculada para evitar interpretarla como una transicion de estado.
 - Version 1.6 - 2026-08-29: ajuste de consistencia funcional del PDR para cierre de ambiguedades previas a arquitectura, incluyendo definicion observable de identidad del cliente entre tenants, cierre explicito del alcance de autogestion del cliente final en Fase 1, precision de la regla funcional de concurrencia para cupos limitados, correccion de la semantica de reagendamiento para evitar tratarla como estado de reserva, incorporacion explicita de observabilidad, compatibilidad y concurrencia dentro de la linea base no funcional, y aclaracion formal de que las restricciones academicas y de despliegue deben justificarse en arquitectura o ADR sin modificar el alcance funcional confirmado.
 - Version 1.5 - 2026-08-29: consolidacion final del PDR para Fase 1, ajuste de consistencia documental entre roles opcionales por tenant y sus permisos base, actualizacion de la linea base no funcional vigente a esta version, cierre de pendientes funcionales de Fase 1 y conversion de notas abiertas en definiciones cerradas del documento.
@@ -108,7 +109,7 @@ Los roles anteriores constituyen los perfiles base obligatorios confirmados para
 
 - Administrador de plataforma: puede crear tenants, activar o inactivar tenants, reactivar tenants, asignar el primer Administrador de cada tenant, consultar auditoria transversal de plataforma y ejecutar soporte administrativo excepcional con trazabilidad obligatoria. No puede registrar reservas, pagos, gastos ni movimientos de caja de un tenant salvo accion excepcional auditada y expresamente autorizada por el responsable del tenant.
 - Cliente final: puede crear su cuenta, autenticarse, recuperar su contrasena, consultar la oferta disponible, crear su propia reserva, consultar el estado de sus reservas y avanzar al flujo de pago segun las modalidades habilitadas.
-- Administrador: puede gestionar reservas, parametros de descuentos, base diaria de caja, configuraciones operativas habilitadas, consultas administrativas y operaciones sensibles que requieran autorizacion.
+- Administrador: puede gestionar reservas, colaboradores operativos de su propio tenant, parametros de descuentos, base diaria de caja, configuraciones operativas habilitadas, consultas administrativas y operaciones sensibles que requieran autorizacion.
 - Colaborador operativo: puede registrar reservas, consultar reservas del dia y proximas, registrar seguimiento de reservas pendientes de pago, registrar ejecucion, registrar gastos operacionales reales y operar caja dentro de los limites definidos por el negocio.
 - Restriccion base: solo el Administrador puede autorizar descuentos adicionales, validar o rechazar soportes de transferencia cuando el flujo requiera validacion administrativa y autorizar devoluciones monetarias.
 - Restriccion base: el Colaborador operativo puede validar o rechazar soportes de transferencia unicamente cuando el negocio lo habilite expresamente para ese tenant, quedando siempre registrada la accion y sin facultad para autorizar descuentos adicionales ni devoluciones monetarias.
@@ -116,6 +117,13 @@ Los roles anteriores constituyen los perfiles base obligatorios confirmados para
 - Restriccion base: el Colaborador operativo no puede configurar descuentos, autorizar descuentos adicionales ni modificar la base parametrizada de caja.
 - Restriccion base: el Cliente final no puede consultar ni modificar reservas de otros clientes ni ejecutar operaciones administrativas de caja, descuentos o configuracion.
 - Restriccion base de multitenencia: ningun usuario puede consultar, crear, modificar, ejecutar ni consolidar informacion perteneciente a un tenant distinto del suyo.
+
+### Gestion de colaboradores del operador
+
+- El Administrador de un operador puede registrar usuarios internos de tipo Colaborador operativo exclusivamente dentro de su propio tenant.
+- Al registrar un colaborador, el sistema debe crear su identidad de acceso, asociarla al tenant activo y asignarle el perfil base de Colaborador operativo.
+- El colaborador solo puede acceder a las funciones autorizadas para dicho perfil y nunca a informacion de otros tenants.
+- Esta gestion no habilita administracion avanzada de roles ni permisos personalizados, los cuales permanecen fuera del alcance de Fase 1.
 
 ### Regla operativa minima de tenant para Fase 1
 
@@ -1050,7 +1058,7 @@ Cuando el caso requiera reagendamiento con una nueva reserva relacionada conform
 
 ## 17. Requerimientos no funcionales
 
-Las dimensiones no funcionales revisadas contra las fuentes disponibles del proyecto quedaron consolidadas en esta version 1.7 como linea base vigente para Fase 1. Los criterios aqui definidos deben tratarse como referencia verificable del PDR mientras no exista una actualizacion formal posterior del documento.
+Las dimensiones no funcionales revisadas contra las fuentes disponibles del proyecto quedaron consolidadas en esta version 1.7.1 como linea base vigente para Fase 1. Los criterios aqui definidos deben tratarse como referencia verificable del PDR mientras no exista una actualizacion formal posterior del documento.
 
 - Seguridad: CONFIRMADO PARA FASE 1. En Fase 1 el sistema debe contemplar autenticacion de usuarios, control basico de acceso por perfil operativo, restriccion de operaciones sensibles y aislamiento estricto por tenant. Los perfiles base obligatorios confirmados son Administrador de plataforma, Cliente final, Administrador y Colaborador operativo. Adicionalmente, los roles opcionales por tenant Gerente, Contador y Analista pueden existir cuando el tenant los habilite conforme a la seccion 9 y a sus permisos base definidos en este PDR. El Cliente final debe autenticarse con nombre, apellido, correo y contrasena para gestionar sus reservas. El Administrador tendra control general del sistema y parametrizacion de descuentos; el Colaborador operativo tendra acceso a caja, reservas, seguimiento y registro operativo sin permisos de descuento; el Administrador de plataforma tendra gestion administrativa de tenants y soporte transversal auditado sin operar comercialmente la informacion de un tenant como flujo ordinario. Todo acceso debe resolverse dentro del tenant correspondiente cuando aplique y debe impedir la consulta o modificacion de informacion de otros tenants. La administracion avanzada de roles, modulos y permisos detallados mas alla de estos perfiles base y roles opcionales definidos queda fuera del alcance actual.
 - Escalabilidad: CONFIRMADO PARA FASE 1. La solucion debe soportar como escenario inicial al menos 10 tenants activos, con hasta 20 usuarios internos por tenant, hasta 5.000 clientes registrados por tenant y concurrencia operativa baja o moderada propia de una operacion turistica de Fase 1. La arquitectura debe prever crecimiento de tenants y datos sin romper el aislamiento logico por tenant.
@@ -1185,7 +1193,7 @@ La distribucion de datos y responsabilidades entre PostgreSQL y MongoDB REQUIERE
 
 ## 24.1 Definiciones de cierre para Fase 1
 
-- Esta version 1.7 del 2026-08-29 se declara como linea base funcional final de Fase 1 para la entrega academica.
+- Esta version 1.7.1 del 2026-09-03 se declara como linea base funcional final de Fase 1 para la entrega academica.
 - Este documento queda listo para ser usado como referencia de alineacion del repositorio documental del proyecto, sin implicar por si mismo que dicha alineacion ya fue ejecutada.
 - La alineacion posterior del repositorio documental debera respetar esta identidad de producto: Multi tour como producto y Travesia Natural como tenant principal de validacion y demostracion.
 - Los roles opcionales por tenant como Gerente, Contador y Analista pueden habilitarse segun la necesidad de cada tenant. Sus permisos base quedan definidos en este PDR, pero su uso efectivo depende de la decision de cada tenant dentro de su propia operacion.

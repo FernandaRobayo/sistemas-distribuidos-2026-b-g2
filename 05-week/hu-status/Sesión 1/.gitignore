@@ -1,0 +1,3 @@
+# Local-only secrets used to run "docker compose up --build" for this session's
+# evidence. Only .env.example (no real values) is meant to be committed.
+.env

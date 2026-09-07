@@ -1,0 +1,92 @@
+ Image sesin1-tenant-service Building 
+#1 [internal] load local bake definitions
+#1 reading from stdin 701B done
+#1 DONE 0.0s
+
+#2 [internal] load build definition from Dockerfile
+#2 transferring dockerfile: 923B 0.0s done
+#2 DONE 0.1s
+
+#3 resolve image config for docker-image://docker.io/docker/dockerfile:1
+#3 DONE 0.8s
+
+#4 docker-image://docker.io/docker/dockerfile:1@sha256:ecfaec9ed6d810b56388c508f4121597bfbba70d41a6dfeee4d8cad5f295fc32
+#4 resolve docker.io/docker/dockerfile:1@sha256:ecfaec9ed6d810b56388c508f4121597bfbba70d41a6dfeee4d8cad5f295fc32 0.1s done
+#4 DONE 0.1s
+
+#4 docker-image://docker.io/docker/dockerfile:1@sha256:ecfaec9ed6d810b56388c508f4121597bfbba70d41a6dfeee4d8cad5f295fc32
+#4 CACHED
+
+#5 [internal] load metadata for docker.io/library/node:20-alpine
+#5 DONE 0.4s
+
+#6 [internal] load .dockerignore
+#6 transferring context:
+#6 transferring context: 137B 0.0s done
+#6 DONE 0.9s
+
+#7 [internal] load build context
+#7 DONE 0.0s
+
+#8 [build 1/7] FROM docker.io/library/node:20-alpine@sha256:fb4cd12c85ee03686f6af5362a0b0d56d50c58a04632e6c0fb8363f609372293
+#8 resolve docker.io/library/node:20-alpine@sha256:fb4cd12c85ee03686f6af5362a0b0d56d50c58a04632e6c0fb8363f609372293 0.1s done
+#8 DONE 0.1s
+
+#7 [internal] load build context
+#7 transferring context: 1.82kB 0.0s done
+#7 DONE 0.1s
+
+#9 [build 2/7] WORKDIR /app
+#9 CACHED
+
+#10 [production 4/6] RUN npm ci --omit=dev && npm cache clean --force
+#10 CACHED
+
+#11 [build 6/7] COPY src ./src
+#11 CACHED
+
+#12 [build 3/7] COPY package.json package-lock.json ./
+#12 CACHED
+
+#13 [build 4/7] RUN npm ci
+#13 CACHED
+
+#14 [build 5/7] COPY tsconfig.json ./
+#14 CACHED
+
+#15 [build 7/7] RUN npm run build
+#15 CACHED
+
+#16 [production 5/6] COPY --from=build /app/dist ./dist
+#16 CACHED
+
+#17 [production 6/6] RUN addgroup -S app && adduser -S app -G app
+#17 CACHED
+
+#18 exporting to image
+#18 exporting layers 0.0s done
+#18 exporting manifest sha256:fd58b4d9ee3afc1faf8c946f81ed436065ad78400917cba26ca0be4914972f3e done
+#18 exporting config sha256:4bdc7f06ef44882076d4e58e71a2038c5cf391f8d9ae2074e6e93a2db97572a8 done
+#18 exporting attestation manifest sha256:0ccc1a9d64874a9289ab83b6c6c933026aa6cb389da011aaf6ba01c4550afca4
+#18 exporting attestation manifest sha256:0ccc1a9d64874a9289ab83b6c6c933026aa6cb389da011aaf6ba01c4550afca4 0.1s done
+#18 exporting manifest list sha256:b21dc815bc30c2ca20b6df94bc7e138aa9f99ef9250817621ac94ed01d625f34
+#18 exporting manifest list sha256:b21dc815bc30c2ca20b6df94bc7e138aa9f99ef9250817621ac94ed01d625f34 0.1s done
+#18 naming to docker.io/library/sesin1-tenant-service:latest 0.0s done
+#18 unpacking to docker.io/library/sesin1-tenant-service:latest 0.0s done
+#18 DONE 0.5s
+
+#19 resolving provenance for metadata file
+#19 DONE 0.4s
+ Image sesin1-tenant-service Built 
+ Network sesin1_mvp1-network Creating 
+ Network sesin1_mvp1-network Created 
+ Container mvp1-tenant-service-postgres Creating 
+ Container mvp1-tenant-service-postgres Created 
+ Container mvp1-tenant-service Creating 
+ Container mvp1-tenant-service Created 
+ Container mvp1-tenant-service-postgres Starting 
+ Container mvp1-tenant-service-postgres Started 
+ Container mvp1-tenant-service-postgres Waiting 
+ Container mvp1-tenant-service-postgres Healthy 
+ Container mvp1-tenant-service Starting 
+ Container mvp1-tenant-service Started 
