@@ -1,0 +1,49 @@
+﻿**********************
+Windows PowerShell transcript start
+Start time: 20260913172318
+Username: FERNANDA\robay
+RunAs User: FERNANDA\robay
+Configuration Name: 
+Machine: FERNANDA (Microsoft Windows NT 10.0.26200.0)
+Host Application: C:\WINDOWS\System32\WindowsPowerShell\v1.0\powershell.exe -NoProfile -ExecutionPolicy Bypass -File .\verificar.ps1
+Process ID: 31936
+PSVersion: 5.1.26100.9168
+PSEdition: Desktop
+PSCompatibleVersions: 1.0, 2.0, 3.0, 4.0, 5.0, 5.1.26100.9168
+BuildVersion: 10.0.26100.9168
+CLRVersion: 4.0.30319.42000
+WSManStackVersion: 3.0
+PSRemotingProtocolVersion: 2.3
+SerializationVersion: 1.1.0.1
+**********************
+Transcript started, output file is Evidencias/02-verificacion.txt
+2026-09-13T17:23:18.6079460-05:00
+
+
+PASS: frontend Angular HTTP 200
+{
+    "status":  "UP",
+    "database":  "UP"
+}
+PASS: POST /api/tenants -> 201; tenant=week06-1a0a8276ad10
+{
+    "tenantId":  "week06-1a0a8276ad10",
+    "commercialName":  "Demo persistencia Semana 06",
+    "tenantStatus":  "ACTIVO",
+    "createdAt":  "2026-09-13T22:23:24.381055Z",
+    "allowCollaboratorSupportValidation":  false
+}
+
+
+PASS: persistencia tras down + up
+
+PASS: /health devuelve 503 con PostgreSQL detenido
+
+PASS: recuperaciÃ³n tras restaurar PostgreSQL
+
+
+
+**********************
+Windows PowerShell transcript end
+End time: 20260913172517
+**********************

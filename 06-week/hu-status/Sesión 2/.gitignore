@@ -1,0 +1,9 @@
+.env
+.env.*
+!.env.example
+!.env.qa.example
+!.env.prod.example
+*.dump
+*.sql
+*.backup
+secrets/

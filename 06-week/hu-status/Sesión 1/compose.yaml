@@ -1,0 +1,59 @@
+name: multitour-week06
+services:
+  postgres:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-multitour}
+      POSTGRES_USER: ${POSTGRES_USER:-multitour}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-sesion06-local}
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    networks: [multitour]
+    healthcheck:
+      test: [CMD-SHELL, 'pg_isready -U "$${POSTGRES_USER}" -d "$${POSTGRES_DB}"']
+      interval: 5s
+      timeout: 5s
+      retries: 12
+      start_period: 10s
+    restart: unless-stopped
+  backend:
+    build: ./backend
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/${POSTGRES_DB:-multitour}
+      SPRING_DATASOURCE_USERNAME: ${POSTGRES_USER:-multitour}
+      SPRING_DATASOURCE_PASSWORD: ${POSTGRES_PASSWORD:-sesion06-local}
+      APP_JWT_SECRET: ${APP_JWT_SECRET:-sesion06-local-demo-secret-0123456789abcdef0123456789abcdef}
+      SPRING_DATASOURCE_HIKARI_CONNECTION_TIMEOUT: 2000
+    depends_on:
+      postgres:
+        condition: service_healthy
+    networks: [multitour]
+    healthcheck:
+      test: [CMD, wget, -q, -O, /dev/null, 'http://127.0.0.1:8080/health']
+      interval: 5s
+      timeout: 5s
+      retries: 20
+      start_period: 60s
+    restart: unless-stopped
+  frontend:
+    build: ./frontend
+    environment:
+      API_UPSTREAM: ${API_UPSTREAM:-backend:8080}
+    ports:
+      - '127.0.0.1:${FRONTEND_PORT:-8086}:80'
+    depends_on:
+      backend:
+        condition: service_healthy
+    networks: [multitour]
+    healthcheck:
+      test: [CMD, wget, -q, -O, /dev/null, 'http://127.0.0.1/health']
+      interval: 5s
+      timeout: 5s
+      retries: 10
+      start_period: 5s
+    restart: unless-stopped
+networks:
+  multitour:
+    driver: bridge
+volumes:
+  postgres-data:

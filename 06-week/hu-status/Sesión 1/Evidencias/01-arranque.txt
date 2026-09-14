@@ -1,0 +1,219 @@
+docker :  Image multitour-week06-frontend Building 
+At line:2 char:105
++ ... -fonts.txt; docker compose up --build -d --wait --wait-timeout 240 *> ...
++                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: ( Image multitou...ntend Building :String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+ Image multitour-week06-backend Building 
+#1 [internal] load local bake definitions
+#1 reading from stdin 1.28kB 0.1s done
+#1 DONE 0.1s
+
+#2 [backend internal] load build definition from Dockerfile
+#2 transferring dockerfile: 30B 0.0s
+#2 transferring dockerfile: 486B 0.1s done
+#2 DONE 0.1s
+
+#3 [frontend internal] load build definition from Dockerfile
+#3 transferring dockerfile: 496B 0.1s done
+#3 DONE 0.2s
+
+#4 [frontend internal] load metadata for docker.io/library/nginx:alpine
+#4 ...
+
+#5 [frontend internal] load metadata for docker.io/library/node:20-alpine
+#5 DONE 0.7s
+
+#4 [frontend internal] load metadata for docker.io/library/nginx:alpine
+#4 DONE 0.7s
+
+#6 [frontend internal] load .dockerignore
+#6 transferring context: 69B 0.0s done
+#6 DONE 0.1s
+
+#7 [backend internal] load metadata for docker.io/library/maven:3.9.9-eclipse-temurin-21
+#7 ...
+
+#8 [frontend build 1/6] FROM docker.io/library/node:20-alpine@sha256:fb4cd12c85ee03686f6af5362a0b0d56d50c58a04632e6c0fb8363f609372293
+#8 resolve docker.io/library/node:20-alpine@sha256:fb4cd12c85ee03686f6af5362a0b0d56d50c58a04632e6c0fb8363f609372293 0.2s done
+#8 DONE 0.2s
+
+#9 [frontend stage-1 1/3] FROM docker.io/library/nginx:alpine@sha256:72ba65eb42c10344912a84ff42408db7d34f2feb642204570ab8fc5ffd29f1d3
+#9 resolve docker.io/library/nginx:alpine@sha256:72ba65eb42c10344912a84ff42408db7d34f2feb642204570ab8fc5ffd29f1d3 0.2s done
+#9 DONE 0.2s
+
+#10 [frontend internal] load build context
+#10 transferring context: 26.90kB 0.3s done
+#10 DONE 0.3s
+
+#11 [frontend build 3/6] COPY package.json package-lock.json ./
+#11 CACHED
+
+#12 [frontend build 2/6] WORKDIR /app
+#12 CACHED
+
+#13 [frontend build 4/6] RUN npm ci
+#13 CACHED
+
+#14 [frontend build 5/6] COPY . .
+#14 ...
+
+#7 [backend internal] load metadata for docker.io/library/maven:3.9.9-eclipse-temurin-21
+#7 DONE 1.8s
+
+#15 [backend internal] load metadata for docker.io/library/eclipse-temurin:21-jre-alpine
+#15 DONE 1.8s
+
+#16 [backend internal] load .dockerignore
+#16 transferring context: 58B 0.0s done
+#16 DONE 0.1s
+
+#14 [frontend build 5/6] COPY . .
+#14 ...
+
+#17 [backend internal] load build context
+#17 DONE 0.0s
+
+#18 [backend stage-1 1/3] FROM docker.io/library/eclipse-temurin:21-jre-alpine@sha256:974b08960c5d96694c780e65b2d5705268ab1e1ca1a0dd0caf4ba6c3fe34d699
+#18 resolve docker.io/library/eclipse-temurin:21-jre-alpine@sha256:974b08960c5d96694c780e65b2d5705268ab1e1ca1a0dd0caf4ba6c3fe34d699 0.1s done
+#18 DONE 0.1s
+
+#19 [backend build 1/6] FROM docker.io/library/maven:3.9.9-eclipse-temurin-21@sha256:3a4ab3276a087bf276f79cae96b1af04f53731bec53fb2e651aca79e4b10211e
+#19 resolve docker.io/library/maven:3.9.9-eclipse-temurin-21@sha256:3a4ab3276a087bf276f79cae96b1af04f53731bec53fb2e651aca79e4b10211e 0.1s done
+#19 DONE 0.1s
+
+#17 [backend internal] load build context
+#17 transferring context: 63.81kB 0.4s done
+#17 DONE 0.4s
+
+#20 [backend build 2/6] WORKDIR /app
+#20 CACHED
+
+#21 [backend build 5/6] COPY src ./src
+#21 CACHED
+
+#22 [backend build 3/6] COPY pom.xml .
+#22 CACHED
+
+#23 [backend build 4/6] RUN mvn dependency:go-offline -B
+#23 CACHED
+
+#24 [backend build 6/6] RUN mvn package -DskipTests -B
+#24 CACHED
+
+#25 [backend stage-1 2/3] WORKDIR /app
+#25 CACHED
+
+#26 [backend stage-1 3/3] COPY --from=build /app/target/*.jar app.jar
+#26 CACHED
+
+#27 [backend] exporting to image
+#27 exporting layers
+#27 ...
+
+#14 [frontend build 5/6] COPY . .
+#14 DONE 1.3s
+
+#27 [backend] exporting to image
+#27 exporting layers 0.0s done
+#27 exporting manifest sha256:a2d7d88d2bbc0ef3807adf72a12db0e71cfdbae96d29bd0efa33e473b1845c7b done
+#27 exporting config sha256:e0758e23e4389038476dae2a9817b66547a7408e33fec79cbbd60a6b64f74594 0.0s done
+#27 exporting attestation manifest sha256:e318d76a273c6942b9e9385c60bd6ebbeb9e42a3d58312b0cfe530c48c7c6e37
+#27 exporting attestation manifest sha256:e318d76a273c6942b9e9385c60bd6ebbeb9e42a3d58312b0cfe530c48c7c6e37 0.1s done
+#27 exporting manifest list sha256:47853bfc546fea8f2150b1d97406a9960706783165c88e7017af8317680576a1
+#27 exporting manifest list sha256:47853bfc546fea8f2150b1d97406a9960706783165c88e7017af8317680576a1 0.1s done
+#27 naming to docker.io/library/multitour-week06-backend:latest done
+#27 unpacking to docker.io/library/multitour-week06-backend:latest 0.0s done
+#27 DONE 0.5s
+
+#28 [frontend build 6/6] RUN npm run build -- --configuration production
+#28 ...
+
+#29 [backend] resolving provenance for metadata file
+#29 DONE 0.2s
+
+#28 [frontend build 6/6] RUN npm run build -- --configuration production
+#28 7.834 
+#28 7.834 > app@0.0.0 build
+#28 7.834 > ng build --configuration production
+#28 7.834 
+#28 14.27 ❯ Building...
+#28 93.79 ✔ Building...
+#28 93.80 Initial chunk files   | Names         |  Raw size | Estimated transfer size
+#28 93.80 main-I622JXJT.js      | main          | 656.88 kB |               129.80 kB
+#28 93.80 styles-YKKZLRMI.css   | styles        | 135.22 kB |                19.14 kB
+#28 93.80 polyfills-FFHMD2TL.js | polyfills     |  34.52 kB |                11.28 kB
+#28 93.80 
+#28 93.80                       | Initial total | 826.63 kB |               160.23 kB
+#28 93.80 
+#28 93.80 Application bundle generation complete. [79.576 seconds]
+#28 93.80 
+#28 93.81 ▲ [WARNING] bundle initial exceeded maximum budget. Budget 512.00 kB was not met by 314.63 kB with a total of 826.63 kB.
+#28 93.81 
+#28 93.81 
+#28 93.81 ▲ [WARNING] src/app/pages/auth-visual.css exceeded maximum budget. Budget 10.24 kB was not met by 76 bytes with a total of 10.32 kB.
+#28 93.81 
+#28 93.81 
+#28 93.81 ▲ [WARNING] src/app/pages/auth-visual.css exceeded maximum budget. Budget 10.24 kB was not met by 76 bytes with a total of 10.32 kB.
+#28 93.81 
+#28 93.81 
+#28 93.81 ▲ [WARNING] src/app/pages/auth-visual.css exceeded maximum budget. Budget 10.24 kB was not met by 76 bytes with a total of 10.32 kB.
+#28 93.81 
+#28 93.81 
+#28 93.82 Output location: /app/dist/app
+#28 93.82 
+#28 DONE 95.0s
+
+#9 [frontend stage-1 1/3] FROM docker.io/library/nginx:alpine@sha256:72ba65eb42c10344912a84ff42408db7d34f2feb642204570ab8fc5ffd29f1d3
+#9 CACHED
+
+#30 [frontend stage-1 2/3] COPY --from=build /app/dist/app/browser /usr/share/nginx/html
+#30 DONE 0.2s
+
+#31 [frontend stage-1 3/3] COPY default.conf.template /etc/nginx/templates/default.conf.template
+#31 DONE 0.2s
+
+#32 [frontend] exporting to image
+#32 exporting layers
+#32 exporting layers 0.4s done
+#32 exporting manifest sha256:902bea6e4b57c61a692e9d8e144dc449cd0f6c2a411c1039aacde501f496fe30 0.0s done
+#32 exporting config sha256:44dd7f222c522cd509137d19faa97e193e151b4012284375a012f260deb957da 0.0s done
+#32 exporting attestation manifest sha256:d4757e64cacf44d65aed4b3aaf73acc79462687d48263e396cb855838579c02c 0.1s done
+#32 exporting manifest list sha256:83ef96db406bb49bd4f3d61c3769c3c839bca4e85326cd2c67faf0b7c9e1b758
+#32 exporting manifest list sha256:83ef96db406bb49bd4f3d61c3769c3c839bca4e85326cd2c67faf0b7c9e1b758 0.1s done
+#32 naming to docker.io/library/multitour-week06-frontend:latest 0.0s done
+#32 unpacking to docker.io/library/multitour-week06-frontend:latest
+#32 unpacking to docker.io/library/multitour-week06-frontend:latest 0.2s done
+#32 DONE 1.2s
+
+#33 [frontend] resolving provenance for metadata file
+#33 DONE 0.4s
+ Image multitour-week06-backend Built 
+ Image multitour-week06-frontend Built 
+ Network multitour-week06_multitour Creating 
+ Network multitour-week06_multitour Created 
+ Volume multitour-week06_postgres-data Creating 
+ Volume multitour-week06_postgres-data Created 
+ Container multitour-week06-postgres-1 Creating 
+ Container multitour-week06-postgres-1 Created 
+ Container multitour-week06-backend-1 Creating 
+ Container multitour-week06-backend-1 Created 
+ Container multitour-week06-frontend-1 Creating 
+ Container multitour-week06-frontend-1 Created 
+ Container multitour-week06-postgres-1 Starting 
+ Container multitour-week06-postgres-1 Started 
+ Container multitour-week06-postgres-1 Waiting 
+ Container multitour-week06-postgres-1 Healthy 
+ Container multitour-week06-backend-1 Starting 
+ Container multitour-week06-backend-1 Started 
+ Container multitour-week06-backend-1 Waiting 
+ Container multitour-week06-backend-1 Healthy 
+ Container multitour-week06-frontend-1 Starting 
+ Container multitour-week06-frontend-1 Started 
+ Container multitour-week06-postgres-1 Waiting 
+ Container multitour-week06-backend-1 Waiting 
+ Container multitour-week06-frontend-1 Waiting 
+ Container multitour-week06-backend-1 Healthy 
+ Container multitour-week06-postgres-1 Healthy 
+ Container multitour-week06-frontend-1 Healthy 

@@ -1,0 +1,128 @@
+/* Auth-only visual system; mirrored in Landing/auth-visual.css. */
+.journey-auth {
+  --primary: #0B3B4A; --primary-hover: #082F3A; --secondary: #2F6B57; --accent: #E9A23B;
+  width: 100%; min-height: 100vh; min-height: 100dvh; margin: 0;
+  padding: 0 max(32px, calc((100vw - 1280px) / 2)) 48px;
+  display: grid; grid-template-columns: minmax(0, .68fr) minmax(0, 1.32fr); gap: 28px;
+  align-content: start; align-items: stretch; background: #F5F7F7; color: #17252B;
+}
+.journey-auth [hidden] { display: none !important; }
+.journey-auth .travel-login-header {
+  grid-column: 1 / -1; display: flex; justify-content: space-between; align-items: center;
+  gap: 24px; padding: 24px 0; border-bottom: 1px solid #D7E0DE;
+}
+.journey-auth .journey-header-note { color: var(--text-soft); font-size: .8rem; letter-spacing: .05em; }
+.journey-auth .journey-story {
+  position: relative; overflow: hidden; min-height: 420px;
+  display: flex; flex-direction: column; justify-content: flex-end;
+  padding: 32px 34px 40px; border-radius: 18px;
+  background: linear-gradient(150deg, #0B3B4A 0%, var(--primary) 55%, #082F3A 100%);
+  color: #fff; box-shadow: 0 10px 22px rgba(11, 58, 68, 0.16);
+}
+.journey-auth .journey-story--photo {
+  background-image:
+    linear-gradient(180deg, rgba(7, 43, 56, 0.4) 0%, rgba(7, 43, 56, 0.76) 68%, rgba(5, 32, 41, 0.95) 100%),
+    url("https://images.unsplash.com/photo-1436491865332-7a61a109cc05?auto=format&fit=crop&w=1400&q=80");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+.journey-auth .journey-story-copy { position: relative; z-index: 1; }
+.journey-auth .journey-eyebrow { display: inline-flex; align-items: center; margin: 0 0 16px; padding: 5px 12px; border-radius: 6px; background: rgba(255, 255, 255, 0.12); color: #f3cf93; font-size: .68rem; font-weight: 800; line-height: 1.5; letter-spacing: .09em; text-transform: uppercase; }
+.journey-auth .journey-story h2 { margin: 0 0 12px; max-width: 340px; font-size: clamp(1.5rem, 1.1rem + 1.4vw, 2.05rem); font-weight: 700; line-height: 1.22; letter-spacing: -.03em; text-wrap: balance; }
+.journey-auth .journey-story-copy > p:last-child { max-width: 300px; margin: 0; color: #cfe0e6; font-size: .92rem; line-height: 1.6; }
+.journey-auth .journey-story-points { list-style: none; max-width: 320px; margin: 26px 0 0; padding: 20px 0 0; display: grid; gap: 13px; border-top: 1px solid rgba(255, 255, 255, 0.18); }
+.journey-auth .journey-story-points li { display: flex; align-items: flex-start; gap: 10px; color: #dcebe8; font-size: .86rem; font-weight: 600; line-height: 1.45; }
+.journey-auth .journey-story-points svg { flex-shrink: 0; width: 18px; height: 18px; margin-top: 1px; color: var(--accent); }
+.journey-auth .journey-landscape { position: absolute; bottom: -16px; right: -32px; left: auto; width: 60%; height: auto; opacity: .92; }
+.journey-auth .travel-login-stage { min-width: 0; min-height: 0; padding: 0; display: block; }
+.journey-auth .travel-login-card { position: relative; width: 100%; padding: 36px 38px; border: 1px solid #e2e8e6; border-top: 3px solid var(--primary); border-radius: 14px; background: #fff; box-shadow: 0 1px 2px rgba(23, 37, 43, 0.05), 0 18px 36px rgba(23, 37, 43, 0.08); }
+.journey-auth .travel-login-copy { gap: 8px; margin-bottom: 22px; text-align: left; }
+.journey-auth .travel-login-copy h1 { color: #17252B; font-size: clamp(1.5rem, 1.2rem + 1vw, 1.85rem); font-weight: 700; line-height: 1.25; letter-spacing: -.03em; }
+.journey-auth .travel-login-copy p { max-width: none; margin: 0; color: var(--text-soft); font-size: .92rem; line-height: 1.55; }
+.journey-auth .travel-login-copy .journey-form-kicker { color: var(--secondary); font-size: .68rem; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; }
+.journey-auth .travel-login-access { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 18px; flex-wrap: wrap; }
+.journey-auth .travel-login-access-label { color: #7a8588; font-size: .7rem; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; }
+.journey-auth .travel-login-role-switch { gap: 4px; padding: 4px; margin-bottom: 22px; border: 1px solid #dde3e1; border-radius: 12px; background: #eef1f0; }
+.journey-auth .travel-login-role-switch--compact { width: auto; margin-bottom: 0; padding: 3px; }
+.journey-auth .travel-login-role-switch--compact .travel-login-role { min-height: 36px; padding: 0 16px; font-size: .76rem; }
+/* Sub-selector de rol: compacto y sin caja propia, no compite con el selector principal. */
+.journey-auth .travel-login-subrole { display: flex; align-items: center; gap: 10px; margin: -8px 0 18px; flex-wrap: wrap; }
+.journey-auth .travel-login-subrole-label { color: #7a8588; font-size: .66rem; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; }
+.journey-auth .travel-login-role-switch--chip { width: auto; margin-bottom: 0; padding: 0; border: 0; background: transparent; gap: 6px; }
+.journey-auth .travel-login-role-switch--chip .travel-login-role { min-height: 32px; padding: 0 13px; border: 1px solid #dde3e1; border-radius: 999px; background: #fff; color: #536369; font-size: .72rem; font-weight: 700; }
+.journey-auth .travel-login-role-switch--chip .travel-login-role.is-active { background: var(--secondary); border-color: var(--secondary); color: #fff; box-shadow: none; }
+.journey-auth .travel-login-role { min-width: 0; min-height: 46px; padding: 10px 8px; border: 1px solid transparent; border-radius: 9px; background: transparent; color: #536369; font-size: .78rem; font-weight: 700; letter-spacing: .01em; line-height: 1.4; }
+.journey-auth .travel-login-role { transition: background-color 150ms ease, color 150ms ease, box-shadow 150ms ease, border-color 150ms ease; }
+.journey-auth .travel-login-role:hover:not(.is-active) { background: rgba(255, 255, 255, 0.6); color: var(--primary); }
+.journey-auth .travel-login-role.is-active { background: #fff; color: var(--primary); border-color: #e4e9e7; font-weight: 800; box-shadow: 0 2px 6px rgba(23, 37, 43, 0.12); }
+.journey-auth .travel-login-form { gap: 20px; }
+.journey-auth .travel-login-field { min-width: 0; gap: 8px; }
+.journey-auth .travel-login-field label { color: #17252B; font-size: .875rem; font-weight: 700; }
+.journey-auth .travel-login-field-head { flex-wrap: wrap; gap: 4px 12px; }
+.journey-auth .travel-login-field input { min-height: 52px; transition: border-color 150ms ease, box-shadow 150ms ease, background-color 150ms ease; }
+.journey-auth .travel-login-field input:hover { border-color: var(--primary); }
+.journey-auth .travel-login-field input:focus { background: #fff; border-color: var(--primary); box-shadow: 0 0 0 4px rgba(11, 59, 74, 0.14); }
+.journey-auth .travel-login-field.is-error label { color: var(--danger); }
+.journey-auth .travel-login-field.is-error input { border-color: var(--danger); }
+.journey-auth .travel-login-field.is-error input:focus { border-color: var(--danger); box-shadow: 0 0 0 4px var(--danger-soft); }
+.journey-auth .travel-field-error { margin: 2px 0 0; color: var(--danger); font-size: .8rem; font-weight: 600; line-height: 1.4; }
+
+
+
+.journey-auth .travel-login-password-wrap input { padding-right: 80px; }
+.journey-auth .travel-login-visibility { right: 4px; min-width: 68px; min-height: 44px; padding: 8px; border-radius: 6px; color: var(--primary); }
+
+
+.journey-auth .travel-login-help { display: inline-flex; align-items: center; min-height: 44px; color: var(--primary); font-size: .8rem; font-weight: 600; text-decoration: underline; text-underline-offset: 3px; }
+.journey-auth .feedback { margin: 0; min-height: 0; font-size: .875rem; line-height: 1.6; overflow-wrap: anywhere; }
+.journey-auth .feedback:empty { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); }
+.journey-auth .feedback:not(:empty) { padding: 12px 14px; border: 1px solid #839ba1; border-radius: 8px; background: #edf3f5; color: var(--primary); }
+.journey-auth .feedback.is-error:not(:empty) { border-color: #b54747; border-left-width: 4px; background: #fff2f0; color: #943434; }
+.journey-auth .feedback.is-success:not(:empty) { border-color: #719782; background: #eff6f2; color: #285b42; }
+.journey-auth .travel-login-submit { min-height: 52px; box-shadow: 0 2px 6px rgba(11, 59, 74, 0.18); }
+.journey-auth .travel-login-submit:hover:not(:disabled) { background: var(--primary-hover); transform: translateY(-1px); }
+
+
+.journey-auth .travel-platform-entry { margin: 20px 0 0; text-align: center; font-size: .8rem; }
+.journey-auth .travel-login-divider { margin: 24px 0 16px; background: #D7E0DE; }
+.journey-auth .travel-login-footer-note { color: var(--text-soft); font-size: .875rem; line-height: 1.65; }
+.journey-auth :is(.travel-platform-entry, .travel-login-footer-note, .travel-recover-back) a { display: inline-flex; align-items: center; min-height: 44px; color: var(--primary); font-weight: 600; text-decoration: underline; text-underline-offset: 4px; }
+.journey-auth a:hover { text-decoration-thickness: 2px; }
+.journey-auth .travel-recover-back { margin-top: 24px; padding-top: 16px; border-top: 1px solid #D7E0DE; font-size: .875rem; }
+.journey-auth .travel-recover-status { margin: 0; padding: 14px; background: #edf3f5; border-radius: 8px; color: var(--primary); line-height: 1.6; overflow-wrap: anywhere; }
+.journey-auth .travel-recover-step { margin: 0; color: var(--secondary); font-size: .7rem; font-weight: 800; letter-spacing: .07em; text-transform: uppercase; }
+.journey-auth .travel-recover-hint { margin: 0; color: var(--text-soft); font-size: .82rem; line-height: 1.5; }
+.journey-auth .travel-recover-confirmation { display: grid; gap: 10px; padding-top: 4px; }
+.journey-recover .travel-login-form > div:not([hidden]) { display: grid; gap: 20px; }
+.journey-auth .password-policy { margin: 0; padding: 16px 18px; border: 1px solid #e3d4b9; border-left: 3px solid var(--accent); border-radius: 8px; background: #faf6ed; color: #48565d; font-size: .8rem; line-height: 1.7; }
+.journey-auth .password-policy::before { content: none; }
+.journey-auth .password-policy p { margin: 0 0 6px; font-weight: 700; }
+.journey-auth .password-policy ul { margin: 0; padding: 0; grid-template-columns: minmax(0, 1fr); }
+.journey-signup .travel-signup-form { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.journey-signup .travel-signup-name-group { display: contents; }
+.journey-signup :is(.password-policy, .feedback, .travel-login-submit) { grid-column: 1 / -1; }
+.journey-signup .password-policy ul { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px 24px; }
+.journey-signup .password-policy li { break-inside: avoid; }
+@media (max-width: 1000px) {
+  .journey-auth { padding-inline: 24px; gap: 24px; grid-template-columns: minmax(0, .7fr) minmax(0, 1.3fr); }
+  .journey-auth .journey-story { padding: 32px 28px; min-height: 400px; }
+  .journey-auth .travel-login-card { padding: 28px; }
+}
+@media (max-width: 760px) {
+  .journey-auth { grid-template-columns: minmax(0, 1fr); padding: 0 20px 32px; gap: 24px; }
+  .journey-auth .travel-login-header { padding: 16px 0; }
+  .journey-auth .journey-story { display: none; }
+  .journey-auth .journey-header-note { display: none; }
+  .journey-auth .travel-login-card { max-width: 600px; margin: 0 auto; border-top: 3px solid var(--primary); }
+}
+@media (max-width: 480px) {
+  .journey-auth { padding-inline: 16px; gap: 20px; }
+  .journey-auth .travel-login-card { padding: 24px 20px; border-radius: 14px; }
+  .journey-auth .travel-login-copy { margin-bottom: 18px; }
+  .journey-auth .travel-login-copy h1 { font-size: 1.5rem; }
+  .journey-auth .travel-login-form { gap: 16px; }
+  .journey-auth .travel-login-field { gap: 6px; }
+  .journey-signup .travel-signup-form { grid-template-columns: minmax(0, 1fr); }
+  .journey-signup .password-policy ul { grid-template-columns: minmax(0, 1fr); }
+}

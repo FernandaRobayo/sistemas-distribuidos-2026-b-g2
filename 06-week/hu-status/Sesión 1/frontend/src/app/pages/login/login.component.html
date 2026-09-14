@@ -1,0 +1,106 @@
+<a class="skip-link" href="#contenido">Saltar al contenido principal</a>
+
+<main id="contenido" class="travel-login-shell journey-auth journey-login">
+  <header class="travel-login-header">
+    <a class="travel-login-brand" routerLink="/"><svg class="journey-mark" viewBox="0 0 32 32" fill="none" aria-hidden="true" focusable="false"><path d="M3 25 13 7l6 10 4-6 7 14H3Z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><path d="m9 14 4 3 4-3" stroke="currentColor" stroke-width="2"/></svg><span>Multi Tour</span></a>
+  <span class="journey-header-note">Plataforma para empresas de turismo</span></header>
+<aside class="journey-story journey-story--photo"><div class="journey-story-copy">
+  @if (role() === 'client') {
+    <p class="journey-eyebrow">Tu espacio en Multi Tour</p><h2>Tu próximo viaje empieza aquí.</h2><p>Consulta tu reserva, tus pagos y el estado de tu viaje desde un mismo lugar.</p>
+  } @else {
+    <p class="journey-eyebrow">Equipo del operador</p><h2>Gestiona la operación de tu empresa turística.</h2><p>Reservas, pagos, catálogo y ejecución en un mismo panel de trabajo.</p>
+  }
+  <ul class="journey-story-points">
+    <li><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><circle cx="10" cy="10" r="8"/><path d="m6.5 10 2.5 2.5 4.5-5"/></svg><span>Catálogo, reservas y pagos en un solo panel</span></li>
+    <li><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><circle cx="10" cy="10" r="8"/><path d="m6.5 10 2.5 2.5 4.5-5"/></svg><span>Un acceso para cada rol: cliente, operador o administrador</span></li>
+    <li><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><circle cx="10" cy="10" r="8"/><path d="m6.5 10 2.5 2.5 4.5-5"/></svg><span>Trazabilidad clara en cada reserva</span></li>
+  </ul>
+</div></aside>
+
+  <section class="travel-login-stage">
+    <div class="travel-login-card">
+      <div class="travel-login-copy">
+        @if (role() === 'client') {
+          <p class="journey-form-kicker">Tu espacio en Multi Tour</p><h1>Bienvenido de nuevo</h1>
+          <p>Ingresa a tu cuenta para gestionar tus viajes y reservas.</p>
+        } @else {
+          <p class="journey-form-kicker">Equipo del operador</p><h1>Acceso para tu equipo</h1>
+          <p>Ingresa con tu cuenta del equipo del operador para gestionar la operación turística.</p>
+        }
+      </div>
+
+      <div class="travel-login-access" aria-label="Tipo de acceso">
+        <span class="travel-login-access-label">Acceso</span>
+        <div class="travel-login-role-switch travel-login-role-switch--compact">
+          <button class="travel-login-role" [class.is-active]="role() === 'client'" type="button" [attr.aria-pressed]="role() === 'client'" (click)="selectRole('client')">
+            Cliente
+          </button>
+          <button class="travel-login-role" [class.is-active]="role() === 'staff'" type="button" [attr.aria-pressed]="role() === 'staff'" (click)="selectRole('staff')">
+            Equipo del operador
+          </button>
+        </div>
+      </div>
+
+      @if (role() === 'staff') {
+        <div class="travel-login-subrole" aria-label="Rol dentro del equipo del operador">
+          <span class="travel-login-subrole-label">Tu rol en el equipo</span>
+          <div class="travel-login-role-switch travel-login-role-switch--chip">
+            <button class="travel-login-role" [class.is-active]="staffRole() === 'admin'" type="button" [attr.aria-pressed]="staffRole() === 'admin'" (click)="selectStaffRole('admin')">
+              Administrador
+            </button>
+            <button class="travel-login-role" [class.is-active]="staffRole() === 'colaborador'" type="button" [attr.aria-pressed]="staffRole() === 'colaborador'" (click)="selectStaffRole('colaborador')">
+              Colaborador
+            </button>
+          </div>
+        </div>
+      }
+
+      <form class="travel-login-form" (submit)="onSubmit($event)" novalidate>
+        <div class="travel-login-field">
+          <label for="login-id">Correo electrónico</label>
+          <input id="login-id" name="email" type="email" autocomplete="email" placeholder="correo@ejemplo.com" />
+        </div>
+
+        <div class="travel-login-field">
+          <div class="travel-login-field-head">
+            <label for="login-password">Contraseña</label>
+            <a class="travel-login-help" routerLink="/recuperar" [queryParams]="recoverQueryParams()">¿Olvidaste tu contraseña?</a>
+          </div>
+
+          <div class="travel-login-password-wrap">
+            <input
+              id="login-password"
+              name="password"
+              [type]="passwordVisible() ? 'text' : 'password'"
+              autocomplete="current-password"
+              placeholder="Tu contraseña"
+            />
+            <button aria-label="Ver u ocultar contraseña" class="travel-login-visibility" type="button" (click)="togglePasswordVisibility()">{{ passwordVisible() ? 'Ocultar' : 'Ver' }}</button>
+          </div>
+        </div>
+
+        <p class="feedback" [class.is-error]="feedbackIsError()" aria-live="polite" aria-atomic="true">{{ feedback() }}</p>
+
+        <button class="travel-login-submit" type="submit" [disabled]="submitting()">
+          <span>{{ submitting() ? 'Ingresando...' : 'Iniciar sesión' }}</span>
+        </button>
+      </form>
+
+      <p class="travel-platform-entry">
+        <a routerLink="/admin-login">Acceso a administración de plataforma</a>
+      </p>
+
+      <div class="travel-login-divider"></div>
+
+      @if (role() === 'client') {
+        <p id="soporte" class="travel-login-footer-note">
+          ¿No tienes una cuenta? <a routerLink="/crear-cuenta">Crear cuenta</a>
+        </p>
+      } @else {
+        <p class="travel-login-footer-note">
+          ¿Necesitas acceso al equipo? Solicítalo a un administrador del operador.
+        </p>
+      }
+    </div>
+  </section>
+</main>

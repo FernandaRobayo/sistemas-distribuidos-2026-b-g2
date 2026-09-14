@@ -1,0 +1,98 @@
+/* Shared visual design with Landing admin-login.css; scoped to this screen. */
+.platform-access {
+  width: 100%;
+  min-height: 100vh;
+  min-height: 100dvh;
+  margin: 0;
+  padding: clamp(24px, 5vw, 72px);
+  display: grid;
+  grid-template-columns: minmax(0, 0.95fr) minmax(0, 1.05fr);
+  background: #F5F7F7;
+  color: #17252B;
+}
+.platform-access .platform-identity {
+  position: relative;
+  overflow: hidden;
+  min-height: 640px;
+  padding: clamp(32px, 4vw, 64px);
+  border-radius: 24px 0 0 24px;
+  background: var(--primary);
+  color: #fff;
+}
+.platform-access .platform-identity--photo {
+  background-image:
+    linear-gradient(180deg, rgba(7, 43, 56, 0.35) 0%, rgba(7, 43, 56, 0.72) 65%, rgba(5, 32, 41, 0.94) 100%),
+    url("https://images.unsplash.com/photo-1436491865332-7a61a109cc05?auto=format&fit=crop&w=1400&q=80");
+  background-size: cover;
+  background-position: center;
+}
+.platform-access .travel-login-brand {
+  position: relative;
+  z-index: 1;
+  display: inline-flex;
+  gap: 12px;
+  align-items: center;
+  min-height: 44px;
+  color: #fff;
+  font-size: 1.6rem;
+  font-weight: 800;
+  letter-spacing: -0.04em;
+}
+.platform-access .platform-brand-mark { width: 36px; height: 36px; color: var(--accent); }
+.platform-access .platform-identity-copy { position: relative; z-index: 1; margin-top: 72px; padding-bottom: 240px; }
+.platform-access .platform-eyebrow { margin: 0 0 20px; color: #f3cf93; font-size: 0.75rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; line-height: 1.6; }
+.platform-access .platform-identity h2 { margin: 0 0 24px; font-size: clamp(1.9rem, 2.7vw, 2.8rem); font-weight: 700; line-height: 1.2; letter-spacing: -0.045em; }
+.platform-access .platform-identity-copy > p:last-child { max-width: 340px; margin: 0; color: #dce9e6; font-size: 0.95rem; line-height: 1.75; }
+.platform-access .platform-landscape { position: absolute; bottom: 0; left: 0; width: 100%; height: auto; }
+.platform-access .travel-login-stage {
+  min-width: 0;
+  min-height: 0;
+  padding: 48px clamp(24px, 4vw, 64px);
+  border: 1px solid #D7E0DE;
+  border-left: 0;
+  border-radius: 0 24px 24px 0;
+  background: #fff;
+  box-shadow: 0 1px 2px rgba(23, 37, 43, 0.04), 0 24px 48px rgba(23, 37, 43, 0.1);
+}
+.platform-access .travel-platform-login-card { width: min(100%, 400px); padding: 0; border: 0; border-radius: 0; background: transparent; box-shadow: none; }
+.platform-access .travel-login-copy { gap: 14px; margin-bottom: 36px; text-align: left; }
+.platform-access .travel-platform-login-kicker { margin: 0 !important; color: var(--secondary) !important; font-size: 0.7rem !important; letter-spacing: 0.09em; }
+.platform-access .travel-login-copy h1 { color: #17252B; font-size: clamp(1.8rem, 2.4vw, 2.4rem); line-height: 1.18; font-weight: 800; letter-spacing: -0.045em; text-wrap: balance; }
+.platform-access .travel-login-copy p { color: var(--text-soft); font-size: 0.95rem; line-height: 1.7; }
+.platform-access .travel-login-form { gap: 24px; }
+.platform-access .travel-login-field { min-width: 0; gap: 10px; }
+.platform-access .travel-login-field label { color: #17252B; font-size: 0.875rem; font-weight: 700; }
+.platform-access .travel-login-field input { min-height: 54px; padding-left: 16px; }
+
+
+
+.platform-access .travel-login-password-wrap input { padding-right: 84px; }
+.platform-access .travel-login-visibility { right: 4px; min-width: 72px; min-height: 44px; padding: 8px; border-radius: 6px; color: var(--primary); }
+
+
+.platform-access .platform-identity a:focus-visible { outline-color: var(--accent); }
+.platform-access .feedback { margin: 0; min-height: 0; font-size: 0.875rem; line-height: 1.6; overflow-wrap: anywhere; }
+.platform-access .feedback:empty { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); }
+.platform-access .feedback:not(:empty) { padding: 12px 14px; border: 1px solid #719782; border-radius: 8px; background: #eff6f2; color: #285b42; }
+.platform-access .feedback.is-error:not(:empty) { border-color: #b54747; border-left-width: 4px; background: #fff2f0; color: #943434; }
+.platform-access .travel-login-submit { min-height: 56px; border-radius: 10px; font-weight: 800; box-shadow: 0 10px 22px #0B3B4A26; transition: background-color 160ms ease, transform 160ms ease; }
+.platform-access .travel-login-submit:hover:not(:disabled) { transform: translateY(-1px); }
+
+
+.platform-access .travel-recover-back { margin-top: 28px; padding-top: 20px; border-top: 1px solid #D7E0DE; }
+.platform-access .travel-recover-back a { display: inline-flex; align-items: center; min-height: 44px; color: var(--primary); font-size: 0.875rem; font-weight: 600; text-decoration: underline; text-underline-offset: 4px; }
+@media (min-width: 1600px) { .platform-access { padding-inline: max(72px, calc((100vw - 1440px) / 2)); } }
+@media (max-width: 900px) {
+  .platform-access { grid-template-columns: minmax(0, 1fr); padding: 24px; align-content: center; }
+  .platform-access .platform-identity { min-height: 0; padding: 20px 28px; border-radius: 18px 18px 0 0; }
+  .platform-access .platform-identity-copy, .platform-access .platform-landscape { display: none; }
+  .platform-access .travel-login-stage { padding: 40px 28px 28px; border: 1px solid #D7E0DE; border-top: 0; border-radius: 0 0 18px 18px; }
+}
+@media (max-width: 480px) {
+  .platform-access { padding: 16px; align-content: start; }
+  .platform-access .platform-identity { padding: 16px 20px; }
+  .platform-access .travel-login-brand { font-size: 1.4rem; }
+  .platform-access .travel-login-stage { padding: 28px 20px 20px; }
+  .platform-access .travel-login-copy { margin-bottom: 28px; }
+  .platform-access .travel-recover-back { margin-top: 24px; padding-top: 16px; }
+}

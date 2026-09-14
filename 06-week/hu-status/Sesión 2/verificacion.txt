@@ -1,0 +1,17 @@
+﻿Verificación documental de Sesión 2
+2026-09-13T23:53:45.1263971-05:00
+PASS: .env.example, 10 variables, secretos vacíos, versionable
+PASS: .env.qa.example, 10 variables, secretos vacíos, versionable
+PASS: .env.prod.example, 10 variables, secretos vacíos, versionable
+PASS: Git ignora .env
+PASS: Git ignora .env.dev
+PASS: Git ignora .env.qa
+PASS: Git ignora .env.prod
+PASS: Git ignora datos.dump
+PASS: Git ignora secrets/token.txt
+PASS: COMPOSE_PROJECT_NAME distinto por entorno
+PASS: FRONTEND_PORT distinto por entorno
+PASS: POSTGRES_DB distinto por entorno
+PASS: POSTGRES_USER distinto por entorno
+PASS: claves y valores documentados en la matriz
+PASS: enlaces locales válidos
