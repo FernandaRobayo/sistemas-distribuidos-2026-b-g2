@@ -1,0 +1,15 @@
+Infraestructura Semana 07
+2026-09-17T04:24:29.0598095Z
+Comando: docker compose ps
+NAME                          IMAGE                   COMMAND                  SERVICE    CREATED         STATUS                   PORTS
+multitour-week07-rabbitmq-1   rabbitmq:4-management   "docker-entrypoint.s…"   rabbitmq   8 minutes ago   Up 8 minutes (healthy)   127.0.0.1:5677->5672/tcp, 127.0.0.1:15677->15672/tcp
+Comando: docker compose exec -T rabbitmq rabbitmq-diagnostics -q server_version
+4.3.6
+Comando: docker image inspect rabbitmq:4-management --format RepoDigests
+["rabbitmq@sha256:612ebf172397edbd30a5908a4ea27abc43e01e815f0eb9a222811ae338195c55"]
+Comando: docker compose exec -T rabbitmq rabbitmqctl list_queues name messages_ready messages_unacknowledged consumers
+Timeout: 60.0 seconds ...
+Listing queues for vhost / ...
+name	messages_ready	messages_unacknowledged	consumers
+caja.movimientos.verificacion-57e6def9-837a-4935-a0a7-3798af8a9659.dlq	0	0	0
+caja.movimientos.verificacion-57e6def9-837a-4935-a0a7-3798af8a9659	0	0	0

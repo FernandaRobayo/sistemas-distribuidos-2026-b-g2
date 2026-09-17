@@ -1,0 +1,11 @@
+Multi Tour - Semana 07 - 2026-09-17T02:06:14.410Z
+Runtime: v24.11.0; consumidor aislado, SQLite persistente, sin broker
+PASS 1: EVENT-001 -> 1 movimiento
+PASS 2: reentrega tras reinicio -> sigue 1 movimiento
+PASS 3: otro eventId para PAY-001 -> sigue 1 movimiento
+PASS 4: fallo antes del efecto -> rollback de inbox y movimiento
+PASS 5: reintento tras rollback -> un segundo movimiento, sin duplicar
+PASS 6: mismos IDs en otro tenant -> registro independiente
+PASS 7: mismo ID con importe alterado -> rechazado, importe original conservado
+PASS 8: devolución duplicada -> una sola devolución
+RESULTADO: 8 casos correctos. No se modificaron datos del sistema real.

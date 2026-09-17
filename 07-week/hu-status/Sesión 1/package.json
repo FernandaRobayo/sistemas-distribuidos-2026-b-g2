@@ -1,0 +1,13 @@
+{
+  "name": "multitour-week07-comunicacion",
+  "private": true,
+  "type": "module",
+  "engines": { "node": ">=24.11.0" },
+  "scripts": {
+    "test": "node demo-idempotencia.mjs",
+    "test:rabbitmq": "node verificar-rabbitmq.mjs",
+    "consume": "node consumidor-rabbitmq.mjs",
+    "publish": "node publicar-rabbitmq.mjs"
+  },
+  "dependencies": { "amqplib": "2.0.1" }
+}

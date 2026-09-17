@@ -1,0 +1,9 @@
+{
+  "eventId": "EVENT-001",
+  "type": "PagoConfirmado",
+  "tenantId": "travesia-natural",
+  "reservationId": "RES-001",
+  "movementId": "PAY-001",
+  "amountMinor": 15000000,
+  "currency": "COP"
+}

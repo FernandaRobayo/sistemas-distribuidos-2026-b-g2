@@ -1,0 +1,21 @@
+Multi Tour / Semana 07 / RabbitMQ real / 2026-09-17T04:23:42.882Z
+Node v24.11.0; queue=caja.movimientos.verificacion-57e6def9-837a-4935-a0a7-3798af8a9659; datos sintéticos; sin backend Java
+BROKER_CONFIRM EVENT-001 PagoConfirmado
+BROKER_CONFIRM EVENT-001 PagoConfirmado
+BROKER_CONFIRM EVENT-002 DevolucionEjecutada
+BROKER_CONFIRM EVENT-002 DevolucionEjecutada
+PASS: 4 publicaciones confirmadas y pendientes con 0 consumidores; productor desacoplado.
+CONSUMER {"status":"READY","queue":"caja.movimientos.verificacion-57e6def9-837a-4935-a0a7-3798af8a9659"}
+CONSUMER {"status":"CRASH_AFTER_COMMIT","eventId":"EVENT-001"}
+PASS: consumidor terminó después del COMMIT y antes del ACK; 1 efecto persistido.
+CONSUMER {"status":"DUPLICADO_EVENTO","eventId":"EVENT-001","type":"PagoConfirmado","redelivered":true,"ack":true}
+CONSUMER {"status":"READY","queue":"caja.movimientos.verificacion-57e6def9-837a-4935-a0a7-3798af8a9659"}
+CONSUMER {"status":"DUPLICADO_EVENTO","eventId":"EVENT-001","type":"PagoConfirmado","redelivered":false,"ack":true}
+CONSUMER {"status":"PROCESADO","eventId":"EVENT-002","type":"DevolucionEjecutada","redelivered":false,"ack":true}
+CONSUMER {"status":"DUPLICADO_EVENTO","eventId":"EVENT-002","type":"DevolucionEjecutada","redelivered":false,"ack":true}
+PASS: RabbitMQ reentregó EVENT-001 (redelivered=true); deduplicado tras reinicio.
+PASS: pago publicado dos veces -> 1 efecto; devolución publicada dos veces -> 1 efecto.
+SQL movements=[{"tenant_id":"travesia-natural","movement_id":"PAY-001","type":"PagoConfirmado","amount_minor":15000000},{"tenant_id":"travesia-natural","movement_id":"REFUND-001","type":"DevolucionEjecutada","amount_minor":5000000}]
+SQL inbox=[{"event_id":"EVENT-001"},{"event_id":"EVENT-002"}]
+PASS: cola vacía, consumidor cerrado tras ACK y DLQ vacía.
+RESULTADO: PASS - 4 publicaciones, 5 entregas (incluida caída), 2 efectos persistidos.
