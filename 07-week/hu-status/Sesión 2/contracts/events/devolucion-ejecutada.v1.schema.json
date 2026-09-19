@@ -1,0 +1,18 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://multitour.local/contracts/events/devolucion-ejecutada.v1.schema.json",
+  "title": "DevolucionEjecutada v1",
+  "description": "Devolución de dinero ejecutada; un saldo a favor no genera este evento.",
+  "type": "object",
+  "required": ["eventId", "type", "tenantId", "reservationId", "movementId", "amountMinor", "currency"],
+  "properties": {
+    "eventId": { "type": "string", "minLength": 1 },
+    "type": { "const": "DevolucionEjecutada" },
+    "tenantId": { "type": "string", "minLength": 1 },
+    "reservationId": { "type": "string", "minLength": 1 },
+    "movementId": { "type": "string", "minLength": 1 },
+    "amountMinor": { "type": "integer", "minimum": 1, "maximum": 9007199254740991 },
+    "currency": { "const": "COP" }
+  },
+  "additionalProperties": true
+}

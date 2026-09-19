@@ -1,0 +1,9 @@
+{
+  "eventId": "EVENT-002",
+  "type": "DevolucionEjecutada",
+  "tenantId": "travesia-natural",
+  "reservationId": "RES-001",
+  "movementId": "REFUND-001",
+  "amountMinor": 5000000,
+  "currency": "COP"
+}

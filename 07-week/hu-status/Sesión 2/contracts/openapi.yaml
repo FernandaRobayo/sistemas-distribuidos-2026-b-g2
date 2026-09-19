@@ -1,0 +1,172 @@
+openapi: 3.0.3
+info:
+  title: Multi Tour - consultas internas para MVP 2
+  version: 1.0.0
+  description: >
+    Alcance de esta entrega: consultas internas C16, C19, C21, C22 y C23
+    seleccionadas para el camino Reservas-Operaciones-Caja de MVP 2.
+    Los endpoints siguen propuestos y no existen todavía en el backend Java.
+    C01-C15 son rutas portal-monolito actuales; C17, C18, C20, C24 y C27
+    requieren decisiones de frontera adicionales y quedan fuera de este
+    contrato de consultas internas. Ver README de Sesión 2.
+servers:
+  - url: http://localhost:8080
+security:
+  - bearerAuth: []
+paths:
+  /api/v1/tenants/{tenantId}/status:
+    get:
+      operationId: getTenantStatus
+      summary: Validar estado del tenant antes de operar (C16)
+      parameters:
+        - $ref: '#/components/parameters/TenantId'
+      responses:
+        '200':
+          description: Estado del tenant
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TenantStatus'
+        '404':
+          $ref: '#/components/responses/NotFound'
+  /api/v1/tenants/{tenantId}/catalog-items/{catalogItemId}/availability:
+    get:
+      operationId: getCatalogAvailability
+      summary: Validar oferta activa y tarifa (C19)
+      parameters:
+        - $ref: '#/components/parameters/TenantId'
+        - name: catalogItemId
+          in: path
+          required: true
+          schema: { type: string, minLength: 1 }
+      responses:
+        '200':
+          description: Oferta consultada; disponibilidad no reserva cupo
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CatalogAvailability'
+        '404':
+          $ref: '#/components/responses/NotFound'
+  /api/v1/tenants/{tenantId}/reservations/{reservationId}/integration-status:
+    get:
+      operationId: getReservationIntegrationStatus
+      summary: Validar reserva desde Operaciones (C21)
+      parameters:
+        - $ref: '#/components/parameters/TenantId'
+        - name: reservationId
+          in: path
+          required: true
+          schema: { type: string, minLength: 1 }
+      responses:
+        '200':
+          description: Estado de la reserva
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ReservationIntegrationStatus'
+        '404':
+          $ref: '#/components/responses/NotFound'
+  /api/v1/tenants/{tenantId}/reservations/consolidation-summary:
+    get:
+      operationId: getReservationConsolidationSummary
+      summary: Agregado de cancelaciones y devoluciones para Caja (C22)
+      parameters:
+        - $ref: '#/components/parameters/TenantId'
+        - $ref: '#/components/parameters/Period'
+      responses:
+        '200':
+          description: Agregado del período solicitado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ReservationSummary'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+  /api/v1/tenants/{tenantId}/operations/cost-summary:
+    get:
+      operationId: getOperationCostSummary
+      summary: Costos agregados para Caja (C23)
+      parameters:
+        - $ref: '#/components/parameters/TenantId'
+        - $ref: '#/components/parameters/Period'
+      responses:
+        '200':
+          description: Agregado del período solicitado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CostSummary'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+  parameters:
+    TenantId:
+      name: tenantId
+      in: path
+      required: true
+      schema: { type: string, minLength: 1 }
+    Period:
+      name: period
+      in: query
+      required: true
+      description: Mes calendario en zona America/Bogota.
+      schema: { type: string, pattern: '^\d{4}-(0[1-9]|1[0-2])$' }
+  responses:
+    NotFound:
+      description: Recurso inexistente o fuera del tenant autorizado
+      content:
+        application/json:
+          schema: { $ref: '#/components/schemas/Error' }
+    BadRequest:
+      description: Parámetros inválidos
+      content:
+        application/json:
+          schema: { $ref: '#/components/schemas/Error' }
+  schemas:
+    Error:
+      type: object
+      required: [code, message]
+      properties:
+        code: { type: string }
+        message: { type: string }
+    TenantStatus:
+      type: object
+      required: [tenantId, active]
+      properties:
+        tenantId: { type: string }
+        active: { type: boolean }
+    CatalogAvailability:
+      type: object
+      required: [catalogItemId, active, priceMinor, currency]
+      properties:
+        catalogItemId: { type: string }
+        active: { type: boolean }
+        priceMinor: { type: integer, minimum: 0, format: int64 }
+        currency: { type: string, enum: [COP] }
+    ReservationIntegrationStatus:
+      type: object
+      required: [reservationId, status]
+      properties:
+        reservationId: { type: string }
+        status: { type: string }
+    ReservationSummary:
+      type: object
+      required: [period, currency, cancellationCount, refundAmountMinor]
+      properties:
+        period: { type: string, pattern: '^\d{4}-(0[1-9]|1[0-2])$' }
+        currency: { type: string, enum: [COP] }
+        cancellationCount: { type: integer, minimum: 0 }
+        refundAmountMinor: { type: integer, minimum: 0, format: int64 }
+    CostSummary:
+      type: object
+      required: [period, currency, costAmountMinor]
+      properties:
+        period: { type: string, pattern: '^\d{4}-(0[1-9]|1[0-2])$' }
+        currency: { type: string, enum: [COP] }
+        costAmountMinor: { type: integer, minimum: 0, format: int64 }

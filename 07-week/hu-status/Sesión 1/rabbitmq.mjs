@@ -1,4 +1,5 @@
 import amqp from 'amqplib';
+import { readFileSync } from 'node:fs';
 
 export const queue = process.env.AMQP_QUEUE || 'caja.movimientos';
 export async function connect() {
@@ -19,4 +20,10 @@ export async function publish(channel, event, name = queue) {
       persistent: true, contentType: 'application/json', messageId: event.eventId,
     }, error => error ? reject(error) : resolve());
   });
+}
+
+export async function publishFile(channel, file, name = queue) {
+  const event = JSON.parse(readFileSync(file, 'utf8'));
+  await publish(channel, event, name);
+  return event;
 }

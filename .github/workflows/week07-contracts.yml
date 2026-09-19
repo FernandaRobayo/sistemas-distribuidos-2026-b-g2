@@ -1,0 +1,41 @@
+name: Week 07 consumer contracts
+on:
+  push:
+    paths:
+      - '07-week/hu-status/Sesión 1/idempotencia.mjs'
+      - '07-week/hu-status/Sesión 1/evento-pago.json'
+      - '07-week/hu-status/Sesión 1/publicar-rabbitmq.mjs'
+      - '07-week/hu-status/Sesión 1/rabbitmq.mjs'
+      - '07-week/hu-status/Sesión 1/package.json'
+      - '07-week/hu-status/Sesión 1/package-lock.json'
+      - '07-week/hu-status/Sesión 2/**'
+      - '.github/workflows/week07-contracts.yml'
+  pull_request:
+    paths:
+      - '07-week/hu-status/Sesión 1/idempotencia.mjs'
+      - '07-week/hu-status/Sesión 1/evento-pago.json'
+      - '07-week/hu-status/Sesión 1/publicar-rabbitmq.mjs'
+      - '07-week/hu-status/Sesión 1/rabbitmq.mjs'
+      - '07-week/hu-status/Sesión 1/package.json'
+      - '07-week/hu-status/Sesión 1/package-lock.json'
+      - '07-week/hu-status/Sesión 2/**'
+      - '.github/workflows/week07-contracts.yml'
+  workflow_dispatch:
+jobs:
+  consumer-contract:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: '07-week/hu-status/Sesión 2'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24.11.0'
+          cache: npm
+          cache-dependency-path: |
+            07-week/hu-status/Sesión 1/package-lock.json
+            07-week/hu-status/Sesión 2/package-lock.json
+      - run: npm ci --prefix '../Sesión 1'
+      - run: npm ci
+      - run: npm run test:contract
