@@ -1,13 +1,13 @@
-# PDR - Multi tour
+# PDR - Multitour
 
 ## 1. Identificacion del documento
 
-- Producto: Multi tour, plataforma multitenencia para operadores turisticos de naturaleza y aventura, con Travesia Natural como tenant principal de validacion y demostracion
+- Producto: Multitour, plataforma multitenencia para operadores turisticos de naturaleza y aventura, con Travesia Natural como tenant principal de validacion y demostracion
 - Tipo de documento: Product Definition Requirements (PDR)
 - Fecha: 2026-09-18
 - Version: 1.8
 - Estado documental: version final de entrega academica y linea base funcional final para iniciar alineacion documental y arquitectura de Fase 1
-- Regla de identidad del producto: Multi tour es el producto; Travesia Natural es el tenant principal de validacion y demostracion, y no equivale al producto completo
+- Regla de identidad del producto: Multitour es el producto; Travesia Natural es el tenant principal de validacion y demostracion, y no equivale al producto completo
 
 ## 2. Autores
 
@@ -16,18 +16,19 @@
 
 ## 3. Proposito del documento
 
-Este documento define, desde un enfoque de ingenieria de software, las necesidades de **Multi tour**, una plataforma multitenencia para operadores turisticos de naturaleza y aventura. Dentro de esa plataforma, **Travesia Natural** se utiliza como tenant principal de validacion funcional y demostracion, sin equivaler al producto completo. Su finalidad es servir de base para analisis, UX/UI, arquitectura, desarrollo, pruebas, validacion y planificacion, sin anticipar decisiones tecnicas que todavia no han sido definidas.
+Este documento define, desde un enfoque de ingenieria de software, las necesidades de **Multitour**, una plataforma multitenencia para operadores turisticos de naturaleza y aventura. Dentro de esa plataforma, **Travesia Natural** se utiliza como tenant principal de validacion funcional y demostracion, sin equivaler al producto completo. Su finalidad es servir de base para analisis, UX/UI, arquitectura, desarrollo, pruebas, validacion y planificacion, sin anticipar decisiones tecnicas que todavia no han sido definidas.
 
 Este PDR debe tratarse como linea base funcional final de Fase 1 para la entrega academica y como referencia base para alinear la documentacion del proyecto en su repositorio autoritativo, sin que dicha alineacion se considere realizada por el solo hecho de existir este documento.
 
 ## 3.1 Control de cambios
 
+- Alineacion documental de la version 1.8: se incorpora en la seccion 11.1 el agrupamiento estipulado de cuatro macrodominios y once contextos de negocio, conforme a la tabla confirmada por el equipo y a ADR-004. Se conserva el nombre de producto Multitour. Esta incorporacion no modifica los RF/RN/CA ni acredita implementacion o despliegue de servicios.
 - Version 1.8 - 2026-09-18: se formalizan los campos obligatorios del registro de Cliente final y el flujo funcional minimo de recuperacion de contrasena. El registro requiere nombre, apellido, correo electronico, numero de telefono, contrasena y confirmacion de contrasena, exigiendo que contrasena y su confirmacion coincidan antes de crear la cuenta. La recuperacion requiere correo electronico, codigo de recuperacion, nueva contrasena y confirmacion de nueva contrasena, exigiendo que ambos valores de contrasena coincidan antes de completar el cambio. Ambos flujos preservan el aislamiento por tenant ya definido: el correo electronico puede repetirse en distintos tenants sin mezclar cuentas, reservas ni credenciales entre ellos, y la recuperacion solo afecta la pertenencia o credencial del tenant previamente determinado. Los aspectos tecnicos del codigo de recuperacion (generacion, longitud, formato, vigencia, cantidad de intentos, canal de envio y almacenamiento) quedan sujetos a definicion posterior de arquitectura, seguridad y contratos.
 - Version 1.7.1 - 2026-09-03: se precisa la gestion de colaboradores operativos por el Administrador de cada tenant, incluyendo creacion de identidad de acceso, asociacion obligatoria al tenant activo, asignacion del perfil base y restriccion explicita de administracion avanzada de roles y permisos personalizados en Fase 1.
 - Version 1.7 - 2026-08-29: cierre editorial y de consistencia para entrega final del PDR, incluyendo alineacion de la version visible del documento con su historial, ajuste de la redaccion de la linea base no funcional vigente, aclaracion de la relacion entre perfiles base obligatorios y roles opcionales por tenant, y reformulacion de la regla de reagendamiento con nueva reserva vinculada para evitar interpretarla como una transicion de estado.
 - Version 1.6 - 2026-08-29: ajuste de consistencia funcional del PDR para cierre de ambiguedades previas a arquitectura, incluyendo definicion observable de identidad del cliente entre tenants, cierre explicito del alcance de autogestion del cliente final en Fase 1, precision de la regla funcional de concurrencia para cupos limitados, correccion de la semantica de reagendamiento para evitar tratarla como estado de reserva, incorporacion explicita de observabilidad, compatibilidad y concurrencia dentro de la linea base no funcional, y aclaracion formal de que las restricciones academicas y de despliegue deben justificarse en arquitectura o ADR sin modificar el alcance funcional confirmado.
 - Version 1.5 - 2026-08-29: consolidacion final del PDR para Fase 1, ajuste de consistencia documental entre roles opcionales por tenant y sus permisos base, actualizacion de la linea base no funcional vigente a esta version, cierre de pendientes funcionales de Fase 1 y conversion de notas abiertas en definiciones cerradas del documento.
-- Version 1.4 - 2026-08-29: incorporacion de personalizacion visual basica por tenant dentro de los limites del sistema de diseno de la plataforma, aclaracion explicita de las modalidades de pago soportadas en Fase 1, ajuste de identificacion del producto como Multi tour dentro de un enfoque multitenencia, definicion de roles opcionales por tenant con permisos base para Gerente, Contador y Analista, cierre del contenido obligatorio del dashboard diario y del reporte administrativo mensual, definicion explicita de politicas de cupo por tipo de servicio en Fase 1 y cierre de la regla de retencion y auditoria funcional minima. Se confirma que Multi tour soporta transferencia, efectivo y abono como modalidades habilitables por tenant o servicio, y que tarjeta debito o credito mediante pasarela queda como evolucion futura fuera del alcance actual.
+- Version 1.4 - 2026-08-29: incorporacion de personalizacion visual basica por tenant dentro de los limites del sistema de diseno de la plataforma, aclaracion explicita de las modalidades de pago soportadas en Fase 1, ajuste de identificacion del producto como Multitour dentro de un enfoque multitenencia, definicion de roles opcionales por tenant con permisos base para Gerente, Contador y Analista, cierre del contenido obligatorio del dashboard diario y del reporte administrativo mensual, definicion explicita de politicas de cupo por tipo de servicio en Fase 1 y cierre de la regla de retencion y auditoria funcional minima. Se confirma que Multitour soporta transferencia, efectivo y abono como modalidades habilitables por tenant o servicio, y que tarjeta debito o credito mediante pasarela queda como evolucion futura fuera del alcance actual.
 - Version 1.3 - 2026-08-29: actualizacion del canal de atencion y autogestion del cliente final, sustituyendo el enfoque exclusivo de aplicacion movil por un canal digital adaptable para web y movil. Se ajustan objetivo especifico, actores, alcance, procesos, requerimientos funcionales, criterios de aceptacion y trazabilidad para reflejar comportamiento responsive y disponibilidad del mismo flujo comercial en navegador web y dispositivo movil.
 - Version 1.2 - 2026-08-23: actualizacion del enfoque del producto hacia multitenencia, manteniendo a Travesia Natural como tenant principal de validacion y demostracion. Se incorporan criterios de aislamiento por tenant en alcance, seguridad, trazabilidad, datos, procesos, pagos, cupos, caja, reportes y riesgos. Sobre esta misma version se consolidan tambien reglas explicitas para reintentos de pago, saldo a favor, reagendamiento, catalogo de parametrizaciones permitidas en Fase 1, alineacion del proceso de caja con devoluciones y cierre de la linea base no funcional de Fase 1.
 - Version 1.1 - 2026-08-19: refinamiento funcional y no funcional del PDR, incluyendo mayor precision en permisos base, descuentos, pagos pendientes, estados de reserva, criterios de aceptacion, RNF base de Fase 1 y delimitacion de alcance.
@@ -267,6 +268,22 @@ Con base en las fuentes funcionales del proyecto, el cliente necesita:
 
 - Para efectos de arquitectura detallada y construccion del backlog, este PDR adopta como linea base vigente de Fase 1 los criterios no funcionales definidos en la seccion 17.
 - Cualquier ajuste posterior a esa linea base debe tratarse como cambio controlado del PDR y no como regla implicita abierta a interpretacion.
+
+## 11.1 Macrodominios y contextos de negocio
+
+El alcance funcional de Multitour se organiza en los siguientes cuatro macrodominios. Cada contexto pertenece a un solo macrodominio; se conservan sus responsabilidades y las reglas funcionales definidas en este PDR.
+
+| N.º | Macrodominio | Contextos de negocio que pertenecen a cada uno | Total |
+| --- | --- | --- | --- |
+| 1 | Plataforma, acceso y trazabilidad | 1. Gestión de tenants<br>2. Identidad y acceso<br>3. Auditoría y trazabilidad | 3 |
+| 2 | Gestión comercial y reservas | 4. Clientes<br>5. Catálogo operativo<br>6. Descuentos y reglas comerciales<br>7. Reservas | 4 |
+| 3 | Operación y costos | 8. Ejecución operativa<br>9. Costos operacionales | 2 |
+| 4 | Caja y reportes administrativos | 10. Caja y consolidación<br>11. Reportes y dashboard | 2 |
+| | **4 macrodominios** | **Abarcan los 11 contextos, sin duplicaciones.** | **11** |
+
+Este agrupamiento corresponde al registrado en `02-domain/domain-map.md` y en `05-architecture/decisions/records/ADR-004-backend-microservices-macrodomain-split.md` del repositorio documental del proyecto. Los nombres en ingles de esos documentos representan los mismos contextos, no contextos adicionales.
+
+La tabla expresa organizacion funcional, no evidencia de que los cuatro servicios esten implementados o desplegados. La topologia, la migracion gradual y la asignacion de tecnologias y bases de datos se documentan en arquitectura y ADR, respetando las restricciones de las secciones 18 y 19. Los cuatro macrodominios backend no sustituyen ni determinan por si mismos los cuatro Micro Frontends exigidos en la seccion 18.
 
 ## 12. Procesos de negocio
 
@@ -652,7 +669,7 @@ La condicion de pago necesaria para confirmar una reserva depende de la modalida
 - abono: la reserva solo puede pasar a Confirmada cuando se haya registrado el abono minimo parametrizado para la actividad o servicio correspondiente.
 
 Observacion adicional de modalidades de pago de Fase 1:
-Multi tour define como modalidades de pago soportadas para Fase 1 transferencia, efectivo y abono. Cada tenant podra habilitar una o varias de estas modalidades segun su configuracion vigente y, cuando aplique, segun el servicio ofrecido. La asistencia comercial puede utilizarse como canal de apoyo para continuar el proceso de reserva y pago, pero no constituye por si misma una modalidad de pago. Los medios con tarjeta debito o credito mediante pasarela quedan fuera del alcance actual y se consideran una evolucion futura.
+Multitour define como modalidades de pago soportadas para Fase 1 transferencia, efectivo y abono. Cada tenant podra habilitar una o varias de estas modalidades segun su configuracion vigente y, cuando aplique, segun el servicio ofrecido. La asistencia comercial puede utilizarse como canal de apoyo para continuar el proceso de reserva y pago, pero no constituye por si misma una modalidad de pago. Los medios con tarjeta debito o credito mediante pasarela quedan fuera del alcance actual y se consideran una evolucion futura.
 
 Observacion financiera base:
 Como regla minima de Fase 1, toda cancelacion o modificacion que produzca devolucion debe determinar si la devolucion es total, parcial o inexistente segun la condicion comercial parametrizada para el servicio afectado. El valor definido debe quedar trazable y asociado a la reserva.
@@ -1199,7 +1216,7 @@ La distribucion de datos y responsabilidades entre PostgreSQL y MongoDB REQUIERE
 
 - Esta version 1.8 del 2026-09-18 se declara como linea base funcional final de Fase 1 para la entrega academica.
 - Este documento queda listo para ser usado como referencia de alineacion del repositorio documental del proyecto, sin implicar por si mismo que dicha alineacion ya fue ejecutada.
-- La alineacion posterior del repositorio documental debera respetar esta identidad de producto: Multi tour como producto y Travesia Natural como tenant principal de validacion y demostracion.
+- La alineacion posterior del repositorio documental debera respetar esta identidad de producto: Multitour como producto y Travesia Natural como tenant principal de validacion y demostracion.
 - Los roles opcionales por tenant como Gerente, Contador y Analista pueden habilitarse segun la necesidad de cada tenant. Sus permisos base quedan definidos en este PDR, pero su uso efectivo depende de la decision de cada tenant dentro de su propia operacion.
 - En Fase 1, la implementacion de roles opcionales por tenant se considera requerida unicamente para los tenants que decidan utilizarlos.
 - Las decisiones tecnicas que el documento deriva a arquitectura, despliegue o ADR no reabren el alcance funcional de este PDR; solo materializan esta linea base en una solucion implementable.
