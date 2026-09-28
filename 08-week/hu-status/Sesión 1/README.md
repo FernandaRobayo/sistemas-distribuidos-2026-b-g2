@@ -75,7 +75,7 @@ La siguiente tabla establece la lectura corregida para preparar historias confor
 | HU-MVP1-011: descuentos | “Oferta y/o reserva” y cálculo sin contexto fijado resultan insuficientes. | RN-RES-003 y CA-005A/B/C: mostrar descuentos aplicables; fijar tarifas y reglas generales del contexto comercial; pagos posteriores no consultan de nuevo el catálogo. Descuento adicional requiere autorización del Administrador del tenant. | Promoción creada después no se incorpora automáticamente; vencimiento posterior no elimina la fijada; modificación usa contexto original y reglas del PDR para componentes agregados. |
 | INT-001/002: validación para reservar/operar | Oferta activa/precio y un status genérico no acreditan todas las condiciones. | RN-RES-007, RN-EJE-001 y CA-023/030: capacidad por salida y transporte aplicable; inicio real solo con reservas elegibles Confirmadas y Pago completo; actor autorizado y restricciones de horario/regularización. | Verificar las precondiciones de cada comando; no aceptar un status aislado como prueba completa de elegibilidad. El lugar de obtención de datos queda pendiente de diseño. |
 | INT-003: agregados | El contrato histórico fija America/Bogota. | §9, CA-027 y RN-CAJ-001: calendario del tenant, preservando zona/instante históricos; cambios prospectivos. Cada movimiento mensual se cuenta una vez. | Límites de período respetan la zona aplicable; devoluciones no se descuentan dos veces ni costos operacionales se confunden con pagos o gastos. America/Bogota corresponde a Travesía Natural, no a todos los tenants por defecto. |
-| INT-004/005: eventos y caja | “Saldo a favor” puede significar generación, uso o devolución; la bandeja no sustituye caja. | RN-RES-009 y RN-CAJ-001: registrar saldo a favor no es desembolsar una devolución; devolución efectivamente ejecutada requiere movimiento identificable de caja. | Distinguir registro, aplicación y devolución de saldo; demostrar el movimiento de caja por el componente responsable sin duplicarlo al conciliar. La bandeja auxiliar puede permanecer sin escritura operativa. |
+| INT-004/005: eventos y caja | “Saldo a favor” puede significar generación, uso o devolución; la bandeja no sustituye caja. | RN-RES-008/009 y RN-CAJ-001: registrar saldo a favor no es desembolsar una devolución; devolución ejecutada requiere movimiento identificable de caja. Reservas conserva su estado económico y Caja sus movimientos según las fuentes de ownership de S2. | Distinguir registro, aplicación y devolución; demostrar movimiento sin duplicarlo al conciliar. La bandeja permanece auxiliar. La coordinación técnica y publicación requieren D-03 de S2, no una nueva asignación de ownership funcional. |
 | ORQ-002/004: aprovisionamiento | Un alta sintética no implica aceptación de todas las reglas. | §9, RF-016 y CA-017: alta por Administrador de plataforma con datos de tenant y primer Administrador; credencial temporal y activación conforme al PDR. | El smoke test usa identidad autorizada y datos obligatorios; alta incompleta o no autorizada no se considera caso exitoso del producto. |
 | ORQ-005: recuperación | Restaurar una vez no acredita la política completa. | §17: respaldo diario, retención mínima de 30 días, RPO objetivo máximo 24 horas y RTO objetivo máximo 8 horas. | Evidenciar programación/retención y ensayo con pérdida y tiempo medidos según esos objetivos, cuando este alcance se implemente. No confundirlo con el rollback de 240 segundos de ORQ-006. |
 | HU-05 UI/UX: roles y cambios de reserva | El título genérico no identifica permisos ni todos los flujos incluidos. | §9, §12.1.1, RN-EJE-002 y CA-030: perfiles y permisos específicos; cliente responde a propuestas, sin autogestión libre de cancelar o reagendar. RNF §17: accesibilidad WCAG 2.1 AA, usabilidad y compatibilidad declaradas. | Una pantalla no concede autorización; verificar acciones permitidas/prohibidas de las pantallas realmente incluidas y los RNF aplicables. AC propios y pantallas seleccionadas: PENDIENTE DE CONFIRMACIÓN. |
@@ -177,6 +177,10 @@ La relación de estos antecedentes con historias del sprint actual queda **PENDI
 
 ## 10. Insumos para sesión 2: MVP 2
 
+La [planificación final de Sesión 2](../Sesión%202/README.md) define el corte mínimo del MVP 2: Operaciones y Costos consulta Reservas en monolito y registra/consulta un costo de una ejecución ya iniciada en PostgreSQL propio. Incluye Story Map, Release Line y objetivo definidos, ocho unidades MUST (49 SP) y una SHOULD (8 SP), total 57 SP. Maria Fernanda Robayo y Jhon Sebastian Molina revisaron y aceptaron esos SP según confirmación expresa del usuario. La sesión de planificación fue el sábado 26 de septiembre de 2026 (2026-09-26). Ambos integrantes reportan disponibilidad normal, únicamente cualitativa, según información del equipo. Sesión 2 §7 registra los votos reales de ambos, cuatro discusiones y sus segundas rondas, proporcionados por el equipo. La planificación de Sesión 2 queda LISTA PARA ENTREGA; los detalles técnicos y el calendario de ejecución no se infieren de esos datos. VELOCIDAD HISTÓRICA NO DISPONIBLE. No acredita ejecución de Sesión 1.
+
+El [ADR-004](../../../../multi-tour-docs/multi-tour-docs/05-architecture/decisions/records/ADR-004-backend-microservices-macrodomain-split.md), en el repositorio documental hermano, establece cuatro servicios por macrodominio y comenzar la migración por Operaciones y Costos. C19, C20 y C27 son interacciones internas del servicio comercial objetivo. C21 es remota al extraer Operaciones y puede usar Reservas en monolito como proveedor transitorio, sin afirmar que el contrato esté implementado. El orden funcional de las historias no equivale al orden físico de extracción. La clasificación del corte está en Sesión 2 §5; los enlaces al repositorio hermano requieren esa estructura local.
+
 | Insumo existente | Qué aporta | Trabajo de refinamiento pendiente |
 |---|---|---|
 | [HU-MVP2-ORQ-001 a 006](../../../06-week/hu-status/Sesión%202/historias-orquestacion.md) | Prioridad Must, orden documentado, dependencias, AC y estados iniciales Todo. | Confirmar vigencia y alcance; evaluar división de ORQ-002, ORQ-005 y ORQ-006 según capacidad. Roles sugeridos no equivalen a responsables acordados. |
@@ -184,7 +188,7 @@ La relación de estos antecedentes con historias del sprint actual queda **PENDI
 
 Secuencia de trabajo para la sesión 2: **refinamiento → división de historias grandes → aclaración de AC → análisis de dependencias → estimación**.
 
-Selección, prioridad conjunta, alcance funcional complementario, responsables, técnica de estimación y estimaciones: **PENDIENTE DE CONFIRMACIÓN**. ORQ e INT no sustituyen todo el backlog funcional ni se incorporan automáticamente al sprint. No se asignan Story Points ni se alteran prioridades o reglas funcionales mediante este registro.
+Sesión 2 documenta selección, prioridad y alcance definitivos del MVP 2, con estimaciones consensuadas. Disponibilidad cualitativa: normal para ambos integrantes, registrada en la planificación del 2026-09-26. Responsables por unidad y período de ejecución: **PENDIENTE DE CONFIRMACIÓN**; no se deduce capacidad numérica. La dinámica real de Planning Poker está registrada en Sesión 2 §7 con los resultados reportados por el equipo. ORQ e INT no sustituyen todo el backlog funcional; las partes seleccionadas no acreditan aceptación de sus padres ni cambian las prioridades históricas. Este registro no atribuye ejecución ni compromiso temporal a la selección del MVP 2.
 
 ### Matriz de candidatas y dependencias comprobadas
 
@@ -216,7 +220,7 @@ Fuentes: [B1: backlog inicial](../../../01-week/hu-status/Sesión%202/BACKLOG-MV
 | ORQ-004 | RF-016/CA-017 para el alta usada por el smoke test. | ALINEADA CON AJUSTES | Otra historia: ORQ-003; funcional: alta autorizada. |
 | ORQ-005 | §17: respaldo, retención y recuperación. | ALINEADA CON AJUSTES | Otras historias: ORQ-002 y ORQ-004. |
 | ORQ-006 | §19: límite entre entrega y operación empresarial. | ALINEADA CON AJUSTES | Otras historias: ORQ-001 a 005; infraestructura: destino de publicación. |
-| INT-001 | Capacidad por salida además de tenant/oferta activa. | ALINEADA CON AJUSTES | Otra historia: ORQ-004; contrato: C16/C19. |
+| INT-001 | Capacidad por salida además de tenant/oferta activa. | ALINEADA CON AJUSTES | Otra historia: ORQ-004; C16 según transición; C19 INTERNA al servicio comercial de ADR-004. Adaptación del AC histórico pendiente. |
 | INT-002 | RN-EJE-001, CA-023/030: condiciones por operación. | ALINEADA CON AJUSTES | Otra historia: INT-001; contrato: C21. |
 | INT-003 | CA-027: contrato fija zona horaria universal incorrectamente. | CONTRADICE EL PDR | Otra historia: INT-002; contratos: C22/C23. |
 | INT-004 | Hechos económicos confirmados; distinguir usos de saldo a favor. | ALINEADA CON AJUSTES | Otras historias: INT-001 y ORQ-004; arquitectura/contrato: outbox y esquemas. |
@@ -227,28 +231,30 @@ Las HU-03 frontend y HU-04 backend de GitHub son contenedores del MVP histórico
 
 ### BLOQUEO / DEPENDENCIA: decisiones técnicas abiertas
 
+Ownership funcional comprobado: Reservas conserva el estado económico de la reserva; Caja y consolidación gestiona los movimientos de caja; la bandeja INT-005 es auxiliar. Esta distinción precisa la fila INT-004/005 de §4: no corresponde volver a decidir el dueño funcional, sino concretar coordinación y publicación. Véanse las fuentes y D-03 en Sesión 2.
+
 | Elemento | Regla funcional ya confirmada | Decisión pendiente y efecto |
 |---|---|---|
 | Recuperación | Código por correo, vigencia máxima y uso único, §9/12.1.1. | Generación, longitud, formato, intentos y persistencia: PENDIENTE DE DEFINICIÓN. Bloquea cerrar el contrato técnico, no documentar la regla funcional. |
 | INT-001/002 | Capacidad y elegibilidad de ejecución, RN-RES-007/RN-EJE-001. | Dónde validar y cómo obtener datos de salida, transporte, pagos y autorización: PENDIENTE DE DEFINICIÓN. Los DTO actuales no bastan por sí solos. |
 | INT-003 | Calendario por tenant y no duplicar movimientos, CA-027/RN-CAJ-001. | Contrato corregido y atribución de agregados: PENDIENTE DE DEFINICIÓN. No reabrir la zona horaria como decisión funcional. |
-| INT-004/005 | Devolución efectiva produce movimiento de caja, RN-CAJ-001. | Responsable del efecto operativo y relación con eventos/bandeja: PENDIENTE DE DEFINICIÓN. No atribuir integración Java a la demo. |
+| INT-004/005 | Reservas: estado económico; Caja: movimiento identificable, RN-RES-008/009 y RN-CAJ-001. Bandeja auxiliar separada. | Coordinación técnica, confirmación del hecho, publicación/recuperación y transporte de producto: PENDIENTE DE DEFINICIÓN (D-03 de S2). El ownership funcional no se reabre; no atribuir integración Java a la demo. |
 | ORQ-006 | PDR §19 diferencia entrega de software y puesta en operación empresarial. | Alcance de PROD académico o empresarial y responsabilidades: PENDIENTE DE CONFIRMACIÓN. |
 | HU-05 UI/UX | Perfiles, permisos y RNF de interfaz. | Pantallas y AC incluidos: PENDIENTE DE CONFIRMACIÓN. |
-| Distribución futura | Restricciones académicas PDR §18. | Materialización de cuatro microfrontends y reparto Angular/React, Java/Go, PostgreSQL/MongoDB: PENDIENTE DE DEFINICIÓN en arquitectura; afecta solo compromisos que dependan de esa evolución. |
+| Distribución futura | PDR §11.1/18 y ADR-004: cuatro servicios por macrodominio, Operaciones y Costos primero. | No está pendiente decidir ese agrupamiento. PostgreSQL propio de Operaciones está documentado en las fuentes enlazadas en Sesión 2 §1. Faltan detalles de interfaces/identidad y materialización de los demás requisitos tecnológicos/Micro Frontends; no reabrir el motor del corte como si toda persistencia estuviera sin definir. |
 
 No se resolvieron estas decisiones mediante cambios de contrato, código o arquitectura. Tampoco se asignan responsables técnicos por inferencia.
 
 ## 11. Pendientes del equipo y estado de preparación
 
-1. Confirmar objetivo, período e historias comprometidas, con fuente de la decisión.
+1. Vincular el objetivo y alcance del MVP 2 definidos en Sesión 2 al período y capacidad confirmados; no atribuirlos retrospectivamente al sprint en ejecución.
 2. Registrar orden, responsables, dependencias y estados actuales; resolver la identificación de HU-05.
 3. Incorporar a las historias seleccionadas la lectura funcional corregida de la sección 4, confirmar la DoD aplicable y resolver las decisiones técnicas que las bloqueen.
 4. Completar el acuerdo WIP y registrar su aplicación real.
 5. Registrar sincronizaciones reales y enlazar las evidencias externas existentes, si las hay.
 6. Vincular cambios actuales con PR, revisión y validaciones verificables.
 7. Registrar aceptación de historias y calcular throughput solo cuando se confirme el período y sus resultados.
-8. Llevar los insumos ORQ/INT a sesión 2 para refinamiento y posterior estimación.
+8. Conservar el consenso de SP y alcance de Sesión 2. Resolver detalles de D-01 y DoD antes de implementación/aceptación, conservar la disponibilidad normal reportada por ambos, definir el período de ejecución cuando corresponda y conservar la evidencia de Planning Poker ya registrada en Sesión 2 §7. El primer compromiso estimado será línea base para medir velocidad observada tras ejecutar el sprint. D-03/D-04 siguen posteriores. No trasladar estimaciones a métricas de aceptación.
 
 Estado: **estructura preparada; compromiso del sprint PENDIENTE DE CONFIRMACIÓN y ejecución SIN EVIDENCIA REGISTRADA en este registro**. Los hallazgos de auditoría permanecen abiertos cuando dependen de acuerdos o evidencia real. Completar documentación no equivale a cumplir retrospectivamente la actividad.
 
@@ -258,7 +264,10 @@ Estado: **estructura preparada; compromiso del sprint PENDIENTE DE CONFIRMACIÓN
 |---|---|
 | Lectura de antecedentes frente a PDR v1.9 | DOCUMENTADO CON EVIDENCIA: reglas corregidas, roles, fuentes y dependencias en este documento. No significa que los contratos o el producto hayan cambiado. |
 | Identificación de candidatas | DOCUMENTADO CON EVIDENCIA: matriz de fuentes; no selección automática ni prioridades nuevas. |
-| Objetivo, período, compromiso, responsables, prioridad y WIP | PENDIENTE DE CONFIRMACIÓN por el equipo. |
+| Planificación arquitectónica de Sesión 2 | DOCUMENTADO CON EVIDENCIA: ADR-004, clasificación interna/remota/transitoria y ownership funcional; interfaces concretas y acuerdos del corte pendientes. |
+| Objetivo, prioridad y alcance MVP 2 | DOCUMENTADO: Sesión 2 define el corte y registra consenso de 49 SP MUST y 8 SP SHOULD; no acredita ejecución. |
+| Disponibilidad para la planificación MVP 2 | DOCUMENTADO: Maria Fernanda Robayo y Jhon Sebastian Molina, disponibilidad normal; sesión del sábado 26 de septiembre de 2026. Capacidad solo cualitativa. |
+| Período de ejecución, responsables y WIP | PENDIENTE DE CONFIRMACIÓN por el equipo; no se inventa capacidad numérica. |
 | Daily, PR/revisión, validación y aceptación | PREPARADO — PENDIENTE DE EJECUCIÓN/EVIDENCIA. |
 | Throughput | PREPARADO — PENDIENTE DE EJECUCIÓN/EVIDENCIA: se calculará a partir de aceptaciones verificadas en un período confirmado. No es un valor que se elija por acuerdo. |
 | Decisiones técnicas | BLOQUEO / DEPENDENCIA según el registro anterior, únicamente para las historias afectadas. |
