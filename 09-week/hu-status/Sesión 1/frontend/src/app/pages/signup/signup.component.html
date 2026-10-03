@@ -1,0 +1,109 @@
+<a class="skip-link" href="#contenido">Saltar al contenido principal</a>
+
+<main id="contenido" class="travel-login-shell journey-auth journey-signup">
+  <header class="travel-login-header travel-login-header-centered">
+    <a class="travel-login-brand" routerLink="/"><svg class="journey-mark" viewBox="0 0 32 32" fill="none" aria-hidden="true" focusable="false"><path d="M3 25 13 7l6 10 4-6 7 14H3Z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><path d="m9 14 4 3 4-3" stroke="currentColor" stroke-width="2"/></svg><span>Multi Tour</span></a>
+  <span class="journey-header-note">Plataforma para empresas de turismo</span></header>
+<aside class="journey-story journey-story--photo"><div class="journey-story-copy"><p class="journey-eyebrow">Cuenta de viajero</p><h2>Hay mucho por descubrir.</h2><p>Crea tu cuenta para consultar la oferta y reservar tours, hospedaje y experiencias.</p>
+  <ul class="journey-story-points">
+    <li><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><circle cx="10" cy="10" r="8"/><path d="m6.5 10 2.5 2.5 4.5-5"/></svg><span>Catálogo, reservas y pagos en un solo panel</span></li>
+    <li><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><circle cx="10" cy="10" r="8"/><path d="m6.5 10 2.5 2.5 4.5-5"/></svg><span>Consulta tours, hospedaje y gastronomía sin llamadas ni formularios en papel</span></li>
+    <li><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><circle cx="10" cy="10" r="8"/><path d="m6.5 10 2.5 2.5 4.5-5"/></svg><span>Trazabilidad clara en cada reserva</span></li>
+  </ul>
+</div></aside>
+
+  <section class="travel-login-stage">
+    <div class="travel-login-card travel-signup-card">
+      <div class="travel-login-copy travel-signup-copy">
+        <p class="journey-form-kicker">Registro de cliente</p><h1>Crear cuenta de viajero</h1>
+        <p>Este registro es para viajeros. Si perteneces al equipo de un operador, tu acceso lo entrega el administrador de tu empresa.</p>
+      </div>
+
+      <form class="travel-login-form travel-signup-form" (submit)="onSubmit($event)" novalidate>
+        <div class="travel-signup-name-group">
+          <div class="travel-login-field" [class.is-error]="invalidField() === 'first_name'">
+            <label for="signup-first-name">Nombre</label>
+            <input id="signup-first-name" name="first_name" type="text" autocomplete="given-name" placeholder="Ej. Juan" [attr.aria-invalid]="invalidField() === 'first_name'" [attr.aria-describedby]="invalidField() === 'first_name' ? 'signup-first-name-error' : null" (input)="clearFieldError('first_name')" />
+            @if (invalidField() === 'first_name') { <small id="signup-first-name-error" class="travel-field-error">{{ feedback() }}</small> }
+          </div>
+
+          <div class="travel-login-field" [class.is-error]="invalidField() === 'last_name'">
+            <label for="signup-last-name">Apellido</label>
+            <input id="signup-last-name" name="last_name" type="text" autocomplete="family-name" placeholder="Ej. Perez" [attr.aria-invalid]="invalidField() === 'last_name'" [attr.aria-describedby]="invalidField() === 'last_name' ? 'signup-last-name-error' : null" (input)="clearFieldError('last_name')" />
+            @if (invalidField() === 'last_name') { <small id="signup-last-name-error" class="travel-field-error">{{ feedback() }}</small> }
+          </div>
+        </div>
+
+        <div class="travel-login-field" [class.is-error]="invalidField() === 'email'">
+          <label for="signup-email">Correo electrónico</label>
+          <input id="signup-email" name="email" type="email" autocomplete="email" placeholder="correo@ejemplo.com" [attr.aria-invalid]="invalidField() === 'email'" [attr.aria-describedby]="invalidField() === 'email' ? 'signup-email-error' : null" (input)="clearFieldError('email')" />
+          @if (invalidField() === 'email') { <small id="signup-email-error" class="travel-field-error">{{ feedback() }}</small> }
+        </div>
+
+        <div class="travel-login-field">
+          <label for="signup-phone">Número de teléfono <span class="travel-field-optional">(Opcional)</span></label>
+          <input id="signup-phone" name="phone" type="tel" autocomplete="tel" placeholder="300 000 0000" />
+        </div>
+
+        <div class="travel-login-field" [class.is-error]="invalidField() === 'password'">
+          <label for="signup-password">Contraseña</label>
+          <div class="travel-login-password-wrap">
+            <input
+              id="signup-password"
+              name="password"
+              [type]="passwordVisible() ? 'text' : 'password'"
+              autocomplete="new-password"
+              placeholder="Tu contraseña"
+              [attr.aria-invalid]="invalidField() === 'password'"
+              [attr.aria-describedby]="invalidField() === 'password' ? 'signup-password-error' : null"
+              (input)="clearFieldError('password')"
+            />
+            <button aria-label="Ver u ocultar contraseña" class="travel-login-visibility" type="button" (click)="togglePasswordVisibility()">{{ passwordVisible() ? 'Ocultar' : 'Ver' }}</button>
+          </div>
+          @if (invalidField() === 'password') { <small id="signup-password-error" class="travel-field-error">{{ feedback() }}</small> }
+        </div>
+
+        <div class="travel-login-field" [class.is-error]="invalidField() === 'confirm_password'">
+          <label for="signup-confirm">Confirmar contraseña</label>
+          <div class="travel-login-password-wrap">
+            <input
+              id="signup-confirm"
+              name="confirm_password"
+              [type]="confirmVisible() ? 'text' : 'password'"
+              autocomplete="new-password"
+              placeholder="Tu contraseña"
+              [attr.aria-invalid]="invalidField() === 'confirm_password'"
+              [attr.aria-describedby]="invalidField() === 'confirm_password' ? 'signup-confirm-error' : null"
+              (input)="clearFieldError('confirm_password')"
+            />
+            <button aria-label="Ver u ocultar contraseña" class="travel-login-visibility" type="button" (click)="toggleConfirmVisibility()">{{ confirmVisible() ? 'Ocultar' : 'Ver' }}</button>
+          </div>
+          @if (invalidField() === 'confirm_password') { <small id="signup-confirm-error" class="travel-field-error">{{ feedback() }}</small> }
+        </div>
+
+        <div class="password-policy" aria-label="Requisitos de la contraseña">
+          <p>La contraseña debe contener:</p>
+          <ul>
+            <li>Mínimo 8 caracteres</li>
+            <li>Al menos una letra mayúscula</li>
+            <li>Al menos una letra minúscula</li>
+            <li>Al menos un número</li>
+            <li>Al menos un carácter especial</li>
+          </ul>
+        </div>
+
+        <p class="feedback" [class.is-error]="feedbackIsError()" aria-live="polite" aria-atomic="true">{{ feedback() }}</p>
+
+        <button class="travel-login-submit" type="submit" [disabled]="submitting()">
+          <span>{{ submitting() ? 'Creando cuenta...' : 'Registrarse' }}</span>
+        </button>
+      </form>
+
+      <div class="travel-login-divider"></div>
+
+      <p class="travel-login-footer-note">
+        ¿Ya tienes una cuenta? <a routerLink="/login">Inicia sesión</a>
+      </p>
+    </div>
+  </section>
+</main>

@@ -1,0 +1,4 @@
+#!/bin/sh
+set -eu
+SCRIPT_DIR="$(git rev-parse --show-toplevel)/09-week/hu-status/Sesión 1/scripts/scan-secrets.ps1"
+powershell.exe -NoProfile -ExecutionPolicy Bypass -File "$SCRIPT_DIR" -Staged
