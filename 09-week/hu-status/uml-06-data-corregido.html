@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Blueprint UML — Multitour 06-data (corregido)</title>
+<style>
+  body { font-family: -apple-system, Segoe UI, Arial, sans-serif; color:#1a1a1a; max-width: 980px; margin: 0 auto; padding: 24px 32px 60px; line-height:1.45; }
+  h1 { font-size: 26px; margin-bottom: 2px; }
+  .subtitle { color:#555; font-size:15px; margin-top:0; margin-bottom:18px; }
+  .meta { background:#f3f5f7; border:1px solid #d7dde3; border-radius:6px; padding:14px 18px; font-size:13px; margin-bottom:20px; }
+  .meta b { color:#111; }
+  .fixbox { background:#fff4e5; border:1px solid #e0a53c; border-radius:6px; padding:14px 18px; font-size:13.5px; margin-bottom:24px; }
+  .fixbox h3 { margin-top:0; font-size:15px; }
+  .fixbox li { margin-bottom:6px; }
+  .toc { columns:2; column-gap:32px; font-size:13.5px; margin-bottom:28px; }
+  h2 { font-size:19px; border-bottom:2px solid #1b3a5c; padding-bottom:4px; margin-top:34px; }
+  h3 { font-size:16px; color:#1b3a5c; margin-top:22px; }
+  table { border-collapse: collapse; width:100%; font-size:12.5px; margin:10px 0 18px; }
+  th { background:#1b3a5c; color:#fff; text-align:left; padding:6px 8px; }
+  td { border:1px solid #dfe3e7; padding:6px 8px; vertical-align:top; }
+  tr:nth-child(even) td { background:#f7f9fa; }
+  .ok { color:#1a7a33; font-weight:600; }
+  .prop { color:#b06a00; font-weight:600; }
+  .nodef { color:#b0221f; font-weight:600; }
+  .note { font-size:12px; color:#555; font-style:italic; }
+  .banner { background:#e9f7ec; border:2px solid #1a7a33; color:#1a7a33; text-align:center; font-weight:700; padding:14px; border-radius:6px; margin-top:24px; }
+  .fixed-tag { background:#1b3a5c; color:#fff; font-size:10.5px; padding:1px 6px; border-radius:3px; margin-left:6px; vertical-align:middle; }
+  code { background:#eef1f3; padding:1px 4px; border-radius:3px; font-size:12px; }
+</style>
+</head>
+<body>
+
+<h1>Blueprint UML — Multitour / 06-data</h1>
+<p class="subtitle">Plano de construcción de los diagramas UML de datos, previo a Draw.io — <b>versión corregida</b></p>
+
+<div class="meta">
+<b>Proyecto:</b> Multitour (Sistemas Distribuidos 2026-B) &nbsp;|&nbsp; <b>Carpeta fuente:</b> <code>06-data/</code> (models.md, modeling-conventions.md, data-dictionary.md, normalization-assessment.md, migration-strategy.md, README.md) &nbsp;|&nbsp; <b>Rama:</b> <code>docs/06-data-align-course-norm</code> (sin commit) &nbsp;|&nbsp; <b>Estado documental previo:</b> VALIDADO — 06-data es suficiente para iniciar el UML &nbsp;|&nbsp; <b>Fase de esta entrega:</b> Diseño / blueprint — NO se generaron .drawio, PlantUML, Mermaid ni SQL.
+</div>
+
+<div class="fixbox">
+<h3>Correcciones aplicadas en esta versión (auditoría contra <code>06-data/</code> y <code>02-domain/</code>)</h3>
+<ul>
+<li><b>§F / nota bajo U5:</b> el conteo de referencias <code>tenantId → tenants</code> decía "22"; la tabla real de <code>modeling-conventions.md:464-494</code> tiene <b>23</b> filas (15 commercial-reservation + 4 operations-cost + 4 cash-reporting — la propia suma de U5-R9/R10/R11 ya daba 23). Corregido en §F y en la nota de U5.</li>
+<li><b>U3-R7</b> (<code>salida_vehicle_assignments ↔ vehicles</code>): estaba tipada como <i>"FK física (asociativa)"</i> pese a que <code>modeling-conventions.md:496-504</code> la deja explícitamente en una categoría separada ("undecided owner"), ni FK física ni cross-domain confirmada, porque el dominio de <code>vehicles</code> no está decidido. Corregido: Tipo pasa a <b>NO DEFINIDO</b>.</li>
+<li><b>UML-01:</b> faltaba la relación <code>tenants.firstAdministratorMembershipId → memberships</code>, documentada en <code>models.md:71</code> pero ausente tanto del mapa de relaciones de <code>modeling-conventions.md</code> como de la tabla de relaciones de este blueprint. Añadida como <b>U1-R4</b>.</li>
+<li><b>UML-03 / caso N (Vehicle):</b> el blueprint solo mencionaba el dominio propietario NO DEFINIDO de <code>vehicles</code>; <code>models.md:1046-1050</code> también deja NO DEFINIDO su identificación visible (placa/nombre) y si aplica el ciclo de vida RF-004. Añadida esa nota.</li>
+</ul>
+</div>
+
+<div class="toc">
+<b>Contenido</b><br>
+A. Tipo de UML<br>
+B–C. Cantidad e inventario de diagramas<br>
+D. Entidades por diagrama<br>
+E. Relaciones exactas por diagrama<br>
+F–G. Cardinalidades y entidades externas<br>
+H–I. Convenciones FK física / referencia lógica<br>
+J–K. Convención multitenant y estados<br>
+L–S. Casos especiales (Salida, Capacity, Vehicle, Identity, *By, AuditRecord, Reporting, Outbox)<br>
+T. Elementos históricos excluidos<br>
+U–V. Layout y leyenda<br>
+W. Checklist de construcción<br>
+Cierre y veredicto
+</div>
+
+<h2>A. Tipo de UML que se construirá</h2>
+<p><b>UML 2.x Class Diagram</b> usado como <i>Logical Data Model</i> ("Domain-oriented UML Class Diagram"). No es ERD, no es esquema físico SQL, no es C4. Mismo estándar en los 6 diagramas — UML-00 usa la misma notación a granularidad de paquete/dominio, con menos atributos.</p>
+
+<h2>B. Cantidad final recomendada</h2>
+<p><b>6 diagramas.</b> Se confirma la hipótesis UML-00…UML-04 y se incluye UML-05 como necesario (vista de contrato cross-domain, no redundante con UML-00). No se fragmenta <code>commercial-reservation</code> en dos diagramas pese a tener 17 entidades — se organiza en 2 zonas visuales dentro de un mismo diagrama (UML-02).</p>
+
+<h2>C. Inventario de diagramas</h2>
+<table>
+<tr><th>ID</th><th>Nombre</th><th>Objetivo</th><th>Dominio(s)</th><th>Nivel</th></tr>
+<tr><td>UML-00</td><td>Vista global de dominios</td><td>Mapa de bounded contexts, dependencias cross-domain agregadas, aislamiento multitenant</td><td>Los 4 dominios</td><td>Paquete/dominio, sin atributos</td></tr>
+<tr><td>UML-01</td><td>Plataforma, identidad y auditoría</td><td>Modelo interno de identity-audit</td><td>identity-audit</td><td>Dominio, atributos completos</td></tr>
+<tr><td>UML-02</td><td>Comercial y reservas</td><td>Modelo interno de commercial-reservation</td><td>commercial-reservation</td><td>Dominio, atributos completos, 2 zonas visuales</td></tr>
+<tr><td>UML-03</td><td>Operación y costos</td><td>Modelo interno de operations-cost</td><td>operations-cost</td><td>Dominio, atributos completos</td></tr>
+<tr><td>UML-04</td><td>Caja y reportes</td><td>Modelo interno de cash-reporting</td><td>cash-reporting</td><td>Dominio, atributos completos</td></tr>
+<tr><td>UML-05</td><td>Integraciones cross-domain</td><td>Detalle de cada referencia lógica entre dominios</td><td>Los 4 (vista de contrato)</td><td>Entidad simplificada «external reference»</td></tr>
+</table>
+
+<h2>D. Entidades por diagrama</h2>
+<p class="note">Regla de atributos: en UML-01–UML-04 se reproducen los campos ya curados en models.md, quitando solo los marcados HISTÓRICO. En UML-00 solo nombre + PK + estereotipo. En UML-05 solo el campo de la relación.</p>
+
+<h3>UML-01 — identity-audit</h3>
+<table>
+<tr><th>Entidad</th><th>Estado</th><th>Papel</th><th>Mostrar</th></tr>
+<tr><td>tenants</td><td class="ok">CONFIRMADO</td><td>Raíz de aislamiento</td><td>Completa</td></tr>
+<tr><td>memberships</td><td class="ok">CONFIRMADO</td><td>Acceso/rol</td><td>Completa</td></tr>
+<tr><td>identity</td><td class="prop">PROPUESTO</td><td>Placeholder del modelo pendiente</td><td>Completa, con estereotipo</td></tr>
+<tr><td>audit_records</td><td class="ok">CONFIRMADO (estructura)</td><td>Evidencia append-only</td><td>Completa, sin líneas de asociación</td></tr>
+</table>
+
+<h3>UML-02 — commercial-reservation</h3>
+<table>
+<tr><th>Entidad</th><th>Estado</th><th>Papel</th><th>Mostrar</th></tr>
+<tr><td>customers</td><td class="ok">CONFIRMADO</td><td>Maestro</td><td>Completa</td></tr>
+<tr><td>catalog_services</td><td class="ok">CONFIRMADO (2 campos HISTÓRICO excluidos)</td><td>Catálogo</td><td>Completa</td></tr>
+<tr><td>associated_establishments</td><td class="ok">CONFIRMADO</td><td>Catálogo promocional</td><td>Completa</td></tr>
+<tr><td>payment_conditions</td><td class="ok">CONFIRMADO</td><td>Reglas comerciales</td><td>Completa</td></tr>
+<tr><td>discount_rules</td><td class="ok">CONFIRMADO</td><td>Reglas comerciales</td><td>Completa</td></tr>
+<tr><td>reservations</td><td class="ok">CONFIRMADO</td><td>Núcleo reserva</td><td>Completa</td></tr>
+<tr><td>reservation_companions</td><td class="ok">CONFIRMADO</td><td>Hijo reserva</td><td>Completa</td></tr>
+<tr><td>reserved_services</td><td class="ok">CONFIRMADO</td><td>Hijo reserva</td><td>Completa</td></tr>
+<tr><td>payment_attempts</td><td class="ok">CONFIRMADO</td><td>Hijo reserva</td><td>Completa</td></tr>
+<tr><td>payment_followups</td><td class="ok">CONFIRMADO</td><td>Hijo reserva</td><td>Completa</td></tr>
+<tr><td>payment_deadlines</td><td class="prop">PROPUESTO (agrupación) / CONFIRMADO (hecho)</td><td>Hijo reserva</td><td>Completa, estereotipo</td></tr>
+<tr><td>credit_balances</td><td class="ok">CONFIRMADO</td><td>Financiero</td><td>Completa</td></tr>
+<tr><td>credit_balance_applications</td><td class="ok">CONFIRMADO</td><td>Financiero</td><td>Completa</td></tr>
+<tr><td>financial_decisions</td><td class="prop">PROPUESTO (agrupación) / CONFIRMADO (hecho)</td><td>Financiero</td><td>Completa, estereotipo</td></tr>
+<tr><td>refund_authorizations</td><td class="ok">CONFIRMADO</td><td>Financiero</td><td>Completa</td></tr>
+<tr><td>rescheduling_records</td><td class="ok">CONFIRMADO</td><td>Operativo/comercial</td><td>Completa</td></tr>
+<tr><td>capacity_allocations</td><td class="ok">CONFIRMADO (1 campo HISTÓRICO excluido)</td><td>Capacidad</td><td>Completa</td></tr>
+<tr><td>salidas <i>(externa, operations-cost)</i></td><td class="ok">CONFIRMADO</td><td>Referenciada</td><td>«external reference» simplificada</td></tr>
+</table>
+<p class="note">Zonificación interna: Zona 1 = Catálogo y reglas comerciales (Operational Catalog + Discounts and Commercial Rules); Zona 2 = Ciclo de vida de la reserva (Customers + Reservations) — agrupamiento consistente con los 4 bounded contexts de <code>domain-map.md</code> dentro de este macrodominio.</p>
+
+<h3>UML-03 — operations-cost</h3>
+<table>
+<tr><th>Entidad</th><th>Estado</th><th>Papel</th><th>Mostrar</th></tr>
+<tr><td>salidas</td><td class="ok">CONFIRMADO</td><td>Núcleo operativo</td><td>Completa</td></tr>
+<tr><td>operational_executions</td><td class="ok">CONFIRMADO</td><td>Ejecución</td><td>Completa</td></tr>
+<tr><td>executed_services</td><td class="ok">CONFIRMADO</td><td>Ejecución</td><td>Completa</td></tr>
+<tr><td>non_executed_services</td><td class="ok">CONFIRMADO</td><td>Ejecución</td><td>Completa</td></tr>
+<tr><td>execution_incidents</td><td class="ok">CONFIRMADO (estructura) / <span class="nodef">NO DEFINIDO</span> (actor/timestamp)</td><td>Ejecución</td><td>Completa</td></tr>
+<tr><td>operational_costs</td><td class="ok">CONFIRMADO</td><td>Costos</td><td>Completa</td></tr>
+<tr><td>cost_lines</td><td class="ok">CONFIRMADO</td><td>Costos</td><td>Completa</td></tr>
+<tr><td>salida_vehicle_assignments</td><td class="ok">CONFIRMADO (hecho N:M)</td><td>Asociativa</td><td>Completa</td></tr>
+<tr><td>vehicles</td><td class="nodef">NO DEFINIDO (dominio propietario)</td><td>Recurso</td><td>Completa, estereotipo, zona neutral</td></tr>
+<tr><td>catalog_services <i>(externa)</i></td><td class="ok">CONFIRMADO</td><td>Referenciada</td><td>«external reference»</td></tr>
+<tr><td>reservations <i>(externa)</i></td><td class="ok">CONFIRMADO</td><td>Referenciada</td><td>«external reference»</td></tr>
+</table>
+
+<h3>UML-04 — cash-reporting</h3>
+<table>
+<tr><th>Entidad</th><th>Estado</th><th>Papel</th><th>Mostrar</th></tr>
+<tr><td>cash_sessions</td><td class="ok">CONFIRMADO</td><td>Núcleo caja</td><td>Completa</td></tr>
+<tr><td>cash_session_reopenings</td><td class="prop">PROPUESTO (registro separado) / CONFIRMADO (hecho)</td><td>Caja</td><td>Completa</td></tr>
+<tr><td>cash_movements</td><td class="ok">CONFIRMADO</td><td>Caja</td><td>Completa</td></tr>
+<tr><td>refund_movements</td><td class="ok">CONFIRMADO</td><td>Caja</td><td>Completa</td></tr>
+<tr><td>reporting_views</td><td class="ok">CONFIRMADO</td><td>Proyección</td><td>Completa, «projection»</td></tr>
+<tr><td>daily_dashboard_projections</td><td class="ok">CONFIRMADO</td><td>Proyección</td><td>Completa, «projection»</td></tr>
+<tr><td>monthly_administrative_reports</td><td class="ok">CONFIRMADO</td><td>Proyección</td><td>Completa, «projection»</td></tr>
+<tr><td>refund_authorizations <i>(externa)</i></td><td class="ok">CONFIRMADO</td><td>Referenciada</td><td>«external reference»</td></tr>
+<tr><td>reservations <i>(externa)</i></td><td class="ok">CONFIRMADO</td><td>Referenciada</td><td>«external reference»</td></tr>
+</table>
+
+<h3>UML-05 — Integraciones cross-domain</h3>
+<p>Entidades simplificadas de los 4 dominios: <code>reservations</code>, <code>capacity_allocations</code>, <code>catalog_services</code>, <code>refund_authorizations</code> (commercial-reservation) · <code>salidas</code>, <code>operational_executions</code>, <code>executed_services</code>, <code>non_executed_services</code> (operations-cost) · <code>refund_movements</code> (cash-reporting) · <code>tenants</code> (identity-audit, nodo agregador) · <code>vehicles</code> (NO DEFINIDO, zona neutral).</p>
+
+<h2>E. Relaciones exactas por diagrama</h2>
+
+<h3>UML-01</h3>
+<table>
+<tr><th>ID</th><th>Origen</th><th>Destino</th><th>Cardinalidad</th><th>Tipo</th><th>Estado</th><th>Dibujar</th></tr>
+<tr><td>U1-R1</td><td>tenants</td><td>memberships</td><td>1 : 0..N</td><td>Asociación</td><td class="ok">CONFIRMADO (condicional)</td><td>Sí</td></tr>
+<tr><td>U1-R2</td><td>memberships</td><td>identity</td><td>NO DEFINIDO</td><td>Asociación</td><td class="prop">PROPUESTO / <span class="nodef">NO DEFINIDO</span></td><td>Sí, con {NO DEFINIDO}</td></tr>
+<tr><td>U1-R3</td><td>audit_records</td><td>—</td><td>—</td><td>—</td><td class="nodef">NO DEFINIDO</td><td>No — solo nota</td></tr>
+<tr style="background:#fff4e5;"><td>U1-R4 <span class="fixed-tag">añadida</span></td><td>tenants</td><td>memberships <i>(firstAdministratorMembershipId)</i></td><td>1 : 1</td><td>Asociación</td><td class="ok">CONFIRMADO</td><td>Sí — referencia al membership del primer Administrador (<code>models.md:71</code>)</td></tr>
+</table>
+
+<h3>UML-02</h3>
+<table>
+<tr><th>ID</th><th>Origen</th><th>Destino</th><th>Cardinalidad</th><th>Tipo</th><th>Estado</th><th>Dibujar</th></tr>
+<tr><td>U2-R1</td><td>reservations</td><td>customers</td><td>N : 1</td><td>FK física</td><td class="ok">CONFIRMADO</td><td>Sí</td></tr>
+<tr><td>U2-R2</td><td>reservations</td><td>reservation_companions</td><td>1 : 0..N</td><td>FK física</td><td class="ok">CONFIRMADO</td><td>Sí</td></tr>
+<tr><td>U2-R3</td><td>reservations</td><td>reserved_services</td><td>1 : 1..N</td><td>FK física</td><td class="ok">CONFIRMADO</td><td>Sí</td></tr>
+<tr><td>U2-R4</td><td>reserved_services</td><td>catalog_services</td><td>N : 1</td><td>FK física</td><td class="ok">CONFIRMADO</td><td>Sí</td></tr>
+<tr><td>U2-R5</td><td>reservations</td><td>payment_attempts</td><td>1 : 0..N</td><td>FK física</td><td class="ok">CONFIRMADO</td><td>Sí</td></tr>
+<tr><td>U2-R6</td><td>reservations</td><td>payment_followups</td><td>1 : 0..N</td><td>FK física</td><td class="ok">CONFIRMADO</td><td>Sí</td></tr>
+<tr><td>U2-R7</td><td>reservations</td><td>payment_deadlines</td><td>1 : 0..N</td><td>FK física</td><td class="prop">PROPUESTO (agrupación)</td><td>Sí</td></tr>
+<tr><td>U2-R8</td><td>reservations</td><td>credit_balances</td><td>1 : 0..N</td><td>FK física</td><td class="ok">CONFIRMADO</td><td>Sí</td></tr>
+<tr><td>U2-R9</td><td>credit_balances</td><td>credit_balance_applications</td><td>1 : 0..N</td><td>FK física</td><td class="ok">CONFIRMADO</td><td>Sí</td></tr>
+<tr><td>U2-R10</td><td>credit_balance_applications</td><td>reservations (target)</td><td>N : 1</td><td>FK física</td><td class="ok">CONFIRMADO</td><td>Sí</td></tr>
+<tr><td>U2-R11</td><td>reservations</td><td>financial_decisions</td><td>1 : 0..N</td><td>FK física</td><td class="prop">PROPUESTO (agrupación)</td><td>Sí</td></tr>
+<tr><td>U2-R12</td><td>financial_decisions</td><td>credit_balances</td><td>0..1 : 1</td><td>FK física</td><td class="ok">CONFIRMADO (condicional)</td><td>Sí</td></tr>
+<tr><td>U2-R13</td><td>reservations</td><td>refund_authorizations</td><td>1 : 0..N</td><td>FK física</td><td class="ok">CONFIRMADO</td><td>Sí</td></tr>
+<tr><td>U2-R14</td><td>refund_authorizations</td><td>financial_decisions</td><td>0..1 : 1</td><td>FK física</td><td class="ok">CONFIRMADO (condicional)</td><td>Sí</td></tr>
+<tr><td>U2-R15</td><td>reservations</td><td>rescheduling_records (original)</td><td>1 : 0..N</td><td>FK física</td><td class="ok">CONFIRMADO</td><td>Sí</td></tr>
+<tr><td>U2-R16</td><td>rescheduling_records</td><td>reservations (linked)</td><td>0..1 : 1</td><td>FK física</td><td class="ok">CONFIRMADO (condicional)</td><td>Sí</td></tr>
+<tr><td>U2-R17</td><td>reservations</td><td>capacity_allocations</td><td>1 : 0..N</td><td>FK física</td><td class="ok">CONFIRMADO</td><td>Sí</td></tr>
+<tr><td>U2-R18</td><td>payment_conditions</td><td>catalog_services</td><td>0..1 : 1</td><td>FK física</td><td class="ok">CONFIRMADO (condicional)</td><td>Sí</td></tr>
+<tr><td>U2-R19</td><td>reservations</td><td>salidas (external)</td><td>N : 1</td><td>Cross-domain reference</td><td class="ok">CONFIRMADO normal</td><td>Sí + nota {NO DEFINIDO en reprogramación}</td></tr>
+<tr><td>U2-R20</td><td>capacity_allocations</td><td>salidas (external)</td><td>N : 1</td><td>Cross-domain reference</td><td class="ok">CONFIRMADO (hecho)</td><td>Sí + nota {ownership ND-03 NO DEFINIDO}</td></tr>
+</table>
+<p class="note">discount_rules y associated_establishments: sin relaciones documentadas, solo {tenant-scoped}.</p>
+
+<h3>UML-03</h3>
+<table>
+<tr><th>ID</th><th>Origen</th><th>Destino</th><th>Cardinalidad</th><th>Tipo</th><th>Estado</th><th>Dibujar</th></tr>
+<tr><td>U3-R1</td><td>salidas</td><td>operational_executions</td><td>1 : 0..N</td><td>FK física</td><td class="ok">CONFIRMADO</td><td>Sí</td></tr>
+<tr><td>U3-R2</td><td>operational_executions</td><td>executed_services</td><td>1 : 0..N</td><td>FK física</td><td class="ok">CONFIRMADO</td><td>Sí</td></tr>
+<tr><td>U3-R3</td><td>operational_executions</td><td>non_executed_services</td><td>1 : 0..N</td><td>FK física</td><td class="ok">CONFIRMADO</td><td>Sí</td></tr>
+<tr><td>U3-R4</td><td>operational_executions</td><td>execution_incidents</td><td>1 : 0..N</td><td>FK física</td><td class="ok">CONFIRMADO</td><td>Sí</td></tr>
+<tr><td>U3-R5</td><td>operational_executions</td><td>operational_costs</td><td>1 : 0..1</td><td>FK física</td><td class="ok">CONFIRMADO (condicional)</td><td>Sí</td></tr>
+<tr><td>U3-R6</td><td>operational_costs</td><td>cost_lines</td><td>1 : 1..N</td><td>FK física</td><td class="ok">CONFIRMADO</td><td>Sí</td></tr>
+<tr style="background:#fff4e5;"><td>U3-R7 <span class="fixed-tag">corregida</span></td><td>salidas ↔ vehicles</td><td>vía salida_vehicle_assignments</td><td>N : M</td><td class="nodef">NO DEFINIDO (tipo de línea)</td><td class="ok">CONFIRMADO hecho N:M</td><td>Sí, clase asociativa explícita — línea marcada NO DEFINIDO (no FK física ni cross-domain confirmada) hasta resolver el dominio de <code>vehicles</code>, ver <code>modeling-conventions.md:496-504</code></td></tr>
+<tr><td>U3-R8</td><td>salidas</td><td>catalog_services (external)</td><td>N : 1</td><td>Cross-domain reference</td><td class="ok">CONFIRMADO</td><td>Sí</td></tr>
+<tr><td>U3-R9</td><td>executed_services</td><td>catalog_services (external)</td><td>N : 1</td><td>Cross-domain reference</td><td class="ok">CONFIRMADO</td><td>Sí</td></tr>
+<tr><td>U3-R10</td><td>non_executed_services</td><td>catalog_services (external)</td><td>N : 1</td><td>Cross-domain reference</td><td class="ok">CONFIRMADO</td><td>Sí</td></tr>
+<tr><td>U3-R11</td><td>operational_executions</td><td>reservations (external)</td><td>N : 1</td><td>Cross-domain reference</td><td class="ok">CONFIRMADO</td><td>Sí</td></tr>
+</table>
+
+<h3>UML-04</h3>
+<table>
+<tr><th>ID</th><th>Origen</th><th>Destino</th><th>Cardinalidad</th><th>Tipo</th><th>Estado</th><th>Dibujar</th></tr>
+<tr><td>U4-R1</td><td>cash_sessions</td><td>cash_session_reopenings</td><td>1 : 0..N</td><td>FK física</td><td class="ok">CONFIRMADO</td><td>Sí</td></tr>
+<tr><td>U4-R2</td><td>cash_sessions</td><td>cash_movements</td><td>1 : 0..N</td><td>FK física</td><td class="ok">CONFIRMADO</td><td>Sí</td></tr>
+<tr><td>U4-R3</td><td>cash_sessions</td><td>refund_movements</td><td>1 : 0..N</td><td>FK física</td><td class="ok">CONFIRMADO</td><td>Sí</td></tr>
+<tr><td>U4-R4</td><td>refund_movements</td><td>cash_movements</td><td>1 : 1</td><td>FK física</td><td class="ok">CONFIRMADO</td><td>Sí</td></tr>
+<tr><td>U4-R5</td><td>refund_movements</td><td>refund_authorizations (external)</td><td>N : 1</td><td>Cross-domain reference</td><td class="ok">CONFIRMADO</td><td>Sí</td></tr>
+<tr><td>U4-R6</td><td>refund_movements</td><td>reservations (external)</td><td>N : 1</td><td>Cross-domain reference</td><td class="ok">CONFIRMADO</td><td>Sí</td></tr>
+<tr><td>U4-R7</td><td>cash_movements</td><td>pago/reserva de origen</td><td>—</td><td>Pendiente/no definida</td><td class="nodef">NO DEFINIDO</td><td>No — solo nota</td></tr>
+</table>
+<p class="note">Proyecciones (reporting_views, daily_dashboard_projections, monthly_administrative_reports): CONFIRMADO como derivadas, sin líneas de relación (ver §R).</p>
+
+<h3>UML-05</h3>
+<table>
+<tr><th>ID</th><th>Origen</th><th>Destino</th><th>Cardinalidad</th><th>Tipo</th><th>Estado</th><th>Dibujar</th></tr>
+<tr><td>U5-R1</td><td>reservations</td><td>salidas</td><td>N : 1</td><td>Cross-domain reference</td><td class="ok">CONFIRMADO</td><td>Sí</td></tr>
+<tr><td>U5-R2</td><td>capacity_allocations</td><td>salidas</td><td>N : 1</td><td>Cross-domain reference</td><td class="ok">CONFIRMADO (ND-03)</td><td>Sí</td></tr>
+<tr><td>U5-R3</td><td>operational_executions</td><td>reservations</td><td>N : 1</td><td>Cross-domain reference</td><td class="ok">CONFIRMADO</td><td>Sí</td></tr>
+<tr><td>U5-R4</td><td>salidas</td><td>catalog_services</td><td>N : 1</td><td>Cross-domain reference</td><td class="ok">CONFIRMADO</td><td>Sí</td></tr>
+<tr><td>U5-R5</td><td>executed_services</td><td>catalog_services</td><td>N : 1</td><td>Cross-domain reference</td><td class="ok">CONFIRMADO</td><td>Sí</td></tr>
+<tr><td>U5-R6</td><td>non_executed_services</td><td>catalog_services</td><td>N : 1</td><td>Cross-domain reference</td><td class="ok">CONFIRMADO</td><td>Sí</td></tr>
+<tr><td>U5-R7</td><td>refund_movements</td><td>refund_authorizations</td><td>N : 1</td><td>Cross-domain reference</td><td class="ok">CONFIRMADO</td><td>Sí</td></tr>
+<tr><td>U5-R8</td><td>refund_movements</td><td>reservations</td><td>N : 1</td><td>Cross-domain reference</td><td class="ok">CONFIRMADO</td><td>Sí</td></tr>
+<tr><td>U5-R9</td><td>commercial-reservation (agregado, 15 tablas)</td><td>tenants</td><td>N : 1 (agregado)</td><td>Cross-domain reference</td><td class="ok">CONFIRMADO</td><td>Sí, 1 flecha agregada</td></tr>
+<tr><td>U5-R10</td><td>operations-cost (agregado, 4 tablas)</td><td>tenants</td><td>N : 1 (agregado)</td><td>Cross-domain reference</td><td class="ok">CONFIRMADO</td><td>Sí, 1 flecha agregada</td></tr>
+<tr><td>U5-R11</td><td>cash-reporting (agregado, 4 tablas)</td><td>tenants</td><td>N : 1 (agregado)</td><td>Cross-domain reference</td><td class="ok">CONFIRMADO</td><td>Sí, 1 flecha agregada</td></tr>
+<tr><td>U5-R12</td><td>vehicles</td><td>tenants</td><td>N : 1</td><td>Cross-domain reference</td><td class="nodef">NO DEFINIDO (dominio de vehicles)</td><td>Sí, suelta</td></tr>
+</table>
+<p class="note"><span class="fixed-tag">corregida</span> Las <b>23</b> referencias tenantId → tenants documentadas en <code>modeling-conventions.md:464-494</code> quedan cubiertas por U5-R9/R10/R11 (15+4+4=23) — no se dibujan una por una. (La nota original decía "22"; la propia tabla de <code>modeling-conventions.md:401</code> tenía ese mismo error de conteo, que este blueprint heredó sin verificar.)</p>
+
+<h2>F. Cardinalidades por diagrama</h2>
+<p>Tomadas literalmente del "Relationship cardinality map" (<code>modeling-conventions.md:354-402</code>) y del "Foreign key reference map" (<code>modeling-conventions.md:404-495</code>). Ninguna cardinalidad fue reconstruida por intuición; donde el mapa dice NO DEFINIDO se mantiene {NO DEFINIDO} visual. <span class="fixed-tag">corregida</span> El total real de referencias tenantId agregadas en U5-R9/R10/R11 es <b>23</b> (15+4+4), no 22 — ver nota corregida bajo la tabla de UML-05 en §E.</p>
+
+<h2>G. Entidades externas repetidas como referencia</h2>
+<table>
+<tr><th>Entidad propietaria</th><th>Aparece como «external reference» en</th></tr>
+<tr><td>salidas (operations-cost)</td><td>UML-02</td></tr>
+<tr><td>catalog_services, reservations (commercial-reservation)</td><td>UML-03</td></tr>
+<tr><td>refund_authorizations, reservations (commercial-reservation)</td><td>UML-04</td></tr>
+</table>
+
+<h2>H. Convención para FK físicas</h2>
+<p>Línea sólida, asociación UML estándar, multiplicidad en ambos extremos, sin diamante. Las referencias internas de identity-audit en MongoDB usan la misma notación sólida (intra-dominio, aplicada por el servicio/validador). <b>Aplica solo cuando ambas tablas pertenecen confirmadamente al mismo dominio</b> — ver corrección de U3-R7.</p>
+
+<h2>I. Convención para referencias lógicas / cross-domain</h2>
+<p>Dependencia UML (línea discontinua, <code>..&gt;</code>) con estereotipo «cross-domain reference». Justificación: Dependency es la relación no estructural correcta cuando el dato vive en otra base y se verifica por contrato (API/evento), nunca por FK propia.</p>
+
+<h2>J. Convención multitenant</h2>
+<p>Tenant se dibuja completo solo en UML-00 y UML-01. En UML-02/03/04 cada entidad tenant-scoped lleva la etiqueta {tenant-scoped} — sin línea individual a Tenant. UML-05 sí dibuja el vínculo, pero agregado por dominio (una flecha por dominio, U5-R9/R10/R11).</p>
+
+<h2>K. Convención CONFIRMADO / PROPUESTO / NO DEFINIDO</h2>
+<p>Ausencia de etiqueta = CONFIRMADO. «PROPUESTO» = texto + borde discontinuo fino. «NO DEFINIDO» = texto + borde discontinuo grueso + icono "?". Nunca solo color.</p>
+
+<h2>L–S. Tratamiento de casos especiales</h2>
+<table>
+<tr><th>Caso</th><th>Tratamiento</th></tr>
+<tr><td><b>L. Reservation ↔ Salida</b></td><td>N:1 confirmado, obligatorio desde creación. Una sola línea (U2-R19/U5-R1) + nota {NO DEFINIDO durante "Pendiente de respuesta de reprogramación"}.</td></tr>
+<tr><td><b>M. Capacity</b></td><td>Se dibujan reservations→capacity_allocations y capacity_allocations→salidas como hechos confirmados; no se dibuja ninguna relación de "ownership" de la evaluación de capacidad (ND-03) — solo nota adjunta.</td></tr>
+<tr><td><b>N. Vehicle</b></td><td>Zona neutral en UML-03, borde discontinuo, «NO DEFINIDO — dominio propietario». La relación N:M con salidas sí se dibuja como confirmada (el hecho), vía clase asociativa <code>salida_vehicle_assignments</code>, pero con el tipo de línea también NO DEFINIDO (ver U3-R7 corregida). <span class="fixed-tag">añadida</span> Además, <code>models.md:1046-1050</code> deja NO DEFINIDO la identificación visible del vehículo (placa/nombre) y si aplica el ciclo de vida de inactivación/reactivación RF-004 — anotar junto a la clase en UML-03, no inventar esos campos ni ese comportamiento.</td></tr>
+<tr><td><b>O. Identity</b></td><td>Clase «PROPUESTO / modelo pendiente», sin atributos inventados. Relación membership→identity dibujada con multiplicidad {NO DEFINIDO} en el extremo identity.</td></tr>
+<tr><td><b>P. Actores / *By</b></td><td>Sin líneas. Tag &lt;&lt;actor-ref: NO DEFINIDO&gt;&gt; a nivel de atributo en las 14 entidades/campos, más una nota de leyenda compartida.</td></tr>
+<tr><td><b>Q. AuditRecord</b></td><td>Clase completa, sin líneas salientes. actorId/affectedRecordId con tag &lt;&lt;untyped ref — NO DEFINIDO&gt;&gt; y nota adjunta a la clase.</td></tr>
+<tr><td><b>R. Reporting</b></td><td>Clases «projection» / «read model», sin líneas hacia entidades fuente (solo nota de grupo: reconstruidas a partir de eventos/APIs de otros dominios).</td></tr>
+<tr><td><b>S. Outbox/Idempotency</b></td><td>No se repiten como clases completas; una caja/nota compacta «technical records» por diagrama de dominio (UML-01 a UML-04), sin atributos ni líneas.</td></tr>
+</table>
+
+<h2>T. Elementos HISTÓRICOS excluidos</h2>
+<p><code>catalog_services.capacityPolicy</code> · <code>catalog_services.capacityPolicyValidity</code> · <code>capacity_allocations.capacityPolicy</code> · la fila HISTÓRICO de catalog_services en el mapa de referencias. No existe ninguna entidad completa marcada HISTÓRICO en 06-data actual. No se muestran tachados ni en notas: simplemente no aparecen.</p>
+
+<h2>U. Layout recomendado</h2>
+<table>
+<tr><th>Diagrama</th><th>Orientación</th><th>Entidad central</th><th>Zonas</th></tr>
+<tr><td>UML-00</td><td>Horizontal, 4 paquetes en fila</td><td>— (vista de paquetes)</td><td>1 por dominio + zona neutral (vehicles)</td></tr>
+<tr><td>UML-01</td><td>Vertical</td><td>tenants</td><td>tenants arriba, memberships medio, identity lateral, audit_records aislado</td></tr>
+<tr><td>UML-02</td><td>Vertical, 2 columnas</td><td>reservations</td><td>Zona 1: catálogo/reglas · Zona 2: ciclo de vida de reserva</td></tr>
+<tr><td>UML-03</td><td>Vertical</td><td>salidas</td><td>Ejecución arriba, costos abajo, vehicles en zona neutral lateral</td></tr>
+<tr><td>UML-04</td><td>Vertical</td><td>cash_sessions</td><td>Caja arriba, proyecciones abajo sin líneas</td></tr>
+<tr><td>UML-05</td><td>Horizontal, por dominio en columnas</td><td>— (vista de contrato)</td><td>4 columnas, flechas agregadas a tenants</td></tr>
+</table>
+
+<h2>V. Leyenda estándar (repetida en los 6 diagramas)</h2>
+<table>
+<tr><th>Símbolo</th><th>Significado</th></tr>
+<tr><td>Clase sin etiqueta</td><td>CONFIRMADO</td></tr>
+<tr><td>«PROPUESTO», borde discontinuo fino</td><td>Agrupación/campo propuesto, hecho confirmado</td></tr>
+<tr><td>«NO DEFINIDO», borde discontinuo grueso + "?"</td><td>Decisión pendiente — no inventar valor</td></tr>
+<tr><td>Línea sólida</td><td>FK física (mismo dominio, confirmado)</td></tr>
+<tr><td>Línea discontinua + «cross-domain reference»</td><td>Referencia lógica a otro dominio, verificada por contrato</td></tr>
+<tr><td>Línea discontinua gris + «?» <span class="fixed-tag">añadida</span></td><td>Tipo de línea NO DEFINIDO — ni FK física ni cross-domain confirmada aún (caso único: U3-R7)</td></tr>
+<tr><td>«external reference»</td><td>Entidad simplificada de otro diagrama/dominio</td></tr>
+<tr><td>{tenant-scoped}</td><td>Aislamiento por tenantId, sin línea a Tenant</td></tr>
+<tr><td>«projection» / «read model»</td><td>Dato derivado/reconstruible</td></tr>
+<tr><td>&lt;&lt;actor-ref: NO DEFINIDO&gt;&gt;</td><td>Campo de actor sin destino técnico tipado</td></tr>
+<tr><td>X..Y en los extremos</td><td>Cardinalidad</td></tr>
+<tr><td>{NO DEFINIDO} en un extremo</td><td>Cardinalidad no fijada por la fuente</td></tr>
+</table>
+
+<h2>W. Checklist para construir los .drawio</h2>
+<ol>
+<li>Un archivo .drawio por diagrama (UML-00…UML-05).</li>
+<li>Copiar nombre y campos exactamente de models.md, quitando lo HISTÓRICO.</li>
+<li>Aplicar el tag de estado solo donde 06-data lo declara explícitamente.</li>
+<li>Dibujar únicamente las relaciones listadas en la sección E (incluida U1-R4), con la cardinalidad literal de la sección F.</li>
+<li>Aplicar la notación de línea (FK física vs. cross-domain vs. NO DEFINIDO) según la tabla de origen en modeling-conventions.md — para U3-R7, usar la línea NO DEFINIDO de la leyenda, no una línea sólida.</li>
+<li>Aplicar la convención multitenant — no dibujar tenantId individual salvo en UML-05.</li>
+<li>Aplicar los tratamientos especiales (L–S), incluida la nota ampliada del caso N (Vehicle).</li>
+<li>Insertar leyenda y encabezado en cada archivo.</li>
+<li>Verificar que ninguna fila del blueprint quedó fuera del .drawio sin nota explícita.</li>
+<li>No commitear ni pushear los .drawio.</li>
+</ol>
+
+<h2>Cierre</h2>
+<table>
+<tr><th>UML</th><th>¿Puede construirse ahora?</th><th>Elementos pendientes</th><th>¿Bloquean?</th></tr>
+<tr><td>UML-00</td><td>Sí</td><td>Ubicación de vehicles</td><td>No</td></tr>
+<tr><td>UML-01</td><td>Sí</td><td>Modelo de identity, cardinalidad identity↔membership</td><td>No</td></tr>
+<tr><td>UML-02</td><td>Sí</td><td>salidaId durante reprogramación, ownership de capacidad (ND-03)</td><td>No</td></tr>
+<tr><td>UML-03</td><td>Sí</td><td>Dominio de vehicles, identificación/ciclo de vida de vehicles, ownership de capacidad efectiva</td><td>No</td></tr>
+<tr><td>UML-04</td><td>Sí</td><td>Vínculo cash_movements ↔ pago/reserva de origen</td><td>No</td></tr>
+<tr><td>UML-05</td><td>Sí</td><td>Todos los anteriores, agregados</td><td>No</td></tr>
+</table>
+
+<div class="banner">BLUEPRINT UML APROBABLE — PODEMOS PASAR A DRAW.IO<br><span style="font-size:12px; font-weight:400;">(versión corregida tras auditoría contra 06-data/ y 02-domain/)</span></div>
+
+</body>
+</html>
