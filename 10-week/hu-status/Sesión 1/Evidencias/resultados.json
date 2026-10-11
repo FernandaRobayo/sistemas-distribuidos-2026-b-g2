@@ -1,0 +1,47 @@
+﻿{
+    "dateBogota":  "2026-10-11T15:04:13-05:00",
+    "scope":  "component suites; no end-to-end saga deployment; existing DDL only in disposable test databases",
+    "results":  [
+                    {
+                        "repository":  "multi-tour-workflow-onboard-tenant",
+                        "sha":  "d6dd8e523dc84d284d19fc1cfbb8e2132facbbf8",
+                        "command":  "go test -json -count=1 ./...",
+                        "exitCode":  0,
+                        "failed":  0,
+                        "skipped":  0,
+                        "database":  "disposable PostgreSQL 18.6",
+                        "evidence":  "multi-tour-workflow-onboard-tenant.jsonl",
+                        "passedRecords":  72,
+                        "passedLeafCases":  71,
+                        "packageFailures":  0
+                    },
+                    {
+                        "repository":  "multi-tour-worker-event-relay",
+                        "sha":  "3588fda04f0b0af3c761fbe6bffe827fc6fd8886",
+                        "command":  "go test -json -count=1 ./...",
+                        "exitCode":  0,
+                        "failed":  0,
+                        "skipped":  0,
+                        "database":  "none; HTTP doubles",
+                        "evidence":  "multi-tour-worker-event-relay.jsonl",
+                        "passedRecords":  32,
+                        "passedLeafCases":  31,
+                        "packageFailures":  0
+                    },
+                    {
+                        "repository":  "multi-tour-security",
+                        "sha":  "aafda9c9bba60b3a486d0e502cb522c5d91e73c4",
+                        "command":  "go test -json -count=1 ./...",
+                        "exitCode":  0,
+                        "failed":  0,
+                        "skipped":  0,
+                        "database":  "disposable PostgreSQL 18.6",
+                        "evidence":  "multi-tour-security.jsonl",
+                        "passedRecords":  363,
+                        "passedLeafCases":  359,
+                        "packageFailures":  0
+                    }
+                ],
+    "countMethod":  "passedRecords includes parent tests and subtests; passedLeafCases excludes parents with recorded subtests; skipped counts named tests only",
+    "auditNote":  "Summary recalculated from existing logs; original execution timestamp and raw logs preserved; no suite rerun"
+}

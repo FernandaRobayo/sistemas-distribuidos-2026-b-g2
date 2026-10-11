@@ -1,0 +1,57 @@
+{
+  "sessionDate": "2026-10-11",
+  "branch": "develop",
+  "source": "GitHub connector: GET /repos/code-corhuila/<repository>/git/trees/develop?recursive=1",
+  "snapshots": [
+    {
+      "repository": "multi-tour-workflow-onboard-tenant",
+      "sha": "d6dd8e523dc84d284d19fc1cfbb8e2132facbbf8",
+      "url": "https://github.com/code-corhuila/multi-tour-workflow-onboard-tenant/tree/d6dd8e523dc84d284d19fc1cfbb8e2132facbbf8"
+    },
+    {
+      "repository": "multi-tour-worker-event-relay",
+      "sha": "3588fda04f0b0af3c761fbe6bffe827fc6fd8886",
+      "url": "https://github.com/code-corhuila/multi-tour-worker-event-relay/tree/3588fda04f0b0af3c761fbe6bffe827fc6fd8886"
+    },
+    {
+      "repository": "multi-tour-security",
+      "sha": "aafda9c9bba60b3a486d0e502cb522c5d91e73c4",
+      "url": "https://github.com/code-corhuila/multi-tour-security/tree/aafda9c9bba60b3a486d0e502cb522c5d91e73c4"
+    },
+    {
+      "repository": "multi-tour-identity-audit-api",
+      "sha": "008c3a96856a78932a36a8e6d23565b63de64038",
+      "url": "https://github.com/code-corhuila/multi-tour-identity-audit-api/tree/008c3a96856a78932a36a8e6d23565b63de64038"
+    },
+    {
+      "repository": "multi-tour-infra-postgres",
+      "sha": "df6830e73c646767d5db5f85de1966965a6ec763",
+      "url": "https://github.com/code-corhuila/multi-tour-infra-postgres/tree/df6830e73c646767d5db5f85de1966965a6ec763"
+    },
+    {
+      "repository": "multi-tour-infra-mongo",
+      "sha": "e8afd3b836f7135637965d42261854bcde2860a2",
+      "url": "https://github.com/code-corhuila/multi-tour-infra-mongo/tree/e8afd3b836f7135637965d42261854bcde2860a2"
+    },
+    {
+      "repository": "multi-tour-commercial-reservation-api",
+      "sha": "d574d804d57cdf950db0d7bfd3171827218afa7f",
+      "url": "https://github.com/code-corhuila/multi-tour-commercial-reservation-api/tree/d574d804d57cdf950db0d7bfd3171827218afa7f"
+    },
+    {
+      "repository": "multi-tour-commercial-reservation-db",
+      "sha": "efc90fd1684700bac48409a92f8835b2f206b783",
+      "url": "https://github.com/code-corhuila/multi-tour-commercial-reservation-db/tree/efc90fd1684700bac48409a92f8835b2f206b783"
+    },
+    {
+      "repository": "multi-tour-operations-cost-api",
+      "sha": "af4b395ea2bbcd3f7505ca8b22cb4a733e96cafa",
+      "url": "https://github.com/code-corhuila/multi-tour-operations-cost-api/tree/af4b395ea2bbcd3f7505ca8b22cb4a733e96cafa"
+    },
+    {
+      "repository": "multi-tour-cash-reporting-api",
+      "sha": "97c8e7ae24d690c4130aac39a1935add8971a33d",
+      "url": "https://github.com/code-corhuila/multi-tour-cash-reporting-api/tree/97c8e7ae24d690c4130aac39a1935add8971a33d"
+    }
+  ]
+}
