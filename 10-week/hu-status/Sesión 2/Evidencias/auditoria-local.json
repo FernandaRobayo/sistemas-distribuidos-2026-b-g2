@@ -1,0 +1,46 @@
+﻿{
+    "dateUtc":  "2026-10-12T06:51:03.9361275Z",
+    "dateBogota":  "2026-10-12",
+    "scope":  "offline validation of archived evidence inside this repository only",
+    "productReleaseReady":  false,
+    "checks":  [
+                   {
+                       "file":  "multi-tour-workflow-onboard-tenant.jsonl",
+                       "passedRecords":  78,
+                       "passedLeafCases":  77,
+                       "status":  "PASS"
+                   },
+                   {
+                       "file":  "multi-tour-worker-event-relay.jsonl",
+                       "passedRecords":  32,
+                       "passedLeafCases":  31,
+                       "status":  "PASS"
+                   },
+                   {
+                       "file":  "multi-tour-security.jsonl",
+                       "passedRecords":  363,
+                       "passedLeafCases":  359,
+                       "status":  "PASS"
+                   },
+                   {
+                       "file":  "workflow-corregido.jsonl",
+                       "passedRecords":  81,
+                       "passedLeafCases":  80,
+                       "status":  "PASS"
+                   },
+                   {
+                       "file":  "relay-corregido.jsonl",
+                       "passedRecords":  35,
+                       "passedLeafCases":  33,
+                       "status":  "PASS"
+                   },
+                   {
+                       "archivedScenarios":  4,
+                       "archivedStartupMetadata":  "PASS",
+                       "patchHashes":  "PASS",
+                       "localLinks":  "PASS",
+                       "scriptSyntax":  "PASS"
+                   }
+               ],
+    "documentationReady":  true
+}

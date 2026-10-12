@@ -1,0 +1,77 @@
+{
+  "dateBogota": "2026-10-11",
+  "scope": "local uncommitted product fixes; not a promoted release or an end-to-end business deployment",
+  "schemaChanged": false,
+  "migrationAuthorization": "excluded by the user's restriction to the academic repository",
+  "historyOnly": true,
+  "currentScope": "documentation and archived evidence only; external repositories must not be accessed or modified",
+  "components": [
+    {
+      "repository": "multi-tour-workflow-onboard-tenant",
+      "path": "C:/www/sistemas-distribuido/MultiTour/transversales/multi-tour-workflow-onboard-tenant",
+      "branch": "fix/hu-wfl-001-safe-recovery",
+      "baseSha": "0ce7fa05019e4b77b8eb565152cd0d922ff2cea6",
+      "changes": [
+        "An unrecorded administrator step ends FAILED without compensating the tenant; already recorded compensations stay COMPENSATED",
+        "A dedicated PostgreSQL advisory lock rejects a second normal runtime until shutdown",
+        "Recovery cutoff is taken before HTTP accepts new sagas"
+      ],
+      "command": "go test -json -count=1 ./...",
+      "database": "real disposable PostgreSQL 18.6; existing DDL and domain role tests",
+      "exitCode": 0,
+      "passedRecords": 81,
+      "passedLeafCases": 80,
+      "failed": 0,
+      "skipped": 0,
+      "goVet": "passed",
+      "evidence": "workflow-corregido.jsonl",
+      "patch": "workflow-corregido.patch",
+      "patchSha256": "5084375E9B3E81D6D57FA609E860884E32CA024DA4210A014B227A1A56A5BFB3",
+      "reproduce": "From the workflow checkout: & './scripts/verify-recovery.ps1' -EvidenceDirectory '<absolute path to an output folder>'",
+      "limits": [
+        "Unknown outcomes require manual reconciliation",
+        "Membership id and actor still are not persisted",
+        "Durable claims and fencing are still required for database-disconnection recovery or scale-out"
+      ]
+    },
+    {
+      "repository": "multi-tour-worker-event-relay",
+      "path": "C:/www/sistemas-distribuido/MultiTour/transversales/multi-tour-worker-event-relay",
+      "branch": "fix/hu-wrk-007-preserve-unrouted-events",
+      "baseSha": "3588fda04f0b0af3c761fbe6bffe827fc6fd8886",
+      "changes": [
+        "Events with zero receivers record a failed attempt and cannot become PUBLISHED",
+        "Regression tests use DefaultRoutes and verify later delivery when a receiver is configured"
+      ],
+      "command": "go test -json -count=1 ./...",
+      "database": "none; HTTP doubles",
+      "exitCode": 0,
+      "passedRecords": 35,
+      "passedLeafCases": 33,
+      "failed": 0,
+      "skipped": 0,
+      "goVet": "passed",
+      "evidence": "relay-corregido.jsonl",
+      "patch": "relay-corregido.patch",
+      "patchSha256": "270390E0802C75EC869A99997EF6550CA25A7F91B87ADDF6DDB654777223032F",
+      "limits": [
+        "Real revocation and blocking recipients still need implementation",
+        "After the owning API exhausts attempts, the event remains FAILED for operator review"
+      ]
+    }
+  ],
+  "pending": [
+    "Authorize and implement security.processed_event migration and atomic consumption",
+    "Verify MongoDB outbox and global isolation",
+    "Implement actual broadcast recipients according to approved contracts",
+    "Run real integrated success and controlled failure demonstration",
+    "Complete each member's evidence and team retrospective",
+    "Publish reviewed corrections, validate QA, obtain teacher approval for main, then tag v2.0.0"
+  ],
+  "normAlignment": {
+    "saga": "partial: conservative recovery and single-runtime guard; Annex E end-to-end proof remains pending",
+    "outbox": "partial: no publication without recipients; real routing remains pending",
+    "promotion": "not performed; norm 10 and 11",
+    "documentation": "updated with explicit local-versus-remote evidence"
+  }
+}

@@ -1,0 +1,78 @@
+diff --git a/README.md b/README.md
+index 25564ad..9abf035 100644
+--- a/README.md
++++ b/README.md
+@@ -51,7 +51,7 @@ Nowhere: it keeps no database and no state. Each event stays in the outbox of it
+ 
+ ## What is missing
+ 
+-`multi-tour-worker-runtime` is pinned to a commit of its `develop` (pseudo-version in `go.mod`) until it is tagged. `AccountSessionsRevoked` and `AccountBlocked` have no consumer yet, so they are marked published without delivery. The Docker image is built by hand or by the root composition; `ci.yml` only validates the compose file.
++`multi-tour-worker-runtime` is pinned to a commit of its `develop` (pseudo-version in `go.mod`) until it is tagged. `AccountSessionsRevoked` and `AccountBlocked` have no consumer yet: the relay records a failed attempt and leaves them unpublished. The owning API eventually moves an exhausted event to FAILED; it is retained for operator review, not delivered. Receiving routes are still required before accepting broadcast delivery. The Docker image is built by hand or by the root composition; `ci.yml` only validates the compose file.
+ 
+ ## Branching
+ 
+diff --git a/internal/application/usecase/relay_events.go b/internal/application/usecase/relay_events.go
+index 934c1a8..f3012e3 100644
+--- a/internal/application/usecase/relay_events.go
++++ b/internal/application/usecase/relay_events.go
+@@ -107,6 +107,9 @@ func (r *RelayEvents) relay(ctx context.Context, source out.EventSource, e out.E
+ 	if !known {
+ 		return r.fail(ctx, source, e, fmt.Sprintf("unknown event type %q", clean(e.Type)))
+ 	}
++	if len(routes) == 0 {
++		return r.fail(ctx, source, e, fmt.Sprintf("no consumer configured for event type %q", clean(e.Type)))
++	}
+ 	var failures []string
+ 	for _, route := range routes {
+ 		if reason := r.deliver(ctx, route, e); reason != "" {
+diff --git a/internal/application/usecase/relay_events_test.go b/internal/application/usecase/relay_events_test.go
+index d92c45b..27b323a 100644
+--- a/internal/application/usecase/relay_events_test.go
++++ b/internal/application/usecase/relay_events_test.go
+@@ -332,3 +332,22 @@ func TestA_one_failing_event_does_not_stop_the_batch(t *testing.T) {
+ 		t.Fatalf("attempts=%v, want one recorded for each failure", src.attempts)
+ 	}
+ }
++
++func TestA_default_routes_never_publish_events_without_a_consumer(t *testing.T) {
++	for _, eventType := range []string{"AccountSessionsRevoked", "AccountBlocked"} {
++		t.Run(eventType, func(t *testing.T) {
++			src, sink := newSource(event(id1, eventType)), &fakeSink{}
++			job := relay(src, table(t, config.DefaultRoutes()), sink)
++			processed, failed := job.Run(context.Background(), 10)
++			if processed != 0 || failed != 1 || src.published[id1] || len(src.attempts[id1]) != 1 || len(src.pending) != 1 || len(sink.deliveries) != 0 {
++				t.Fatalf("unrouted event must record a failure and remain unpublished: processed=%d failed=%d published=%v attempts=%v pending=%d", processed, failed, src.published, src.attempts, len(src.pending))
++			}
++			// Once a real receiving route is configured, the same event can be delivered.
++			route := out.Route{Consumer: "receiver", Path: "/internal/events"}
++			repaired := relay(src, table(t, map[string][]out.Route{eventType: {route}}), sink)
++			if processed, failed = repaired.Run(context.Background(), 10); processed != 1 || failed != 0 || !src.published[id1] {
++				t.Fatal("event was not delivered after configuring its receiver")
++			}
++		})
++	}
++}
+diff --git a/internal/config/routing.go b/internal/config/routing.go
+index 0ed65c2..f5f2f06 100644
+--- a/internal/config/routing.go
++++ b/internal/config/routing.go
+@@ -39,8 +39,8 @@ func NewRoutingTable(routes map[string][]out.Route) (*RoutingTable, error) {
+ }
+ 
+ // DefaultRoutes is the table of this cut. Only security exposes a receiving route today.
+-// AccountSessionsRevoked and AccountBlocked have no consumer yet and are marked published without
+-// delivery on purpose, so they do not pile up in the outbox.
++// AccountSessionsRevoked and AccountBlocked have no consumer yet. The relay records a failed
++// attempt and never marks them published without a receiving route.
+ // shortcut: spec AC-01.2 (these events reach every service) is not met until a consumer exists,
+ // upgrade when identity-audit or another service publishes its receiving route.
+ func DefaultRoutes() map[string][]out.Route {
+@@ -55,7 +55,7 @@ func DefaultRoutes() map[string][]out.Route {
+ }
+ 
+ // RoutesFor returns the routes of an event type and whether the type is in the table.
+-// A known type with no routes is delivered to nobody and counts as published.
++// A known type with no routes is a delivery failure; it cannot count as published.
+ func (t *RoutingTable) RoutesFor(eventType string) ([]out.Route, bool) {
+ 	routes, known := t.routes[eventType]
+ 	return routes, known

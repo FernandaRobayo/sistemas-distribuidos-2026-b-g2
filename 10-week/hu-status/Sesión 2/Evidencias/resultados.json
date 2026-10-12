@@ -1,0 +1,45 @@
+﻿{
+    "dateBogota":  "2026-10-11T22:53:05-05:00",
+    "scope":  "component suites; no end-to-end saga deployment; existing DDL only in disposable test databases",
+    "results":  [
+                    {
+                        "repository":  "multi-tour-workflow-onboard-tenant",
+                        "sha":  "0ce7fa05019e4b77b8eb565152cd0d922ff2cea6",
+                        "command":  "go test -json -count=1 ./...",
+                        "exitCode":  0,
+                        "passedRecords":  78,
+                        "passedLeafCases":  77,
+                        "failed":  0,
+                        "skipped":  0,
+                        "packageFailures":  0,
+                        "database":  "disposable PostgreSQL 18.6",
+                        "evidence":  "multi-tour-workflow-onboard-tenant.jsonl"
+                    },
+                    {
+                        "repository":  "multi-tour-worker-event-relay",
+                        "sha":  "3588fda04f0b0af3c761fbe6bffe827fc6fd8886",
+                        "command":  "go test -json -count=1 ./...",
+                        "exitCode":  0,
+                        "passedRecords":  32,
+                        "passedLeafCases":  31,
+                        "failed":  0,
+                        "skipped":  0,
+                        "packageFailures":  0,
+                        "database":  "none; HTTP doubles",
+                        "evidence":  "multi-tour-worker-event-relay.jsonl"
+                    },
+                    {
+                        "repository":  "multi-tour-security",
+                        "sha":  "aafda9c9bba60b3a486d0e502cb522c5d91e73c4",
+                        "command":  "go test -json -count=1 ./...",
+                        "exitCode":  0,
+                        "passedRecords":  363,
+                        "passedLeafCases":  359,
+                        "failed":  0,
+                        "skipped":  0,
+                        "packageFailures":  0,
+                        "database":  "disposable PostgreSQL 18.6",
+                        "evidence":  "multi-tour-security.jsonl"
+                    }
+                ]
+}

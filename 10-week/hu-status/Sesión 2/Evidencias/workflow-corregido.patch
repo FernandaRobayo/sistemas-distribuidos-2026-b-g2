@@ -1,0 +1,343 @@
+diff --git a/README.md b/README.md
+index b5336ea..60de479 100644
+--- a/README.md
++++ b/README.md
+@@ -23,7 +23,7 @@ In PostgreSQL, schema `workflow_onboard_tenant` of the single instance (ADR-005
+ 
+ ## What is missing
+ 
+-Declared debts: `OnBehalfOf` and the membership id are not persisted, so a resumed saga cannot finish step 3 and ends FAILED for a person; there is no claim on resume, so only one instance may run; the audit actor of the participant calls is the service, because the participant contracts have no field for the person. Not verified end to end against the real participants yet.
++Declared debts: `OnBehalfOf` and the membership id are not persisted, so a resumed saga cannot finish step 3 and ends FAILED for a person. An unrecorded account step also ends FAILED without compensating the tenant: its remote outcome may be unknown. Startup holds a database advisory lock on a dedicated connection to exclude a second runtime, and freezes the recovery cutoff before accepting requests. This single-runtime guard is not durable claim/fencing recovery under database disconnection; scaling and automatic reconciliation remain pending. The audit actor of participant calls is the service because their contracts have no field for the person. Not verified end to end against the real participants yet.
+ 
+ ## Branching
+ 
+diff --git a/cmd/workflow/main.go b/cmd/workflow/main.go
+index 56afc43..898e162 100644
+--- a/cmd/workflow/main.go
++++ b/cmd/workflow/main.go
+@@ -47,6 +47,11 @@ func run(log *slog.Logger) error {
+ 		return err
+ 	}
+ 	defer pool.Close()
++	releaseRunner, err := postgres.AcquireRunner(ctx, pool)
++	if err != nil {
++		return err
++	}
++	defer releaseRunner()
+ 
+ 	participantCfg := participants.Config{Token: cfg.serviceToken, Timeout: cfg.stepTimeout, Attempts: cfg.stepAttempts, BaseDelay: retryBaseDelay}
+ 	bound := sagaBound(cfg)
+@@ -56,12 +61,13 @@ func run(log *slog.Logger) error {
+ 
+ 	srv := newServer(cfg, httpapi.New(onboard, httpapi.NewVerifier(key), log), bound)
+ 	serving := make(chan error, 1)
++	// Freeze the recovery cutoff before accepting requests; new sagas cannot be stale.
++	before := time.Now()
+ 	go func() { serving <- srv.ListenAndServe() }()
+ 	log.Info("workflow listening", "addr", cfg.listenAddr)
+ 
+-	// One instance runs (declared debt F3): every saga still RUNNING at this moment was left by the previous process.
++	// The runner lock excludes a second live process; pre-start RUNNING sagas belong to the previous process.
+ 	// It runs after the listener is up, so the health check answers while the participants are still being reached.
+-	before := time.Now()
+ 	resumed := make(chan struct{})
+ 	go func() {
+ 		defer close(resumed)
+diff --git a/internal/adapter/out/state/postgres/runner.go b/internal/adapter/out/state/postgres/runner.go
+new file mode 100644
+index 0000000..3d8af4d
+--- /dev/null
++++ b/internal/adapter/out/state/postgres/runner.go
+@@ -0,0 +1,38 @@
++package postgres
++
++import (
++	"context"
++	"errors"
++	"sync"
++	"time"
++
++	"github.com/jackc/pgx/v5/pgxpool"
++)
++
++// AcquireRunner enforces the single-runtime recovery policy without a schema change.
++// The database-scoped advisory lock lives on a dedicated connection until shutdown.
++// Multi-runner recovery still requires durable claims and fencing before scaling out.
++func AcquireRunner(ctx context.Context, pool *pgxpool.Pool) (func(), error) {
++	lockCtx, cancel := context.WithTimeout(ctx, 5*time.Second)
++	defer cancel()
++	pooled, err := pool.Acquire(lockCtx)
++	if err != nil {
++		return nil, errors.New("workflow runner connection cannot be acquired")
++	}
++	conn := pooled.Hijack()
++	var once sync.Once
++	release := func() {
++		once.Do(func() {
++			closeCtx, cancelClose := context.WithTimeout(context.Background(), 5*time.Second)
++			defer cancelClose()
++			_ = conn.Close(closeCtx)
++		})
++	}
++	var acquired bool
++	err = conn.QueryRow(lockCtx, `SELECT pg_try_advisory_lock(hashtextextended($1::text, 0))`, "multi-tour-workflow-onboard-tenant").Scan(&acquired)
++	if err != nil || !acquired {
++		release()
++		return nil, errors.New("workflow runner lock unavailable; another instance may be active")
++	}
++	return release, nil
++}
+diff --git a/internal/adapter/out/state/postgres/runner_test.go b/internal/adapter/out/state/postgres/runner_test.go
+new file mode 100644
+index 0000000..bbc97f4
+--- /dev/null
++++ b/internal/adapter/out/state/postgres/runner_test.go
+@@ -0,0 +1,50 @@
++package postgres_test
++
++import (
++	"context"
++	"testing"
++
++	"github.com/code-corhuila/multi-tour-workflow-onboard-tenant/internal/adapter/out/state/postgres"
++	"github.com/code-corhuila/multi-tour-workflow-onboard-tenant/internal/adapter/out/state/postgres/pgtest"
++	"github.com/jackc/pgx/v5/pgxpool"
++)
++
++func TestI_runner_lock_rejects_a_second_pool_and_allows_restart_after_release(t *testing.T) {
++	pool := pgtest.OpenAsApp(t)
++	other, err := pgxpool.NewWithConfig(context.Background(), pool.Config().Copy())
++	if err != nil {
++		t.Fatal(err)
++	}
++	t.Cleanup(other.Close)
++	release, err := postgres.AcquireRunner(context.Background(), pool)
++	if err != nil {
++		t.Fatal(err)
++	}
++	t.Cleanup(release)
++	if second, err := postgres.AcquireRunner(context.Background(), other); err == nil {
++		second()
++		t.Fatal("a second runtime acquired the same database runner lock")
++	}
++	release()
++	release() // release is safe on repeated shutdown paths
++	next, err := postgres.AcquireRunner(context.Background(), other)
++	if err != nil {
++		t.Fatal(err)
++	}
++	next()
++}
++
++func TestI_cancelled_runner_acquisition_does_not_hold_the_lock(t *testing.T) {
++	pool := pgtest.OpenAsApp(t)
++	ctx, cancel := context.WithCancel(context.Background())
++	cancel()
++	if release, err := postgres.AcquireRunner(ctx, pool); err == nil {
++		release()
++		t.Fatal("cancelled acquisition succeeded")
++	}
++	release, err := postgres.AcquireRunner(context.Background(), pool)
++	if err != nil {
++		t.Fatal(err)
++	}
++	release()
++}
+diff --git a/internal/application/usecase/onboard_tenant.go b/internal/application/usecase/onboard_tenant.go
+index 434fa0f..cbad49d 100644
+--- a/internal/application/usecase/onboard_tenant.go
++++ b/internal/application/usecase/onboard_tenant.go
+@@ -50,13 +50,13 @@ func (o *OnboardTenant) Get(ctx context.Context, id string) (saga.Saga, error) {
+ }
+ 
+ // Resume closes the RUNNING sagas that have not advanced since before. The password is gone after a
+-// restart, so a saga that never created the account is compensated, never resumed.
++// restart, so an unrecorded account step has an unknown outcome and requires reconciliation.
+ //
+ // Declared debt (owner: Project Lead):
+ //   - F2: OnBehalfOf, the membership id and the initial status are not persisted, so a resumed saga
+-//     compensates with an empty OnBehalfOf and cannot finish step 3; it ends FAILED for a person.
+-//   - F3: there is no claim or lock, so two instances, or one live slow saga, could be compensated by
+-//     mistake. The demo runs ONE instance; the fix is a store Claim plus a compare-and-swap Save.
++//     cannot finish step 3 automatically; it ends FAILED for a person to reconcile.
++//   - F3: the store has no durable claim/fencing. The composition root enforces a single runner
++//     with an advisory lock and excludes post-start sagas from recovery; scaling still needs claims.
+ func (o *OnboardTenant) Resume(ctx context.Context, before time.Time) error {
+ 	stale, err := o.store.ListStale(ctx, before)
+ 	if err != nil {
+@@ -85,10 +85,16 @@ func (o *OnboardTenant) closeStale(ctx context.Context, s *saga.Saga) error {
+ 		s.End(saga.Failed, saga.CreateTenant, "RESTARTED: stopped before the tenant was recorded")
+ 		return o.finish(ctx, s)
+ 	}
+-	// Known limit: the process may have stopped after step 2 answered and before its save, so the
+-	// account could exist; compensating step 1 then leaves it pointing at a failed tenant.
+-	cause := &saga.ParticipantError{Code: "RESTARTED", Message: "stopped before the account was created", Definitive: true}
+-	return o.abort(ctx, s, saga.CreateAdministrator, cause, "")
++	for _, step := range s.Steps {
++		if step.Name == saga.CreateTenant && step.Compensated {
++			s.End(saga.Compensated, saga.CreateAdministrator, "RESTARTED: tenant compensation was recorded")
++			return o.finish(ctx, s)
++		}
++	}
++	// Absence of a saved step does not prove absence of its remote effect. The account may
++	// already exist; never compensate its tenant without a definitive participant rejection.
++	s.End(saga.Failed, saga.CreateAdministrator, "RESTARTED: account creation outcome is unknown")
++	return o.finish(ctx, s)
+ }
+ 
+ // run executes the steps in order and saves the state after each one. Compensation of each step:
+@@ -98,7 +104,7 @@ func (o *OnboardTenant) closeStale(ctx context.Context, s *saga.Saga) error {
+ //	RECORD_ADMINISTRATOR  none: a failure ends FAILED for a person
+ //
+ // Crash window: if the process stops after a participant answered and before the save that follows,
+-// the step is not recorded; Resume treats it as not done (see closeStale).
++// the step is not recorded; Resume leaves its outcome unknown for reconciliation (see closeStale).
+ func (o *OnboardTenant) run(ctx context.Context, s *saga.Saga, req saga.Onboarding) error {
+ 	call := func(step saga.Step) out.Call { return out.Call{Key: s.StepKey(step), OnBehalfOf: req.OnBehalfOf} }
+ 
+diff --git a/internal/application/usecase/onboard_tenant_test.go b/internal/application/usecase/onboard_tenant_test.go
+index 3118a98..d0f5db9 100644
+--- a/internal/application/usecase/onboard_tenant_test.go
++++ b/internal/application/usecase/onboard_tenant_test.go
+@@ -22,8 +22,9 @@ const password = "Tmp-Secret-72h!"
+ var t0 = time.Date(2026, 10, 11, 12, 0, 0, 0, time.UTC)
+ 
+ type fakeStore struct {
+-	byID      map[string]saga.Saga
+-	snapshots []saga.Saga
++	byID                    map[string]saga.Saga
++	snapshots               []saga.Saga
++	failSavingAdministrator bool
+ }
+ 
+ func newStore() *fakeStore { return &fakeStore{byID: map[string]saga.Saga{}} }
+@@ -57,6 +58,9 @@ func (f *fakeStore) Save(ctx context.Context, s saga.Saga) error {
+ 	if err := ctx.Err(); err != nil {
+ 		return err
+ 	}
++	if f.failSavingAdministrator && s.Done(saga.CreateAdministrator) {
++		return errors.New("simulated persistence failure after account creation")
++	}
+ 	f.put(s)
+ 	return nil
+ }
+@@ -268,7 +272,7 @@ func TestA_step_three_failure_ends_failed_without_undoing_the_account(t *testing
+ 	}
+ }
+ 
+-func TestA_saga_stopped_before_step_two_is_compensated_on_resume(t *testing.T) {
++func TestA_saga_with_unrecorded_step_two_requires_reconciliation_on_resume(t *testing.T) {
+ 	h := newHarness()
+ 	h.store.put(saga.Saga{ID: "saga-9", IdempotencyKey: "key-00000009", Status: saga.Running, TenantID: "tenant-9",
+ 		Steps: []saga.StepState{{Name: saga.CreateTenant}}, CreatedAt: t0.Add(-time.Hour), UpdatedAt: t0.Add(-time.Hour)})
+@@ -276,11 +280,11 @@ func TestA_saga_stopped_before_step_two_is_compensated_on_resume(t *testing.T) {
+ 		t.Fatalf("Resume: %v", err)
+ 	}
+ 	s, _ := h.store.Get(context.Background(), "saga-9")
+-	if s.Status != saga.Compensated || s.FailedStep != saga.CreateAdministrator {
++	if s.Status != saga.Failed || s.FailedStep != saga.CreateAdministrator {
+ 		t.Errorf("status %s, failedStep %s", s.Status, s.FailedStep)
+ 	}
+-	if got, want := *h.order, []string{"fail-onboarding"}; !reflect.DeepEqual(got, want) {
+-		t.Errorf("calls = %v, want only the compensation", got)
++	if len(*h.order) != 0 {
++		t.Errorf("calls = %v, want no compensation of an unknown outcome", *h.order)
+ 	}
+ }
+ 
+@@ -298,6 +302,25 @@ func TestI_state_is_saved_after_each_step(t *testing.T) {
+ 	}
+ }
+ 
++func TestA_resume_does_not_compensate_when_account_creation_was_not_saved(t *testing.T) {
++	h := newHarness()
++	h.store.failSavingAdministrator = true
++	if _, _, err := h.uc.Start(context.Background(), command("key-crash-window")); err == nil {
++		t.Fatal("expected the simulated persistence failure")
++	}
++	h.store.failSavingAdministrator = false
++	if err := h.uc.Resume(context.Background(), t0.Add(time.Second)); err != nil {
++		t.Fatal(err)
++	}
++	s := h.store.latest()
++	if s.Status != saga.Failed || s.FailedStep != saga.CreateAdministrator {
++		t.Fatalf("unknown account outcome must remain FAILED for reconciliation: %+v", s)
++	}
++	if !reflect.DeepEqual(*h.order, []string{"register", "create-administrator"}) {
++		t.Fatalf("a possibly created account must never trigger tenant compensation: %v", *h.order)
++	}
++}
++
+ func TestI_password_never_reaches_state_or_logs(t *testing.T) {
+ 	h := newHarness()
+ 	h.security.err = fmt.Errorf("dial tcp: boom, body had password=%s", password)
+@@ -414,7 +437,7 @@ func TestA_resume_of_a_saga_with_step_two_done_ends_failed(t *testing.T) {
+ 	}
+ }
+ 
+-func TestA_second_resume_over_a_compensated_saga_does_nothing(t *testing.T) {
++func TestA_second_resume_over_an_uncertain_failed_saga_does_nothing(t *testing.T) {
+ 	h := newHarness()
+ 	h.store.put(staleSaga(saga.CreateTenant))
+ 	for i := 0; i < 2; i++ {
+@@ -422,8 +445,8 @@ func TestA_second_resume_over_a_compensated_saga_does_nothing(t *testing.T) {
+ 			t.Fatalf("Resume %d: %v", i, err)
+ 		}
+ 	}
+-	if got, want := *h.order, []string{"fail-onboarding"}; !reflect.DeepEqual(got, want) {
+-		t.Errorf("calls = %v, want one compensation", got)
++	if len(*h.order) != 0 || h.store.latest().Status != saga.Failed {
++		t.Errorf("calls = %v, want no participant call and a FAILED saga", *h.order)
+ 	}
+ }
+ 
+diff --git a/scripts/verify-recovery.ps1 b/scripts/verify-recovery.ps1
+new file mode 100644
+index 0000000..fc51cd0
+--- /dev/null
++++ b/scripts/verify-recovery.ps1
+@@ -0,0 +1,44 @@
++param([Parameter(Mandatory=$true)][string]$EvidenceDirectory)
++$ErrorActionPreference = 'Stop'
++$repo = Split-Path $PSScriptRoot -Parent
++New-Item -ItemType Directory -Path $EvidenceDirectory -Force | Out-Null
++$evidence = (Resolve-Path -LiteralPath $EvidenceDirectory).Path
++$container = 'week10-fix-' + [guid]::NewGuid().ToString('N').Substring(0,12)
++$password = [guid]::NewGuid().ToString('N')
++$oldPassword = $env:POSTGRES_PASSWORD
++$oldDatabase = $env:TEST_DATABASE_URL
++$env:POSTGRES_PASSWORD = $password
++try {
++    docker run -d --rm --name $container --mount type=tmpfs,destination=/var/lib/postgresql -p '127.0.0.1::5432' -e POSTGRES_PASSWORD postgres:18.6-alpine | Out-Null
++    if ($LASTEXITCODE -ne 0) { throw 'PostgreSQL did not start' }
++    $ready = $false
++    for ($i=0; $i -lt 30; $i++) {
++        $ErrorActionPreference = 'Continue'
++        docker exec $container pg_isready -h 127.0.0.1 -U postgres *> $null
++        if ($LASTEXITCODE -eq 0) { $ready=$true; break }
++        Start-Sleep -Seconds 1
++    }
++    $ErrorActionPreference = 'Stop'
++    if (!$ready) { throw 'Readiness timeout' }
++    $port = ((docker port $container 5432/tcp).Trim() -split ':')[-1]
++    $env:TEST_DATABASE_URL = "postgres://postgres:${password}@127.0.0.1:${port}/postgres?sslmode=disable"
++    Push-Location $repo
++    try {
++        $log = Join-Path $evidence 'workflow-corregido.jsonl'
++        go test -json -count=1 ./... 2>&1 | ForEach-Object { ([string]$_).Replace($password,'[REDACTED]') } | Set-Content -LiteralPath $log -Encoding UTF8
++        if ($LASTEXITCODE -ne 0) { throw 'Workflow suite failed' }
++        $raw = [System.IO.File]::ReadAllText($log)
++        if ($raw -match '"Action":"(fail|skip)".*"Test"' -or $raw -notmatch '"Action":"pass".*"Test"') { throw 'Missing, failed or omitted tests' }
++        go vet ./...
++        if ($LASTEXITCODE -ne 0) { throw 'go vet failed' }
++        git diff --check
++        if ($LASTEXITCODE -ne 0) { throw 'Whitespace check failed' }
++        Write-Output 'PASS: modified workflow full suite against real disposable PostgreSQL, plus go vet'
++    } finally { Pop-Location }
++} finally {
++    $ErrorActionPreference = 'SilentlyContinue'
++    docker rm -f $container *> $null
++    $env:POSTGRES_PASSWORD = $oldPassword
++    $env:TEST_DATABASE_URL = $oldDatabase
++    $ErrorActionPreference = 'Stop'
++}

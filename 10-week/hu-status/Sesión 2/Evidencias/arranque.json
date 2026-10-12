@@ -1,0 +1,11 @@
+﻿{
+    "dateUtc":  "2026-10-12T03:57:01.5257876Z",
+    "scope":  "workflow startup with real PostgreSQL; no real business participants",
+    "image":  "week10-mvp2-workflow:0ce7fa0",
+    "imageId":  "sha256:5a9a1c2ed5adaa4cc5cc65b23d4f2d9ecf7e3de675db04f6e659ba1e6feb177e",
+    "user":  "10001",
+    "health":  "{\"status\":\"ok\"}",
+    "protectedRoute":  401,
+    "hostPorts":  "none",
+    "logs":  "docker : {\"time\":\"2026-10-12T03:57:00.119149464Z\",\"level\":\"INFO\",\"msg\":\"workflow listening\",\"addr\":\":8080\"}\r\nAt C:\\www\\sistemas-distribuido\\sistemas-distribuidos-2026-b-g2\\10-week\\hu-status\\Sesión 2\\probar-arranque.ps1:46 \r\nchar:14\r\n+     $logs = (docker logs $service 2\u003e\u00261 | Out-String).Replace($passwor ...\r\n+              ~~~~~~~~~~~~~~~~~~~~~~~~~\r\n    + CategoryInfo          : NotSpecified: ({\"time\":\"2026-1...\"addr\":\":8080\"}:String) [], RemoteException\r\n    + FullyQualifiedErrorId : NativeCommandError\r\n \r\n"
+}

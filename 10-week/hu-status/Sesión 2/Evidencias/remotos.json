@@ -1,0 +1,86 @@
+{
+  "queriedAt": "2026-10-12T03:47:52.309Z",
+  "scope": "four onboarding components; not the full project",
+  "repositories": [
+    {
+      "repository": "multi-tour-workflow-onboard-tenant",
+      "refs": [
+        {
+          "branch": "develop",
+          "sha": "0ce7fa05019e4b77b8eb565152cd0d922ff2cea6"
+        },
+        {
+          "branch": "main",
+          "sha": "2b0480fcfb449d556626b69457df46c712f4b99d"
+        },
+        {
+          "branch": "qa",
+          "sha": "2b0480fcfb449d556626b69457df46c712f4b99d"
+        }
+      ],
+      "tagV200": [],
+      "source": "https://api.github.com/repos/code-corhuila/multi-tour-workflow-onboard-tenant/git/matching-refs/heads/",
+      "latestDevelopWorkflowRuns": []
+    },
+    {
+      "repository": "multi-tour-worker-event-relay",
+      "refs": [
+        {
+          "branch": "develop",
+          "sha": "3588fda04f0b0af3c761fbe6bffe827fc6fd8886"
+        },
+        {
+          "branch": "main",
+          "sha": "ef0e5f5bf5fcab0b53851e7fe63aa1f8f73a49e1"
+        },
+        {
+          "branch": "qa",
+          "sha": "ef0e5f5bf5fcab0b53851e7fe63aa1f8f73a49e1"
+        }
+      ],
+      "tagV200": [],
+      "source": "https://api.github.com/repos/code-corhuila/multi-tour-worker-event-relay/git/matching-refs/heads/",
+      "latestDevelopWorkflowRuns": []
+    },
+    {
+      "repository": "multi-tour-security",
+      "refs": [
+        {
+          "branch": "develop",
+          "sha": "aafda9c9bba60b3a486d0e502cb522c5d91e73c4"
+        },
+        {
+          "branch": "main",
+          "sha": "582ac1deee7fd257c47d03bec386c34a9d6d1491"
+        },
+        {
+          "branch": "qa",
+          "sha": "582ac1deee7fd257c47d03bec386c34a9d6d1491"
+        }
+      ],
+      "tagV200": [],
+      "source": "https://api.github.com/repos/code-corhuila/multi-tour-security/git/matching-refs/heads/",
+      "latestDevelopWorkflowRuns": []
+    },
+    {
+      "repository": "multi-tour-identity-audit-api",
+      "refs": [
+        {
+          "branch": "develop",
+          "sha": "008c3a96856a78932a36a8e6d23565b63de64038"
+        },
+        {
+          "branch": "main",
+          "sha": "18317e49d4264917f761da1368fe0b0f28cf8fa4"
+        },
+        {
+          "branch": "qa",
+          "sha": "18317e49d4264917f761da1368fe0b0f28cf8fa4"
+        }
+      ],
+      "tagV200": [],
+      "source": "https://api.github.com/repos/code-corhuila/multi-tour-identity-audit-api/git/matching-refs/heads/",
+      "latestDevelopWorkflowRuns": []
+    }
+  ]
+}

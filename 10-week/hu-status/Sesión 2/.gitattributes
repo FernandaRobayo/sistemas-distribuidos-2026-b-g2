@@ -1,0 +1,2 @@
+# Preserve archived patch bytes and their hashes; context prefixes are part of the diff format.
+Evidencias/*.patch -text -whitespace
