@@ -14,12 +14,12 @@
 ## 1. User stories worked this week
 | HU ID | Title | Status (todo/doing/done) | Evidence (PR or commit URL) |
 |---|---|---|---|
-| W06-ORQ-01 | Start and verify the complete system with Docker Compose, shared networking, health checks and persistent data | done | [Session 1 delivery](https://github.com/FernandaRobayo/sistemas-distribuidos-2026-b-g2/blob/main/06-week/hu-status/Sesi%C3%B3n%201/README.md); PR/commit URL pending |
-| W06-PLAN-01 | Define three environments, document the configuration matrix and split MVP 2 orchestration stories | done | [Session 2 planning](https://github.com/FernandaRobayo/sistemas-distribuidos-2026-b-g2/blob/main/06-week/hu-status/Sesi%C3%B3n%202/README.md); PR/commit URL pending |
-| BPMN-INV | Analyze and define the recommended Multi tour BPMN process inventory | done | [BPMN inventory](https://github.com/FernandaRobayo/sistemas-distribuidos-2026-b-g2/blob/main/06-week/hu-status/README.md#recommended-bpmn-inventory-analyzed-this-week); PR/commit URL pending |
-| BPMN-01 | Model reservation creation through the customer portal | doing | Drafting started this week; diagram artifact and PR/commit URL pending |
-| BPMN-01A | Model reservation registration by internal operations | doing | Drafting started this week; diagram artifact and PR/commit URL pending |
-| W06-UIUX-01 | Refine the frontend user interface and user experience | doing | Specific UI/UX change evidence and PR/commit URL pending |
+| W06-ORQ-01 | Start and verify the complete system with Docker Compose, shared networking, health checks and persistent data | done | [commit 6a52c51](https://github.com/FernandaRobayo/sistemas-distribuidos-2026-b-g2/commit/6a52c51) |
+| W06-PLAN-01 | Define three environments, document the configuration matrix and split MVP 2 orchestration stories | done | [commit 6a52c51](https://github.com/FernandaRobayo/sistemas-distribuidos-2026-b-g2/commit/6a52c51) |
+| BPMN-INV | Analyze and define the recommended Multi tour BPMN process inventory | done | [commit 6a52c51](https://github.com/FernandaRobayo/sistemas-distribuidos-2026-b-g2/commit/6a52c51) · [BPMN inventory section](https://github.com/FernandaRobayo/sistemas-distribuidos-2026-b-g2/blob/main/06-week/hu-status/README.md#recommended-bpmn-inventory-analyzed-this-week) |
+| BPMN-01 | Model reservation creation through the customer portal | doing | Drafting started this week; diagram committed in week 07 · [commit 3d16b57](https://github.com/FernandaRobayo/sistemas-distribuidos-2026-b-g2/commit/3d16b57) |
+| BPMN-01A | Model reservation registration by internal operations | doing | Drafting started this week; diagram committed in week 07 · [commit 7f5ec6a](https://github.com/FernandaRobayo/sistemas-distribuidos-2026-b-g2/commit/7f5ec6a) |
+| W06-UIUX-01 | Refine the frontend user interface and user experience | doing | In progress on `feat/hu-05-frontend-uiux` branch in [Molina211/Multitour-Monolito-Portal](https://github.com/Molina211/Multitour-Monolito-Portal/tree/feat/hu-05-frontend-uiux) |
 
 `W06-ORQ-01`, `W06-PLAN-01`, `BPMN-INV` and `W06-UIUX-01` are local reporting identifiers, not published issue IDs. The completed planning item does not close implementation stories `HU-MVP2-ORQ-001` through `006`, which remain `todo` in the Session 2 backlog. BPMN progress records the work reported this week; diagrams 01 and 01A are not yet marked complete.
 
@@ -85,13 +85,10 @@ The checked items are supported by the Session 2 acceptance criteria and the Ses
 
 ## 6. Evidence links
 
-The following GitHub file URLs are prepared for publication on `main`; their availability depends on committing and pushing the weekly deliverables. PR/commit URLs remain pending.
-
-- Complete system orchestration: [Session 1 README](https://github.com/FernandaRobayo/sistemas-distribuidos-2026-b-g2/blob/main/06-week/hu-status/Sesi%C3%B3n%201/README.md) and [Compose configuration](https://github.com/FernandaRobayo/sistemas-distribuidos-2026-b-g2/blob/main/06-week/hu-status/Sesi%C3%B3n%201/compose.yaml).
-- Recorded build and startup: [Execution log](https://github.com/FernandaRobayo/sistemas-distribuidos-2026-b-g2/blob/main/06-week/hu-status/Sesi%C3%B3n%201/Evidencias/01-arranque.txt).
-- HTTP, persistence and recovery checks: [Integration script](https://github.com/FernandaRobayo/sistemas-distribuidos-2026-b-g2/blob/main/06-week/hu-status/Sesi%C3%B3n%201/verificar.ps1) and [execution evidence](https://github.com/FernandaRobayo/sistemas-distribuidos-2026-b-g2/blob/main/06-week/hu-status/Sesi%C3%B3n%201/Evidencias/02-verificacion.txt).
-- Environment planning: [Session 2 README](https://github.com/FernandaRobayo/sistemas-distribuidos-2026-b-g2/blob/main/06-week/hu-status/Sesi%C3%B3n%202/README.md), [configuration matrix](https://github.com/FernandaRobayo/sistemas-distribuidos-2026-b-g2/blob/main/06-week/hu-status/Sesi%C3%B3n%202/matriz-configuracion.md) and [branch/environment mapping](https://github.com/FernandaRobayo/sistemas-distribuidos-2026-b-g2/blob/main/06-week/hu-status/Sesi%C3%B3n%202/ramas-entornos.md).
-- Secret-free templates: [DEV example](https://github.com/FernandaRobayo/sistemas-distribuidos-2026-b-g2/blob/main/06-week/hu-status/Sesi%C3%B3n%202/.env.example), [QA example](https://github.com/FernandaRobayo/sistemas-distribuidos-2026-b-g2/blob/main/06-week/hu-status/Sesi%C3%B3n%202/.env.qa.example), [PROD example](https://github.com/FernandaRobayo/sistemas-distribuidos-2026-b-g2/blob/main/06-week/hu-status/Sesi%C3%B3n%202/.env.prod.example) and [configuration/Git validation record](https://github.com/FernandaRobayo/sistemas-distribuidos-2026-b-g2/blob/main/06-week/hu-status/Sesi%C3%B3n%202/verificacion.txt).
-- MVP 2 planning: [Six orchestration stories and acceptance criteria](https://github.com/FernandaRobayo/sistemas-distribuidos-2026-b-g2/blob/main/06-week/hu-status/Sesi%C3%B3n%202/historias-orquestacion.md).
-- BPMN inventory: [Recommended process inventory](https://github.com/FernandaRobayo/sistemas-distribuidos-2026-b-g2/blob/main/06-week/hu-status/README.md#recommended-bpmn-inventory-analyzed-this-week). Separate BPMN 01 and 01A diagram links remain pending.
-- Weekly summary: [Week 06 summary image](https://github.com/FernandaRobayo/sistemas-distribuidos-2026-b-g2/blob/main/06-week/hu-status/Weekly%20summary/Weekly%20Summary%20%20Semana%206%20Docker%20Compose%2C%20Entornos%20y%20Orquestaci%C3%B3n.png).
+- Main week 06 delivery commit: [feat(week06): add orchestration delivery and weekly progress · 6a52c51](https://github.com/FernandaRobayo/sistemas-distribuidos-2026-b-g2/commit/6a52c51)
+- D-02 commercial-reservation repos seeded (governance + CODEOWNERS, Sep 14): [api · 1498e98](https://github.com/code-corhuila/multi-tour-commercial-reservation-api/commit/1498e98) · [db · 73b62c4](https://github.com/code-corhuila/multi-tour-commercial-reservation-db/commit/73b62c4) · [portal · 034cf9f](https://github.com/code-corhuila/multi-tour-commercial-reservation-portal/commit/034cf9f)
+- BPMN inventory: [Recommended process inventory section](https://github.com/FernandaRobayo/sistemas-distribuidos-2026-b-g2/blob/main/06-week/hu-status/README.md#recommended-bpmn-inventory-analyzed-this-week)
+- BPMN-01 diagram (committed week 07): [commit 3d16b57](https://github.com/FernandaRobayo/sistemas-distribuidos-2026-b-g2/commit/3d16b57)
+- BPMN-01A diagram (committed week 07): [commit 7f5ec6a](https://github.com/FernandaRobayo/sistemas-distribuidos-2026-b-g2/commit/7f5ec6a)
+- Frontend HU-05 branch: [feat/hu-05-frontend-uiux](https://github.com/Molina211/Multitour-Monolito-Portal/tree/feat/hu-05-frontend-uiux)
+- Weekly summary: [Week 06 summary image](https://github.com/FernandaRobayo/sistemas-distribuidos-2026-b-g2/blob/main/06-week/hu-status/Weekly%20summary/Weekly%20Summary%20%20Semana%206%20Docker%20Compose%2C%20Entornos%20y%20Orquestaci%C3%B3n.png)

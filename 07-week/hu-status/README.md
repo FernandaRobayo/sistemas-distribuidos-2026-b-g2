@@ -15,11 +15,11 @@
 
 | HU ID | Title | Status (todo/doing/done) | Evidence (PR or commit URL) |
 |---|---|---|---|
-| W07-BPMN-00 | Model the Multi Tour operational macroproceso connecting reservation, payment, execution, costs and cash management | done | [BPMN-00-Macroproceso-operativo.bpmn](https://github.com/FernandaRobayo/sistemas-distribuidos-2026-b-g2/blob/main/07-week/hu-status/BPMN-00-Macroproceso-operativo.bpmn) |
-| W07-BPMN-01 | Model reservation creation through the customer portal | done | [BPMN-01 Crear reserva.bpmn](https://github.com/FernandaRobayo/sistemas-distribuidos-2026-b-g2/blob/main/07-week/hu-status/BPMN-01%20Crear%20reserva.bpmn) |
-| W07-BPMN-01A | Model reservation registration by internal operations | done | [BPMN-01A Registrar reserva desde la operación interna.bpmn](https://github.com/FernandaRobayo/sistemas-distribuidos-2026-b-g2/blob/main/07-week/hu-status/BPMN-01A%20Registrar%20reserva%20desde%20la%20operaci%C3%B3n%20interna.bpmn) |
-| W07-PDR-18 | Update PDR to v1.8: formalize required fields for client registration and minimum password recovery flow | done | [PDR_Multi_tour_v1.8.md](https://github.com/FernandaRobayo/sistemas-distribuidos-2026-b-g2/blob/main/07-week/hu-status/PDR_Multi_tour_v1.8.md) |
-| HU-05 | Frontend UI/UX: publish platform admin, collaborator and tenant-admin screens | doing | [feat/hu-05-frontend-uiux branch](https://github.com/Molina211/Multitour-Monolito-Portal/tree/feat/hu-05-frontend-uiux) |
+| W07-BPMN-00 | Model the Multi Tour operational macroproceso connecting reservation, payment, execution, costs and cash management | done | [BPMN-00-Macroproceso-operativo.bpmn](https://github.com/FernandaRobayo/sistemas-distribuidos-2026-b-g2/blob/main/07-week/hu-status/BPMN-00-Macroproceso-operativo.bpmn) · [commit 7f5ec6a](https://github.com/FernandaRobayo/sistemas-distribuidos-2026-b-g2/commit/7f5ec6a) · [multi-tour-docs PR #16](https://github.com/code-corhuila/multi-tour-docs/pull/16) |
+| W07-BPMN-01 | Model reservation creation through the customer portal | done | [BPMN-01 Crear reserva.bpmn](https://github.com/FernandaRobayo/sistemas-distribuidos-2026-b-g2/blob/main/07-week/hu-status/BPMN-01%20Crear%20reserva.bpmn) · [commit 3d16b57](https://github.com/FernandaRobayo/sistemas-distribuidos-2026-b-g2/commit/3d16b57) · [multi-tour-docs PR #16](https://github.com/code-corhuila/multi-tour-docs/pull/16) |
+| W07-BPMN-01A | Model reservation registration by internal operations | done | [BPMN-01A Registrar reserva desde la operación interna.bpmn](https://github.com/FernandaRobayo/sistemas-distribuidos-2026-b-g2/blob/main/07-week/hu-status/BPMN-01A%20Registrar%20reserva%20desde%20la%20operaci%C3%B3n%20interna.bpmn) · [commit 7f5ec6a](https://github.com/FernandaRobayo/sistemas-distribuidos-2026-b-g2/commit/7f5ec6a) · [multi-tour-docs PR #16](https://github.com/code-corhuila/multi-tour-docs/pull/16) |
+| W07-PDR-18 | Update PDR to v1.8: formalize required fields for client registration and minimum password recovery flow | done | [PDR_Multi_tour_v1.8.md](https://github.com/FernandaRobayo/sistemas-distribuidos-2026-b-g2/blob/main/07-week/hu-status/PDR_Multi_tour_v1.8.md) · [commit e2555aa](https://github.com/FernandaRobayo/sistemas-distribuidos-2026-b-g2/commit/e2555aa) · [multi-tour-docs PR #14](https://github.com/code-corhuila/multi-tour-docs/pull/14) |
+| HU-05 | Frontend UI/UX: publish platform admin, collaborator and tenant-admin screens | doing | [feat/hu-05-frontend-uiux branch](https://github.com/Molina211/Multitour-Monolito-Portal/tree/feat/hu-05-frontend-uiux) · [commit 7f5ec6a](https://github.com/FernandaRobayo/sistemas-distribuidos-2026-b-g2/commit/7f5ec6a) |
 
 ## 2. My individual contribution
 
@@ -52,9 +52,12 @@ Testable acceptance criteria is confirmed: PDR v1.8 defines explicit required fi
 
 ## 6. Evidence links
 
-- BPMN-00 macroproceso: [BPMN-00-Macroproceso-operativo.bpmn](https://github.com/FernandaRobayo/sistemas-distribuidos-2026-b-g2/blob/main/07-week/hu-status/BPMN-00-Macroproceso-operativo.bpmn)
-- BPMN-01 customer portal reservation: [BPMN-01 Crear reserva.bpmn](https://github.com/FernandaRobayo/sistemas-distribuidos-2026-b-g2/blob/main/07-week/hu-status/BPMN-01%20Crear%20reserva.bpmn)
+- BPMN-01 customer portal reservation: [BPMN-01 Crear reserva.bpmn](https://github.com/FernandaRobayo/sistemas-distribuidos-2026-b-g2/blob/main/07-week/hu-status/BPMN-01%20Crear%20reserva.bpmn) · [commit 3d16b57](https://github.com/FernandaRobayo/sistemas-distribuidos-2026-b-g2/commit/3d16b57)
+- PDR v1.8 + weekly summary image: [PDR_Multi_tour_v1.8.md](https://github.com/FernandaRobayo/sistemas-distribuidos-2026-b-g2/blob/main/07-week/hu-status/PDR_Multi_tour_v1.8.md) · [commit e2555aa](https://github.com/FernandaRobayo/sistemas-distribuidos-2026-b-g2/commit/e2555aa)
+- BPMN-00 macroproceso + BPMN-01A + README fill: [commit 7f5ec6a](https://github.com/FernandaRobayo/sistemas-distribuidos-2026-b-g2/commit/7f5ec6a)
+- BPMN-00 macroproceso file: [BPMN-00-Macroproceso-operativo.bpmn](https://github.com/FernandaRobayo/sistemas-distribuidos-2026-b-g2/blob/main/07-week/hu-status/BPMN-00-Macroproceso-operativo.bpmn)
 - BPMN-01A internal operations reservation: [BPMN-01A Registrar reserva desde la operación interna.bpmn](https://github.com/FernandaRobayo/sistemas-distribuidos-2026-b-g2/blob/main/07-week/hu-status/BPMN-01A%20Registrar%20reserva%20desde%20la%20operaci%C3%B3n%20interna.bpmn)
-- PDR v1.8: [PDR_Multi_tour_v1.8.md](https://github.com/FernandaRobayo/sistemas-distribuidos-2026-b-g2/blob/main/07-week/hu-status/PDR_Multi_tour_v1.8.md)
+- multi-tour-docs — align governance, domain, data and UX with PDR v1.8: [PR #14](https://github.com/code-corhuila/multi-tour-docs/pull/14)
+- multi-tour-docs — fix bpmn-docs alignment between .md and .bpmn files: [PR #16](https://github.com/code-corhuila/multi-tour-docs/pull/16)
 - Frontend HU-05 branch: [feat/hu-05-frontend-uiux](https://github.com/Molina211/Multitour-Monolito-Portal/tree/feat/hu-05-frontend-uiux)
 - Weekly summary: [Weekly Summary Semana 7](https://github.com/FernandaRobayo/sistemas-distribuidos-2026-b-g2/blob/main/07-week/hu-status/Weekly%20Summary%20Semana%207%20Comunicaci%C3%B3n%20entre%20Servicios%2C%20Contratos%20y%20Pruebas%20de%20Integraci%C3%B3n.png)
