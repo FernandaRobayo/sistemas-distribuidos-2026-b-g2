@@ -1,0 +1,28 @@
+﻿{"Time":"2026-10-18T18:06:12.8777189-05:00","Action":"start","Package":"observability-lab"}
+{"Time":"2026-10-18T18:06:12.9199778-05:00","Action":"run","Package":"observability-lab","Test":"TestTraceIdPropagatesAcrossThreeServices"}
+{"Time":"2026-10-18T18:06:12.9199778-05:00","Action":"output","Package":"observability-lab","Test":"TestTraceIdPropagatesAcrossThreeServices","Output":"=== RUN   TestTraceIdPropagatesAcrossThreeServices\n"}
+{"Time":"2026-10-18T18:06:12.9274532-05:00","Action":"output","Package":"observability-lab","Test":"TestTraceIdPropagatesAcrossThreeServices","Output":"--- PASS: TestTraceIdPropagatesAcrossThreeServices (0.01s)\n"}
+{"Time":"2026-10-18T18:06:12.9274532-05:00","Action":"pass","Package":"observability-lab","Test":"TestTraceIdPropagatesAcrossThreeServices","Elapsed":0.01}
+{"Time":"2026-10-18T18:06:12.9279869-05:00","Action":"run","Package":"observability-lab","Test":"TestSpansFormOneTreeWithW3CTraceparent"}
+{"Time":"2026-10-18T18:06:12.9279869-05:00","Action":"output","Package":"observability-lab","Test":"TestSpansFormOneTreeWithW3CTraceparent","Output":"=== RUN   TestSpansFormOneTreeWithW3CTraceparent\n"}
+{"Time":"2026-10-18T18:06:12.9301672-05:00","Action":"output","Package":"observability-lab","Test":"TestSpansFormOneTreeWithW3CTraceparent","Output":"--- PASS: TestSpansFormOneTreeWithW3CTraceparent (0.00s)\n"}
+{"Time":"2026-10-18T18:06:12.9301672-05:00","Action":"pass","Package":"observability-lab","Test":"TestSpansFormOneTreeWithW3CTraceparent","Elapsed":0}
+{"Time":"2026-10-18T18:06:12.9301672-05:00","Action":"run","Package":"observability-lab","Test":"TestGeneratesTraceIdWhenMissingAndReturnsIt"}
+{"Time":"2026-10-18T18:06:12.9301672-05:00","Action":"output","Package":"observability-lab","Test":"TestGeneratesTraceIdWhenMissingAndReturnsIt","Output":"=== RUN   TestGeneratesTraceIdWhenMissingAndReturnsIt\n"}
+{"Time":"2026-10-18T18:06:12.9328627-05:00","Action":"output","Package":"observability-lab","Test":"TestGeneratesTraceIdWhenMissingAndReturnsIt","Output":"--- PASS: TestGeneratesTraceIdWhenMissingAndReturnsIt (0.00s)\n"}
+{"Time":"2026-10-18T18:06:12.9328627-05:00","Action":"pass","Package":"observability-lab","Test":"TestGeneratesTraceIdWhenMissingAndReturnsIt","Elapsed":0}
+{"Time":"2026-10-18T18:06:12.9328627-05:00","Action":"run","Package":"observability-lab","Test":"TestMetricsRateErrorsLatency"}
+{"Time":"2026-10-18T18:06:12.9328627-05:00","Action":"output","Package":"observability-lab","Test":"TestMetricsRateErrorsLatency","Output":"=== RUN   TestMetricsRateErrorsLatency\n"}
+{"Time":"2026-10-18T18:06:12.9367013-05:00","Action":"output","Package":"observability-lab","Test":"TestMetricsRateErrorsLatency","Output":"--- PASS: TestMetricsRateErrorsLatency (0.00s)\n"}
+{"Time":"2026-10-18T18:06:12.9367013-05:00","Action":"pass","Package":"observability-lab","Test":"TestMetricsRateErrorsLatency","Elapsed":0}
+{"Time":"2026-10-18T18:06:12.9367013-05:00","Action":"run","Package":"observability-lab","Test":"TestTraceShowsTheSlowHop"}
+{"Time":"2026-10-18T18:06:12.9367013-05:00","Action":"output","Package":"observability-lab","Test":"TestTraceShowsTheSlowHop","Output":"=== RUN   TestTraceShowsTheSlowHop\n"}
+{"Time":"2026-10-18T18:06:13.0899359-05:00","Action":"output","Package":"observability-lab","Test":"TestTraceShowsTheSlowHop","Output":"--- PASS: TestTraceShowsTheSlowHop (0.15s)\n"}
+{"Time":"2026-10-18T18:06:13.0899359-05:00","Action":"pass","Package":"observability-lab","Test":"TestTraceShowsTheSlowHop","Elapsed":0.15}
+{"Time":"2026-10-18T18:06:13.0899359-05:00","Action":"run","Package":"observability-lab","Test":"TestWriteEvidence"}
+{"Time":"2026-10-18T18:06:13.0899359-05:00","Action":"output","Package":"observability-lab","Test":"TestWriteEvidence","Output":"=== RUN   TestWriteEvidence\n"}
+{"Time":"2026-10-18T18:06:13.279876-05:00","Action":"output","Package":"observability-lab","Test":"TestWriteEvidence","Output":"--- PASS: TestWriteEvidence (0.19s)\n"}
+{"Time":"2026-10-18T18:06:13.279876-05:00","Action":"pass","Package":"observability-lab","Test":"TestWriteEvidence","Elapsed":0.19}
+{"Time":"2026-10-18T18:06:13.279876-05:00","Action":"output","Package":"observability-lab","Output":"PASS\n"}
+{"Time":"2026-10-18T18:06:13.2820143-05:00","Action":"output","Package":"observability-lab","Output":"ok  \tobservability-lab\t0.400s\n"}
+{"Time":"2026-10-18T18:06:13.2824958-05:00","Action":"pass","Package":"observability-lab","Elapsed":0.405}

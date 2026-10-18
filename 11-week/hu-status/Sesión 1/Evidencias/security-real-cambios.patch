@@ -1,0 +1,356 @@
+diff --git a/internal/adapter/http/contract_test.go b/internal/adapter/http/contract_test.go
+index f1fe69d..98b6e8a 100644
+--- a/internal/adapter/http/contract_test.go
++++ b/internal/adapter/http/contract_test.go
+@@ -48,7 +48,10 @@ func TestC_EveryResponseOfEveryContractOperationIsProducedAndValid(t *testing.T)
+ 		token                           string
+ 		want                            int
+ 	}
+-	scenarios := []scenario{{method: http.MethodGet, path: "/health", want: http.StatusOK}}
++	scenarios := []scenario{
++		{method: http.MethodGet, path: "/health", want: http.StatusOK},
++		{method: http.MethodGet, path: "/metrics", want: http.StatusOK},
++	}
+ 	for _, route := range []string{tenantRoute, platformRoute} {
+ 		scenarios = append(scenarios,
+ 			scenario{http.MethodPost, route, "application/json", goodBody, &fakeSignIn{tokens: okTokens()}, nil, nil, "", http.StatusOK},
+diff --git a/internal/adapter/http/metrics.go b/internal/adapter/http/metrics.go
+new file mode 100644
+index 0000000..5ced37f
+--- /dev/null
++++ b/internal/adapter/http/metrics.go
+@@ -0,0 +1,139 @@
++package httpadapter
++
++import (
++	"fmt"
++	"net/http"
++	"regexp"
++	"sort"
++	"strings"
++	"sync"
++	"time"
++)
++
++// The RED metrics of the service (rate, errors, duration), exposed in the Prometheus text format on GET /metrics.
++// The route label is the registered pattern ("/api/v1/security/..."), never the raw path, so an id in the path
++// cannot multiply the series.
++
++var latencyBuckets = []float64{0.01, 0.05, 0.1, 0.3, 0.5, 1, 2, 5}
++
++// traceparentHeader is the W3C Trace Context header; only its trace id and parent span id are used.
++var traceparentHeader = regexp.MustCompile(`^00-([0-9a-f]{32})-([0-9a-f]{16})-0[01]$`)
++
++type series struct {
++	method, route string
++	status        int
++}
++
++type latency struct {
++	buckets []uint64
++	sum     float64
++	count   uint64
++}
++
++type metrics struct {
++	mu       sync.Mutex
++	requests map[series]uint64
++	duration map[[2]string]*latency
++}
++
++func newMetrics() *metrics {
++	return &metrics{requests: map[series]uint64{}, duration: map[[2]string]*latency{}}
++}
++
++func (m *metrics) observe(method, route string, status int, elapsed time.Duration) {
++	m.mu.Lock()
++	defer m.mu.Unlock()
++	m.requests[series{method, route, status}]++
++	key := [2]string{method, route}
++	l := m.duration[key]
++	if l == nil {
++		l = &latency{buckets: make([]uint64, len(latencyBuckets))}
++		m.duration[key] = l
++	}
++	seconds := elapsed.Seconds()
++	for i, bound := range latencyBuckets {
++		if seconds <= bound {
++			l.buckets[i]++
++		}
++	}
++	l.sum += seconds
++	l.count++
++}
++
++func (m *metrics) render() string {
++	m.mu.Lock()
++	defer m.mu.Unlock()
++	var out strings.Builder
++	out.WriteString("# HELP http_requests_total Total HTTP requests.\n# TYPE http_requests_total counter\n")
++	counted := make([]series, 0, len(m.requests))
++	for k := range m.requests {
++		counted = append(counted, k)
++	}
++	sort.Slice(counted, func(i, j int) bool {
++		a, b := counted[i], counted[j]
++		return fmt.Sprint(a.route, a.method, a.status) < fmt.Sprint(b.route, b.method, b.status)
++	})
++	for _, k := range counted {
++		fmt.Fprintf(&out, "http_requests_total{service=\"security\",method=%q,route=%q,status=\"%d\"} %d\n", k.method, k.route, k.status, m.requests[k])
++	}
++	out.WriteString("# HELP http_request_duration_seconds HTTP request duration in seconds.\n# TYPE http_request_duration_seconds histogram\n")
++	keys := make([][2]string, 0, len(m.duration))
++	for k := range m.duration {
++		keys = append(keys, k)
++	}
++	sort.Slice(keys, func(i, j int) bool { return keys[i][1]+keys[i][0] < keys[j][1]+keys[j][0] })
++	for _, k := range keys {
++		l := m.duration[k]
++		for i, bound := range latencyBuckets {
++			fmt.Fprintf(&out, "http_request_duration_seconds_bucket{service=\"security\",method=%q,route=%q,le=\"%g\"} %d\n", k[0], k[1], bound, l.buckets[i])
++		}
++		fmt.Fprintf(&out, "http_request_duration_seconds_bucket{service=\"security\",method=%q,route=%q,le=\"+Inf\"} %d\n", k[0], k[1], l.count)
++		fmt.Fprintf(&out, "http_request_duration_seconds_sum{service=\"security\",method=%q,route=%q} %g\n", k[0], k[1], l.sum)
++		fmt.Fprintf(&out, "http_request_duration_seconds_count{service=\"security\",method=%q,route=%q} %d\n", k[0], k[1], l.count)
++	}
++	return out.String()
++}
++
++// metricsRoute is never measured, so a scrape does not feed the numbers it reads.
++const metricsRoute = "/metrics"
++
++// serveMetrics answers the scrape. Like /health it needs no token; the gateway does not route it, so only the
++// internal network reaches it.
++func (s *server) serveMetrics(w http.ResponseWriter, _ *http.Request) {
++	w.Header().Set("Content-Type", "text/plain; version=0.0.4; charset=utf-8")
++	_, _ = w.Write([]byte(s.metrics.render()))
++}
++
++type statusRecorder struct {
++	http.ResponseWriter
++	status int
++}
++
++func (w *statusRecorder) WriteHeader(code int) {
++	w.status = code
++	w.ResponseWriter.WriteHeader(code)
++}
++
++// measure records rate, errors and duration of every route and logs one completed line with the trace id. The mux
++// writes the matched pattern on the request it receives, so it is read from that same request afterwards.
++func (s *server) measure(mux *http.ServeMux) http.Handler {
++	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
++		start := time.Now()
++		recorder := &statusRecorder{ResponseWriter: w, status: http.StatusOK}
++		mux.ServeHTTP(recorder, r)
++		route := r.Pattern
++		if i := strings.IndexByte(route, ' '); i >= 0 {
++			route = route[i+1:]
++		}
++		if route == "" {
++			route = "unmatched"
++		}
++		if route == metricsRoute {
++			return
++		}
++		elapsed := time.Since(start)
++		s.metrics.observe(r.Method, route, recorder.status, elapsed)
++		s.logger.InfoContext(r.Context(), "request completed", "traceId", traceID(r.Context()), "method", r.Method,
++			"route", route, "status", recorder.status, "durationMs", float64(elapsed.Microseconds())/1000)
++	})
++}
+diff --git a/internal/adapter/http/observability_test.go b/internal/adapter/http/observability_test.go
+new file mode 100644
+index 0000000..bdc4925
+--- /dev/null
++++ b/internal/adapter/http/observability_test.go
+@@ -0,0 +1,117 @@
++package httpadapter_test
++
++import (
++	"bytes"
++	"encoding/json"
++	"log/slog"
++	"net/http"
++	"net/http/httptest"
++	"strings"
++	"testing"
++
++	httpadapter "github.com/code-corhuila/multi-tour-security/internal/adapter/http"
++)
++
++func scrape(h http.Handler) string {
++	rec := httptest.NewRecorder()
++	h.ServeHTTP(rec, httptest.NewRequest(http.MethodGet, "/metrics", nil))
++	return rec.Body.String()
++}
++
++func TestO_MetricsCountRequestsByRouteAndStatusWithoutAToken(t *testing.T) {
++	h := newHandler(newKey(t))
++	get(h, "/health", "", "")
++	get(h, protectedPath, "", "") // 401: the error rate must see it
++
++	rec := httptest.NewRecorder()
++	h.ServeHTTP(rec, httptest.NewRequest(http.MethodGet, "/metrics", nil))
++	if rec.Code != http.StatusOK || !strings.HasPrefix(rec.Header().Get("Content-Type"), "text/plain") {
++		t.Fatalf("metrics answered %d %q", rec.Code, rec.Header().Get("Content-Type"))
++	}
++	body := rec.Body.String()
++	for _, want := range []string{
++		`http_requests_total{service="security",method="GET",route="/health",status="200"} 1`,
++		`http_requests_total{service="security",method="GET",route="/",status="401"} 1`,
++		`http_request_duration_seconds_count{service="security",method="GET",route="/health"} 1`,
++		`le="+Inf"`,
++	} {
++		if !strings.Contains(body, want) {
++			t.Errorf("missing %q in:\n%s", want, body)
++		}
++	}
++}
++
++func TestO_AScrapeDoesNotCountItself(t *testing.T) {
++	h := newHandler(newKey(t))
++	scrape(h)
++	if strings.Contains(scrape(h), `route="/metrics"`) {
++		t.Error("the metrics route feeds its own numbers")
++	}
++}
++
++func TestO_ThePathIdNeverBecomesALabel(t *testing.T) {
++	h := newHandler(newKey(t))
++	get(h, "/api/v1/security/internal/tenants/secret-tenant-id/events", "", "")
++	if strings.Contains(scrape(h), "secret-tenant-id") {
++		t.Error("a raw path reached a metric label")
++	}
++}
++
++func TestO_EveryRequestLogsACompletedLineWithTheTraceId(t *testing.T) {
++	var logs bytes.Buffer
++	key := newKey(t)
++	h := httpadapter.New(httpadapter.NewVerifier(&key.PublicKey), slog.New(slog.NewJSONHandler(&logs, nil)))
++	get(h, "/health", "", "trace-abc-1")
++
++	var found bool
++	for _, line := range strings.Split(strings.TrimSpace(logs.String()), "\n") {
++		var m map[string]any
++		if json.Unmarshal([]byte(line), &m) != nil || m["msg"] != "request completed" {
++			continue
++		}
++		found = true
++		if m["traceId"] != "trace-abc-1" || m["route"] != "/health" || m["status"] != float64(200) {
++			t.Errorf("completed line = %v", m)
++		}
++		if _, ok := m["durationMs"]; !ok {
++			t.Error("the completed line has no duration")
++		}
++	}
++	if !found {
++		t.Fatalf("no completed line in:\n%s", logs.String())
++	}
++}
++
++func TestO_ATraceparentWithoutACorrelationIdJoinsItsTrace(t *testing.T) {
++	h := newHandler(newKey(t))
++	req := httptest.NewRequest(http.MethodGet, "/health", nil)
++	req.Header.Set("traceparent", "00-4bf92f3577b34da6a3ce929d0e0e4736-00f067aa0ba902b7-01")
++	rec := httptest.NewRecorder()
++	h.ServeHTTP(rec, req)
++	if got := rec.Header().Get("X-Correlation-Id"); got != "4bf92f3577b34da6a3ce929d0e0e4736" {
++		t.Errorf("trace id = %q", got)
++	}
++}
++
++func TestO_ACorrelationIdWinsOverATraceparent(t *testing.T) {
++	h := newHandler(newKey(t))
++	req := httptest.NewRequest(http.MethodGet, "/health", nil)
++	req.Header.Set("X-Correlation-Id", "from-caller")
++	req.Header.Set("traceparent", "00-4bf92f3577b34da6a3ce929d0e0e4736-00f067aa0ba902b7-01")
++	rec := httptest.NewRecorder()
++	h.ServeHTTP(rec, req)
++	if got := rec.Header().Get("X-Correlation-Id"); got != "from-caller" {
++		t.Errorf("trace id = %q", got)
++	}
++}
++
++func TestO_AMalformedTraceparentIsIgnored(t *testing.T) {
++	h := newHandler(newKey(t))
++	req := httptest.NewRequest(http.MethodGet, "/health", nil)
++	req.Header.Set("traceparent", "00-<script>-00f067aa0ba902b7-01")
++	rec := httptest.NewRecorder()
++	h.ServeHTTP(rec, req)
++	if got := rec.Header().Get("X-Correlation-Id"); len(got) != 32 || strings.Contains(got, "<") {
++		t.Errorf("trace id = %q", got)
++	}
++}
+diff --git a/internal/adapter/http/server.go b/internal/adapter/http/server.go
+index 9c951fc..5936f1e 100644
+--- a/internal/adapter/http/server.go
++++ b/internal/adapter/http/server.go
+@@ -45,12 +45,13 @@ type TokenVerifier interface {
+ // New builds the handler of the service. Every route except /health and the public routes of an option requires a
+ // valid token; a new route is registered here and wrapped with protect.
+ func New(verifier TokenVerifier, logger *slog.Logger, options ...Option) http.Handler {
+-	s := &server{verifier: verifier, logger: logger}
++	s := &server{verifier: verifier, logger: logger, metrics: newMetrics()}
+ 	for _, option := range options {
+ 		option(s)
+ 	}
+ 	mux := http.NewServeMux()
+ 	mux.HandleFunc("GET /health", s.health)
++	mux.HandleFunc("GET "+metricsRoute, s.serveMetrics)
+ 	if s.outbox != nil {
+ 		internal := func(h http.HandlerFunc) http.Handler { return s.protect(s.requireService(h)) }
+ 		mux.Handle("GET /api/v1/security/internal/outbox", internal(s.listOutbox))
+@@ -79,12 +80,13 @@ func New(verifier TokenVerifier, logger *slog.Logger, options ...Option) http.Ha
+ 		mux.Handle("POST /api/v1/security/internal/tenants/{tenantId}/administrators", s.protect(s.requireService(http.HandlerFunc(s.createFirstAdministrator))))
+ 	}
+ 	mux.Handle("/", s.protect(http.HandlerFunc(s.notFound)))
+-	return s.correlate(mux)
++	return s.correlate(s.measure(mux))
+ }
+ 
+ type server struct {
+ 	verifier TokenVerifier
+ 	logger   *slog.Logger
++	metrics  *metrics
+ 	signIn   SignInService
+ 	refresh  RefreshService
+ 	change   ChangePasswordService
+@@ -129,7 +131,12 @@ func (s *server) correlate(next http.Handler) http.Handler {
+ 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+ 		id := r.Header.Get(correlationHeader)
+ 		if !validCorrelationID.MatchString(id) {
+-			id = newCorrelationID()
++			// no usable X-Correlation-Id: join the trace of a W3C traceparent, else start a new one
++			if m := traceparentHeader.FindStringSubmatch(r.Header.Get("traceparent")); m != nil {
++				id = m[1]
++			} else {
++				id = newCorrelationID()
++			}
+ 		}
+ 		w.Header().Set(correlationHeader, id)
+ 		ctx := context.WithValue(r.Context(), contextKey{}, id)
+diff --git a/openapi/openapi.yaml b/openapi/openapi.yaml
+index e1aa533..34c24ec 100644
+--- a/openapi/openapi.yaml
++++ b/openapi/openapi.yaml
+@@ -36,6 +36,19 @@ paths:
+                       database:
+                         type: string
+                         enum: [ok, degraded, down]
++  /metrics:
++    get:
++      summary: Request metrics in the Prometheus text format (rate, errors, duration by route and status)
++      description: Needs no token; the gateway does not route it, so only the internal network reaches it.
++      tags: [Observability]
++      security: []
++      responses:
++        "200":
++          description: Metrics in the Prometheus text format
++          content:
++            text/plain:
++              schema:
++                type: string
+   /api/v1/security/public/tenants/{identifier}/sessions:
+     post:
+       summary: Sign in inside the tenant of a link
