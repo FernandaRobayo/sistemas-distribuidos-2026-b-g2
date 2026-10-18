@@ -1,0 +1,66 @@
+# Pruebas unitarias de la regla (promtool test rules). Cubren AC-03.2, AC-04.1, AC-04.2 y AC-04.3.
+rule_files:
+  - slo-availability-burn.rules.yml
+evaluation_interval: 1m
+
+tests:
+  # 40 % de 5xx sostenido durante 90 min con tráfico (10 peticiones/s): debe disparar
+  - name: AC-04.1 dispara con 40 % de 5xx sostenido
+    interval: 1m
+    input_series:
+      - series: 'http_requests_total{service="security",status="500"}'
+        values: '0+240x90'
+      - series: 'http_requests_total{service="security",status="200"}'
+        values: '0+360x90'
+    alert_rule_test:
+      - eval_time: 80m
+        alertname: SloAvailabilityBurnRate
+        exp_alerts:
+          - exp_labels:
+              service: security
+              severity: P1
+              slo: SLO-1-availability
+              owner: mfrobayo
+            exp_annotations:
+              summary: "security devuelve 5xx en más del 30 % de las peticiones"
+              description: "Ritmo de consumo del presupuesto de SLO-1 igual o mayor que 6. Tasa 5xx a 5 min: 40%."
+              runbook_url: "11-week/hu-status/Sesión 2/runbook-security-signin-5xx.md"
+
+  # AC-03.2: 10 % de 5xx da una tasa de 0,10
+  - name: AC-03.2 la tasa 5xx vale 0,10
+    interval: 1m
+    input_series:
+      - series: 'http_requests_total{service="security",status="500"}'
+        values: '0+60x30'
+      - series: 'http_requests_total{service="security",status="200"}'
+        values: '0+540x30'
+    promql_expr_test:
+      - expr: service:http_5xx_ratio:rate5m
+        eval_time: 20m
+        exp_samples:
+          - labels: 'service:http_5xx_ratio:rate5m{service="security"}'
+            value: 0.1
+
+  # AC-04.2: un pico de 2 min con 40 % de 5xx y luego normalidad no dispara
+  - name: AC-04.2 un pico corto no dispara
+    interval: 1m
+    input_series:
+      - series: 'http_requests_total{service="security",status="500"}'
+        values: '0+0x60 0+240x2 480+0x30'
+      - series: 'http_requests_total{service="security",status="200"}'
+        values: '0+600x60 36000+360x2 36720+600x30'
+    alert_rule_test:
+      - eval_time: 70m
+        alertname: SloAvailabilityBurnRate
+        exp_alerts: []
+
+  # AC-04.3: 100 % de 5xx con casi ningún tráfico no dispara
+  - name: AC-04.3 sin tráfico mínimo no dispara
+    interval: 1m
+    input_series:
+      - series: 'http_requests_total{service="security",status="500"}'
+        values: '0+1x90'
+    alert_rule_test:
+      - eval_time: 80m
+        alertname: SloAvailabilityBurnRate
+        exp_alerts: []

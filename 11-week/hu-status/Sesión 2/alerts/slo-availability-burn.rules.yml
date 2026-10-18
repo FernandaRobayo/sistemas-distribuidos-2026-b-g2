@@ -1,0 +1,34 @@
+# DISEÑO, no desplegado: el proyecto no tiene Prometheus ni Alertmanager. Validada con promtool v2.55.1 (check rules y test rules, ver slo-availability-burn.test.yml).
+# Usa las métricas de la Sesión 1 (http_requests_total con las etiquetas service, method, route, status).
+# SLO-1: disponibilidad >= 95 % por mes (PDR v1.9, sección 17) -> presupuesto 5 %.
+# Burn rate 6 = 6 x 5 % = 30 % de errores 5xx. Los 4xx no cuentan: son respuestas correctas.
+groups:
+  - name: slo-availability
+    rules:
+      - record: service:http_5xx_ratio:rate5m
+        expr: |
+          sum by (service) (rate(http_requests_total{status=~"5.."}[5m]))
+          /
+          sum by (service) (rate(http_requests_total[5m]))
+
+      - record: service:http_5xx_ratio:rate1h
+        expr: |
+          sum by (service) (rate(http_requests_total{status=~"5.."}[1h]))
+          /
+          sum by (service) (rate(http_requests_total[1h]))
+
+      - alert: SloAvailabilityBurnRate
+        # ambas ventanas, para no alertar por un pico ya terminado; y tráfico mínimo, para no alertar con 1 petición
+        expr: |
+          service:http_5xx_ratio:rate5m > 0.30
+          and service:http_5xx_ratio:rate1h > 0.30
+          and on (service) sum by (service) (rate(http_requests_total[1h])) > 0.02
+        for: 5m
+        labels:
+          severity: P1
+          slo: SLO-1-availability
+          owner: mfrobayo   # PROPUESTO, a confirmar por el equipo
+        annotations:
+          summary: "{{ $labels.service }} devuelve 5xx en más del 30 % de las peticiones"
+          description: "Ritmo de consumo del presupuesto de SLO-1 igual o mayor que 6. Tasa 5xx a 5 min: {{ $value | humanizePercentage }}."
+          runbook_url: "11-week/hu-status/Sesión 2/runbook-security-signin-5xx.md"
