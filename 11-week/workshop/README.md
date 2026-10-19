@@ -6,7 +6,7 @@
 - TEAM: ErrorCapa8
 - DOCS_REPO: https://github.com/code-corhuila/multi-tour-docs
 - REFLECTION_DOC: https://docs.google.com/document/d/1TGNxZ6S8mhAZt2dlUxEXOQE0HX5LtW8FPEnyrtCFQ_k/edit?usp=sharing
-- JOURNEY: (written in CP1)
+- JOURNEY: Inactivate a catalog service (HU-COM-001): portal, api-gateway, commercial-reservation-api, then worker-event-relay to identity-audit and cash-reporting
 <!-- CONFIG-END -->
 
 ## Checkpoint index
@@ -14,7 +14,7 @@
 | Checkpoint | File | Status |
 |---|---|---|
 | CP0 Setup | README.md | done |
-| CP1 Critical journey and trace map | 01-journey.md | todo |
+| CP1 Critical journey and trace map | 01-journey.md | done |
 | CP2 Structured log contract | 02-log-contract.md | todo |
 | CP3 Instrumentation code | 03-instrumentation/ | todo |
 | CP4 Golden signals and metric catalog | 04-metrics.md | todo |
