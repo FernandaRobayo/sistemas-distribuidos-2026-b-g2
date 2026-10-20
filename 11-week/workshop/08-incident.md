@@ -23,7 +23,7 @@ POST /api/v1/catalog/services/{serviceId}/inactivate   (api-gateway, root)      
 --- asynchronous boundary ---
 relay.poll outbox                                      (worker-event-relay)            12 ms
   deliver CatalogServiceInactivated -> identity-audit  (worker-event-relay)          3004 ms  timeout
-  deliver CatalogServiceInactivated -> cash-reporting  (worker-event-relay)            21 ms
+  deliver CatalogServiceInactivated -> cash-reporting  (worker-event-relay)            21 ms  rejected 422, not retried
 ```
 
 ## Four log lines of that trace (CP2 format)
@@ -66,8 +66,8 @@ relay.poll outbox                                      (worker-event-relay)     
 | 25 | Assumed in the drill: the owner looks at the relay metric and sees the timeouts |
 | 40 | `identity-audit-api` is back to normal; the retried events are delivered |
 
-**Impact:** 0 failed or slow requests for users; 15 deliveries timed out on the first attempt and all
-arrived on retry; 0 minutes of error budget spent in SLO-1, SLO-2 and SLO-3.
+**Impact:** 0 failed or slow requests for users; 15 deliveries to identity-audit timed out on the first attempt and all
+arrived on retry; the cash-reporting refusal (422, see CP2) is a business rule refusal and is not retried; 0 minutes of error budget spent in SLO-1, SLO-2 and SLO-3.
 
 **Root cause:** the consumer answered in 3 s, equal to the 3 s timeout of the relay, so the delivery
 failed and had to be retried.
@@ -98,3 +98,4 @@ failed and had to be retried.
 
 - The 60-inactivation burst, the 25 minute detection and the second-attempt success are assumptions of the drill.
 - The timeout ratio and the proposed alert are not implemented; the project has no Prometheus yet.
+- The 422 refusal of cash-reporting is an example rule of CP2, not a rule of the docs. In the docs cash-reporting is portal only (its API and database are deferred), so its consumer route is a design.
