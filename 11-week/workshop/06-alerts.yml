@@ -1,0 +1,51 @@
+# Burn-rate alerts for SLO-1 (availability 99 % over 30 days, budget 1 %), see 05-slo.md.
+# Journey: inactivate a catalog service. Metrics: http_requests_total of the gateway (04-metrics.md).
+# Design only: the project has no Prometheus or Alertmanager yet. 4xx answers do not count as errors.
+groups:
+  - name: catalog-availability-slo
+    rules:
+      # Fast burn: 14.4 x 1 % = 14.4 % of 5xx in 1 h, confirmed over the last 5 min.
+      # It means 2 % of the 30-day budget is gone in one hour.
+      - alert: CatalogAvailabilityFastBurn
+        expr: |
+          (
+            sum(rate(http_requests_total{job="api-gateway",route=~"/api/v1/catalog/.*",status=~"5.."}[1h]))
+            / sum(rate(http_requests_total{job="api-gateway",route=~"/api/v1/catalog/.*"}[1h]))
+          ) > (14.4 * 0.01)
+          and
+          (
+            sum(rate(http_requests_total{job="api-gateway",route=~"/api/v1/catalog/.*",status=~"5.."}[5m]))
+            / sum(rate(http_requests_total{job="api-gateway",route=~"/api/v1/catalog/.*"}[5m]))
+          ) > (14.4 * 0.01)
+          and
+          sum(increase(http_requests_total{job="api-gateway",route=~"/api/v1/catalog/.*"}[1h])) >= 20
+        for: 2m
+        labels:
+          severity: page
+          team: ErrorCapa8
+        annotations:
+          summary: "Catalog routes return 5xx in more than 14.4 % of requests (fast burn)"
+          runbook_url: "https://github.com/FernandaRobayo/sistemas-distribuidos-2026-b-g2/blob/main/11-week/workshop/07-runbook.md"
+
+      # Slow burn: 6 x 1 % = 6 % of 5xx in 6 h, confirmed over the last 30 min.
+      # It means 5 % of the 30-day budget is gone in six hours.
+      - alert: CatalogAvailabilitySlowBurn
+        expr: |
+          (
+            sum(rate(http_requests_total{job="api-gateway",route=~"/api/v1/catalog/.*",status=~"5.."}[6h]))
+            / sum(rate(http_requests_total{job="api-gateway",route=~"/api/v1/catalog/.*"}[6h]))
+          ) > (6 * 0.01)
+          and
+          (
+            sum(rate(http_requests_total{job="api-gateway",route=~"/api/v1/catalog/.*",status=~"5.."}[30m]))
+            / sum(rate(http_requests_total{job="api-gateway",route=~"/api/v1/catalog/.*"}[30m]))
+          ) > (6 * 0.01)
+          and
+          sum(increase(http_requests_total{job="api-gateway",route=~"/api/v1/catalog/.*"}[6h])) >= 100
+        for: 15m
+        labels:
+          severity: ticket
+          team: ErrorCapa8
+        annotations:
+          summary: "Catalog routes return 5xx in more than 6 % of requests (slow burn)"
+          runbook_url: "https://github.com/FernandaRobayo/sistemas-distribuidos-2026-b-g2/blob/main/11-week/workshop/07-runbook.md"
