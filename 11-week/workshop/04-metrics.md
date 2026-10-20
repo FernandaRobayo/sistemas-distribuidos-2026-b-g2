@@ -48,6 +48,8 @@ All the others are proposed. The generic names `http_requests_total`,
 
 ## cash-reporting
 
+The docs keep cash-reporting as portal only for now (its API and database are deferred), so this table is a design for when it consumes events.
+
 | Signal | Metric | Type | Labels | PromQL |
 |---|---|---|---|---|
 | Latency | `http_request_duration_seconds` | histogram | `route`, `method` | `histogram_quantile(0.95, sum by (le) (rate(http_request_duration_seconds_bucket{job="cash-reporting"}[5m])))` |
