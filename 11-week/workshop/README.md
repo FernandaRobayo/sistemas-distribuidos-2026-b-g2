@@ -21,4 +21,4 @@
 | CP6 SLIs, SLOs and error budget | 05-slo.md | done |
 | CP7 Burn-rate alerts | 06-alerts.yml, 06-alert-policy.md | done |
 | CP8 Runbook | 07-runbook.md | done |
-| CP9 Incident drill and postmortem | 08-incident.md | todo |
+| CP9 Incident drill and postmortem | 08-incident.md | done |
