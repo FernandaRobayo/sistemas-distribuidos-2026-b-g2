@@ -40,7 +40,7 @@ docker compose exec security wget -q -O - http://127.0.0.1:8086/health
 Respuesta esperada: `{"status":"ok"}`. **Aviso:** `/health` solo prueba que el proceso vive, **no** comprueba la base de datos.
 Un `ok` con 5xx apunta a la base de datos o a las llaves, no al proceso.
 
-Si el servicio ya expone `/metrics` (cambio de la Sesión 1, sin integrar): `docker compose exec security wget -q -O - http://127.0.0.1:8086/metrics | grep 'status="5'`.
+Cuando el servicio exponga `/metrics` (historias OBS-01 y OBS-02; hoy no existe en el producto): `docker compose exec security wget -q -O - http://127.0.0.1:8086/metrics | grep 'status="5'`.
 
 ## 3. Seguir una petición fallida
 

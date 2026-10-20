@@ -9,7 +9,7 @@ No existe Prometheus ni Alertmanager en el proyecto. La regla de alerta sí se v
 4 pruebas unitarias con series sintéticas, en [slo-availability-burn.test.yml](alerts/slo-availability-burn.test.yml)), pero eso
 no prueba que funcione sobre tráfico real. Cada cifra lleva
 su origen: **CONFIRMADO** (PDR v1.9, sección 17) o **PROPUESTO** (decisión nuestra, pendiente de aprobar).
-Continúa la [Sesión 1](../Sesión%201/README.md), que dejó las métricas (`http_requests_total`,
+Continúa la [Sesión 1](../Sesión%201/README.md), que definió en un laboratorio las métricas (`http_requests_total`,
 `http_request_duration_seconds`) y el `trace_id`.
 
 | Archivo | Contenido |
@@ -23,7 +23,7 @@ Continúa la [Sesión 1](../Sesión%201/README.md), que dejó las métricas (`ht
 ## 1. Los tres SLO
 
 Alcance de los "flujos principales": consulta, autenticación, creación de reserva, carga de comprobantes y caja
-(PDR 17, Disponibilidad). Hoy solo `security` (autenticación) puede medirse, y solo en la rama no integrada de la Sesión 1.
+(PDR 17, Disponibilidad). Hoy **ningún servicio del producto expone métricas**, así que estos SLO no se pueden medir todavía; esa es la brecha que cierran las historias OBS-01 y OBS-02.
 
 | SLO | SLI (qué se mide) | Objetivo | Ventana | Origen |
 |---|---|---|---|---|
@@ -90,4 +90,4 @@ Tampoco se alerta por CPU ni por cada 500 aislado (causa, no síntoma).
 
 - PDR v1.9, sección 17 (Disponibilidad, Rendimiento, Observabilidad, Respaldo y recuperación): [PDR_Multi_tour_v1.9.md](../../../08-week/hu-status/PDR_Multi_tour_v1.9.md).
 - Docs: `13-operations/README.md` (conceptos SLI/SLO/presupuesto), `observability.md`, `incident-management.md`, plantilla `09-microservices/_template/service/runbook.md`, spec del relay.
-- Código: `multi-tour-security` (`deploy/compose.yml`, README) y Sesión 1 de esta semana.
+- Código: `multi-tour-security` (`deploy/compose.yml`, README), solo lectura; y el laboratorio de la Sesión 1 de esta semana.

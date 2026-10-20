@@ -39,7 +39,7 @@
 - Published BPMN-03 (modify reservation before execution), BPMN-04 (register execution and finalize), BPMN-05 (cancellation and economic treatment), and BPMN-06 (reschedule a reservation or service) in multi-tour-docs.
 - Added C4 Level 3 component diagram for the commercial-reservation-api and published the phase 1 story map in multi-tour-docs.
 - Promoted all completed domain 02 portal work twice to QA (PRs #96 and #107) and promoted QA to release/2.0.0 (portal PR #97).
-- Session 1 (observability): built a standard-library Go lab with three stub services (gateway, reservations, security) showing JSON logs with `trace_id`/`span_id` following the product contract `X-Correlation-Id`, `GET /metrics` in Prometheus text format (rate, errors, latency) and a single parent/child span tree per request; six tests pass. Also instrumented the real `multi-tour-security` service on a local branch (`request completed` log line, `/metrics`, `traceparent` support, OpenAPI route), not pushed because FernandaRobayo has no write access to that repo.
+- Session 1 (observability): built a standard-library Go lab with three stub services (gateway, reservations, security) showing JSON logs with `trace_id`/`span_id` following the product contract `X-Correlation-Id`, `GET /metrics` in Prometheus text format (rate, errors, latency) and a single parent/child span tree per request; six tests pass. The product repositories were not modified; the lab only documents which pillars they already provide (section 6 of the Session 1 README).
 - Session 2 (planning): set SLO-1 availability >= 95 % per month and SLO-2 p95 <= 3 s from the PDR v1.9 non-functional requirements, proposed SLO-3 freshness (99 % of outbox events published within 60 s), computed the error budgets, wrote the budget policy, a burn-rate alert (validated with promtool `check rules` and 4 synthetic unit tests), a runbook for `security` sign-in 5xx and 7 observability stories with Given/When/Then criteria.
 
 ## 3. Blockers and risks
@@ -47,14 +47,14 @@
 - db PR #14 (promote the concurrent-index fix to QA) was open at the end of the week.
 - The portal release PR #98 and api release PR #22 are open; they require team review before merging to release/2.0.0.
 - D-04 cash-reporting implementation was not started; HU-CSH-001 through HU-CSH-003 remain in the backlog.
-- Observability: only `security` has real metrics (local branch, not pushed); the other services lack `/metrics` and no trace collector exists. The Session 2 SLOs, alert and runbook are a design: no Prometheus or Alertmanager exists in the project, they are not deployed or exercised on real traffic, and the freshness SLO, the error-budget policy and the alert owner are proposals pending team approval.
+- Observability: no product service exposes `/metrics` and no trace collector exists (the product repositories were not touched) and no trace collector exists. The Session 2 SLOs, alert and runbook are a design: no Prometheus or Alertmanager exists in the project, they are not deployed or exercised on real traffic, and the freshness SLO, the error-budget policy and the alert owner are proposals pending team approval.
 
 ## 4. Plan for next week
 - Merge open PRs for HU-COM-004 additional discount (#115–#119) and promote to QA.
 - Merge open release PRs for the portal (#98) and api (#22).
 - Start D-04 cash-reporting portal implementation (HU-CSH-001).
 - Continue remaining HU-COM-010 through HU-COM-020 portal slices per the published specs.
-- Get the observability proposals approved (freshness SLO, error-budget policy, alert owner), obtain write access or a fork for `multi-tour-security`, and run the incident runbook as a table-top exercise (story OBS-06).
+- Get the observability proposals approved (freshness SLO, error-budget policy, alert owner), and run the incident runbook as a table-top exercise (story OBS-06).
 
 ## 5. Compliance self-check
 - [x] Conventional Commits - `type(scope): summary`

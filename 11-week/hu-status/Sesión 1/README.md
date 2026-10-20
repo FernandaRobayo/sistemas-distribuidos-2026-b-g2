@@ -7,8 +7,7 @@ SLO y alertas pertenecen a la sesión 2 y no se definen aquí.
 **Alcance honesto.** Esta entrega vive solo en esta carpeta. Es un **laboratorio autocontenido** (Go, solo biblioteca estándar)
 con tres servicios mínimos —`gateway`, `reservations`, `security`— que reproducen el flujo del producto
 gateway → reservas → seguridad. Las respuestas de `reservations` son datos de prueba (`STUB`), no datos reales del dominio.
-Aparte, el servicio real `security` fue instrumentado en una rama local sin commit (sección 5).
-Qué tiene ya el producto y qué falta está en la sección 5.
+Los repositorios del producto **no se modificaron**; la sección 5 resume qué pilares ya tienen y qué les falta.
 
 ## 1. Pilar 1 — Registros estructurados con `trace_id`
 
@@ -83,43 +82,21 @@ curl.exe -H "X-Correlation-Id: demo-1" "<gateway>/api/reservations/R-1?delay_ms=
 curl.exe "<gateway>/metrics"
 ```
 
-## 5. Servicio real instrumentado: `multi-tour-security`
-
-Además del laboratorio, instrumenté el servicio real `security` (Go) en la rama local
-`feat/observability-metrics-trace-s11` del repo `MultiTour/transversales/multi-tour-security`
-(base `aafda9c`, **sin commit ni push**; el cambio está en el árbol de trabajo y en
-[security-real-cambios.patch](Evidencias/security-real-cambios.patch)).
-
-| Pilar | Cambio en `security` |
-|---|---|
-| Registros | cada petición escribe una línea `request completed` con `traceId`, `method`, `route`, `status` y `durationMs`, además de la línea `request` que ya existía |
-| Métricas | `GET /metrics` (texto Prometheus, sin token, no enrutado por el gateway): `http_requests_total` y `http_request_duration_seconds` por método, ruta registrada y estado; el id del path nunca es etiqueta y el scrape no se cuenta a sí mismo |
-| Rastreo | sin `X-Correlation-Id` válido, el servicio se une al trace de un `traceparent` W3C válido (el `X-Correlation-Id` sigue teniendo prioridad, contrato intacto); uno malformado se ignora |
-| Contrato | `/metrics` añadido a `openapi/openapi.yaml` y a la prueba de contrato que exige producir cada respuesta |
-
-Pruebas: 7 nuevas (`observability_test.go`) más la de contrato; la suite completa del repo pasa, 0 fallos
-([security-real-pruebas.jsonl](Evidencias/security-real-pruebas.jsonl)). Tamaño: unas 160 líneas de código
-más 117 de pruebas, dentro del límite de 400 por PR.
-
-Pendiente de este cambio (no hecho): HU y spec que lo respalden, commit, PR a `develop`, y reflejar `/metrics`
-en el contrato de diseño de `multi-tour-docs`. No hay colector de trazas: el servicio propaga y registra el
-`trace_id`, no exporta tramos.
-
-## 6. Relación con el producto (verificada en el código local, 2026-10-18)
+## 5. Relación con el producto (verificada en el código local, 2026-10-18)
 
 | Servicio real | Correlación | Logs JSON | `/metrics` | Trazas |
 |---|---|---|---|---|
-| security (Go) | `X-Correlation-Id` → `traceId`, o `traceparent` | sí, con `traceId` | sí, tras el cambio de la sección 5 (sin commit) | propaga, no exporta tramos |
+| security (Go) | `X-Correlation-Id` → `traceId`, o `traceparent` | sí, con `traceId` | no encontrado | no |
 | identity-audit-api | `CorrelationIdFilter` | sí (`logstash`, id en MDC) | no encontrado | no |
 | commercial-reservation-api | `CorrelationFilter` | no verificado | no encontrado | no |
 | worker-runtime | `correlationId` | sí (slog JSON) | no encontrado | no |
 | api-gateway (NGINX) | sí: reutiliza `X-Correlation-Id` válido o usa `$request_id`, lo reenvía (`proxy_set_header`) y lo devuelve; el 404 incluye `traceId` | no verificado | no encontrado | no |
 
-Lo que falta para llevar esto al producto, fuera de lo autorizado (solo se tocó `security`):
-`/metrics` en los demás servicios, propagar el id también en los logs de commercial-reservation y un colector de trazas (la docs sugiere OpenTelemetry
+Lo que falta para llevar esto al producto (no se tocó ningún repositorio del producto):
+`/metrics` en los servicios, propagar el id también en los logs de commercial-reservation y un colector de trazas (la docs sugiere OpenTelemetry
 pero no fija el backend). Cada cambio debe entrar por su HU y su spec.
 
-## 7. Limitaciones
+## 6. Limitaciones
 
 - Los tramos se guardan en memoria y se vuelcan a JSONL; no hay exportador OTLP ni Jaeger.
 - Los servicios son simulados; los tiempos no representan al producto.
