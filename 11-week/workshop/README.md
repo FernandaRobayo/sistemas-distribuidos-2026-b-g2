@@ -17,7 +17,7 @@
 | CP1 Critical journey and trace map | 01-journey.md | done |
 | CP2 Structured log contract | 02-log-contract.md | done |
 | CP3 Instrumentation code | 03-instrumentation/ | done |
-| CP4 Golden signals and metric catalog | 04-metrics.md | todo |
+| CP4 Golden signals and metric catalog | 04-metrics.md | done |
 | CP6 SLIs, SLOs and error budget | 05-slo.md | todo |
 | CP7 Burn-rate alerts | 06-alerts.yml, 06-alert-policy.md | todo |
 | CP8 Runbook | 07-runbook.md | todo |
