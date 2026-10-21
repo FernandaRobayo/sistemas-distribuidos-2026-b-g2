@@ -1,0 +1,2 @@
+﻿front: peticiones=850 v1.0.0=791 v2.0.0=59 fallidas=0
+gateway: peticiones=85 fallidas=0

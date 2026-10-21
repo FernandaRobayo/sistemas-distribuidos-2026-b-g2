@@ -1,0 +1,5 @@
+﻿NAME                       IMAGE                          STATUS
+mt-release-lab-blue-1      multitour/front:v1.0.0         Up 56 seconds (healthy)
+mt-release-lab-gateway-1   multitour/api-gateway:v2.0.0   Up 56 seconds (healthy)
+mt-release-lab-green-1     multitour/front:v2.0.0         Up 3 seconds (healthy)
+mt-release-lab-proxy-1     nginx:1.27-alpine              Up 53 seconds
