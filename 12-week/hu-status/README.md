@@ -24,7 +24,7 @@
 ## 3. Blockers and risks
 - The lab covers the front page and gateway health, not complete business journeys or public-cloud production. Registry publishing and CI/CD remain planned work.
 - Angular runtime configuration, full-system readiness, database backup/restore and migration compatibility require product-level implementation and evidence. DEP-* references are local planning identifiers, not official backlog HU IDs.
-- The lab and plan are published in draft PR #1; draft PR #2 contains the guide, runbook and weekly status. Review and merge remain pending; no product deployment or promotion was performed.
+- The academic delivery is published directly on main, as authorized for this course repository. PRs #1 and #2 are historical references; no product deployment or promotion was performed.
 
 ## 4. Plan for next week
 - Assign the proposed deployment stories to the official MVP 3 backlog; continue with security and CI/CD, including registry digests, promotion gates and effective frontend runtime configuration.
@@ -38,11 +38,11 @@
 - [x] No secrets; config via environment variables
 
 The integration checks are executable infrastructure smoke/recovery checks. No product domain code was changed.
-The academic delivery uses documentation branches and draft PRs. The per-environment product HU PR item is not applicable here; no product promotion was performed.
+Direct changes to main are authorized for this academic repository. The per-environment product HU PR item is not applicable here; no product promotion was performed.
 
 ## 6. Evidence links
 - [Published lab and plan PR #1](https://github.com/FernandaRobayo/sistemas-distribuidos-2026-b-g2/pull/1)
-- [Published guide and status PR #2](https://github.com/FernandaRobayo/sistemas-distribuidos-2026-b-g2/pull/2) — depends on #1; retarget to main after #1 merges.
+- [Historical guide and status PR #2](https://github.com/FernandaRobayo/sistemas-distribuidos-2026-b-g2/pull/2) — content integrated directly into main.
 - [Deployment plan](Sesión%202/plan-despliegue.md) · [MVP 3 stories](Sesión%202/historias-mvp3.md)
 - [Rollback runbook](Sesión%202/runbook-reversion.md) · [Executable rehearsal](Sesión%202/ensayar.ps1)
 - [Measured result](Sesión%202/Evidencias/resultado.json) · [Image promotion](Sesión%202/Evidencias/promocion-imagenes.json) · [Execution log](Sesión%202/Evidencias/ensayo.log) · [Continuous traffic](Sesión%202/Evidencias/trafico.log)
