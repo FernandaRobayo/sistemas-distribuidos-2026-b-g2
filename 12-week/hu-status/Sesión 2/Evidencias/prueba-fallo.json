@@ -1,0 +1,8 @@
+﻿{
+    "test":  "Unavailable image after a seeded previous successful result",
+    "exit_code":  1,
+    "status":  "failed",
+    "previous_success_removed":  true,
+    "failed_run_id":  "3b316ddf-e054-4f5b-ac2e-d4f4ea9a9249",
+    "date":  "2026-10-22T23:14:55.7103920-05:00"
+}

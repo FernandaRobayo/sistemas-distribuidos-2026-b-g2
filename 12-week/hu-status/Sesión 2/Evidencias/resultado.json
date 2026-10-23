@@ -1,0 +1,15 @@
+﻿{
+    "run_id":  "c7d5feb1-7c2a-4a6e-b9da-dd68edf0fc65",
+    "status":  "passed",
+    "date":  "2026-10-22T23:17:36.2190536-05:00",
+    "scope":  "local front blue-green and gateway health",
+    "rollback_seconds":  7.363,
+    "rollback_target_seconds":  300,
+    "front_requests":  318,
+    "blue_requests":  172,
+    "green_requests":  146,
+    "gateway_requests":  318,
+    "failed_requests":  0,
+    "unhealthy_target_rejected":  true,
+    "main_recreated":  true
+}

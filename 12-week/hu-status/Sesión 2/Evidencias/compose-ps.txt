@@ -1,0 +1,5 @@
+﻿NAME                      IMAGE                                                                     COMMAND                  SERVICE   CREATED          STATUS                   PORTS
+mt-s12s2-main-blue-1      sha256:1d672406c8658cce10cacdfc07b092f778b2e68e3cfe5d4dc5bc982b3d26c85b   "/docker-entrypoint.…"   blue      13 seconds ago   Up 6 seconds (healthy)   8080/tcp
+mt-s12s2-main-gateway-1   sha256:22895b384e8fdd2cc2a32d4b8df01690225203b8448a12ecb821182f377b6c1a   "/docker-entrypoint.…"   gateway   13 seconds ago   Up 6 seconds (healthy)   80/tcp
+mt-s12s2-main-green-1     sha256:20e1d28b7bfb47cb2f97c4975e453377846652f2c3186f128e08d46064d05a7b   "/docker-entrypoint.…"   green     13 seconds ago   Up 6 seconds (healthy)   8080/tcp
+mt-s12s2-main-proxy-1     sha256:65645c7bb6a0661892a8b03b89d0743208a18dd2f3f17a54ef4b76fb8e2f2a10   "/docker-entrypoint.…"   proxy     12 seconds ago   Up 3 seconds (healthy)   127.0.0.1:8094->8080/tcp

@@ -1,0 +1,81 @@
+﻿name: mt-s12s2-qa
+services:
+  blue:
+    healthcheck:
+      test:
+        - CMD
+        - wget
+        - -q
+        - --spider
+        - http://127.0.0.1:8080/
+      timeout: 2s
+      interval: 1s
+      retries: 15
+    image: sha256:1d672406c8658cce10cacdfc07b092f778b2e68e3cfe5d4dc5bc982b3d26c85b
+    networks:
+      default: null
+    pull_policy: never
+  gateway:
+    healthcheck:
+      test:
+        - CMD
+        - wget
+        - -q
+        - --spider
+        - http://127.0.0.1:8080/health
+      timeout: 2s
+      interval: 1s
+      retries: 15
+    image: sha256:22895b384e8fdd2cc2a32d4b8df01690225203b8448a12ecb821182f377b6c1a
+    networks:
+      default: null
+    pull_policy: never
+  green:
+    healthcheck:
+      test:
+        - CMD
+        - wget
+        - -q
+        - --spider
+        - http://127.0.0.1:8080/
+      timeout: 2s
+      interval: 1s
+      retries: 15
+    image: sha256:20e1d28b7bfb47cb2f97c4975e453377846652f2c3186f128e08d46064d05a7b
+    networks:
+      default: null
+    pull_policy: never
+  proxy:
+    depends_on:
+      blue:
+        condition: service_healthy
+        required: true
+      gateway:
+        condition: service_healthy
+        required: true
+      green:
+        condition: service_healthy
+        required: true
+    healthcheck:
+      test:
+        - CMD
+        - wget
+        - -q
+        - --spider
+        - http://127.0.0.1:8080/proxy-health
+      timeout: 2s
+      interval: 1s
+      retries: 15
+    image: sha256:65645c7bb6a0661892a8b03b89d0743208a18dd2f3f17a54ef4b76fb8e2f2a10
+    networks:
+      default: null
+    ports:
+      - mode: ingress
+        host_ip: 127.0.0.1
+        target: 8080
+        published: "8093"
+        protocol: tcp
+    pull_policy: never
+networks:
+  default:
+    name: mt-s12s2-qa_default

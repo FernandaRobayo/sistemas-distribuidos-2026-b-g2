@@ -1,0 +1,35 @@
+# Laboratorio académico aislado. Los IDs locales fijan el artefacto, no son digests de registro.
+services:
+  blue:
+    image: ${BLUE_IMAGE:?required}
+    pull_policy: never
+    healthcheck: &front_health
+      test: [CMD, wget, -q, --spider, 'http://127.0.0.1:8080/']
+      interval: 1s
+      timeout: 2s
+      retries: 15
+  green:
+    image: ${GREEN_IMAGE:?required}
+    pull_policy: never
+    healthcheck: *front_health
+  gateway:
+    image: ${GATEWAY_IMAGE:?required}
+    pull_policy: never
+    healthcheck:
+      test: [CMD, wget, -q, --spider, 'http://127.0.0.1:8080/health']
+      interval: 1s
+      timeout: 2s
+      retries: 15
+  proxy:
+    image: ${PROXY_IMAGE:?required}
+    pull_policy: never
+    ports: ['127.0.0.1:${HTTP_PORT:?required}:8080']
+    depends_on:
+      blue: {condition: service_healthy}
+      green: {condition: service_healthy}
+      gateway: {condition: service_healthy}
+    healthcheck:
+      test: [CMD, wget, -q, --spider, 'http://127.0.0.1:8080/proxy-health']
+      interval: 1s
+      timeout: 2s
+      retries: 15
