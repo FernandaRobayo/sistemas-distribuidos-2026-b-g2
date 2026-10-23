@@ -24,7 +24,7 @@
 ## 3. Blockers and risks
 - The lab covers the front page and gateway health, not complete business journeys or public-cloud production. Registry publishing and CI/CD remain planned work.
 - Angular runtime configuration, full-system readiness, database backup/restore and migration compatibility require product-level implementation and evidence. DEP-* references are local planning identifiers, not official backlog HU IDs.
-- The lab and plan are published in draft PR #1; the companion documentation branch contains the guide, runbook and weekly status. Review and merge remain pending; no product deployment or promotion was performed.
+- The lab and plan are published in draft PR #1; draft PR #2 contains the guide, runbook and weekly status. Review and merge remain pending; no product deployment or promotion was performed.
 
 ## 4. Plan for next week
 - Assign the proposed deployment stories to the official MVP 3 backlog; continue with security and CI/CD, including registry digests, promotion gates and effective frontend runtime configuration.
@@ -42,6 +42,7 @@ The academic delivery uses documentation branches and draft PRs. The per-environ
 
 ## 6. Evidence links
 - [Published lab and plan PR #1](https://github.com/FernandaRobayo/sistemas-distribuidos-2026-b-g2/pull/1)
+- [Published guide and status PR #2](https://github.com/FernandaRobayo/sistemas-distribuidos-2026-b-g2/pull/2) — depends on #1; retarget to main after #1 merges.
 - [Deployment plan](Sesión%202/plan-despliegue.md) · [MVP 3 stories](Sesión%202/historias-mvp3.md)
 - [Rollback runbook](Sesión%202/runbook-reversion.md) · [Executable rehearsal](Sesión%202/ensayar.ps1)
 - [Measured result](Sesión%202/Evidencias/resultado.json) · [Image promotion](Sesión%202/Evidencias/promocion-imagenes.json) · [Execution log](Sesión%202/Evidencias/ensayo.log) · [Continuous traffic](Sesión%202/Evidencias/trafico.log)

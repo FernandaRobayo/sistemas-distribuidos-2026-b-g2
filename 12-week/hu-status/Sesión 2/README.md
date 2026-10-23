@@ -10,6 +10,10 @@ ensayar una reversión documentada y cronometrada y dividir el trabajo en histor
 Esta entrega desarrolla ese plan y un ensayo local con las imágenes reales del front y gateway
 ya utilizadas en [Sesión 1](../Sesión%201/README.md). No modifica repositorios del producto.
 
+Publicación: [PR #1 — laboratorio y planificación](https://github.com/FernandaRobayo/sistemas-distribuidos-2026-b-g2/pull/1)
+y [PR #2 — guía y estado semanal](https://github.com/FernandaRobayo/sistemas-distribuidos-2026-b-g2/pull/2),
+ambos en borrador. Primero se revisa/fusiona #1; después se cambia la base de #2 a main antes de fusionarlo.
+
 ## 1. Guía de lectura
 
 | Entregable | Qué contiene |
