@@ -32,10 +32,15 @@ ok  	worker-event-relay	0.031s
 ## What the test proves
 
 1. The event carries `correlationId` = `4bf92f3577b34da6a3ce929d0e0e4736` (the saved `trace_id`).
-2. The fake identity-audit server receives a `traceparent` with the same `trace_id`.
+2. The fake identity-audit server receives a `traceparent` with the same `trace_id`, on the ADR-004 D4 route.
 3. It also receives `Idempotency-Key` equal to the `eventId`.
 4. The log line of the delivery carries that `trace_id`.
 5. `/metrics` shows `relay_deliveries_total{target_service="identity-audit",outcome="success"} 1`.
+
+`TestDeliveryHTTPResponses` also checks that only `200` and `201` count as accepted deliveries.
+Responses `202`, `422` and `503` must return an error, write a rejection log and increment the rejected
+delivery counter. This keeps an HTTP rejection from looking like success to the caller. The exercise
+still delivers only once: recording outbox attempts and scheduling retries remain outside this module.
 
 ## Run it and see the logs and metrics
 
@@ -69,7 +74,13 @@ The response returns `Traceparent: 00-4bf92f3577b34da6a3ce929d0e0e4736-<new span
 
 ## Limits
 
-- The receiving route of identity-audit (`/internal/events`) is not defined in `07-api` yet; the test
-  and `cmd/relay` use it as an assumption, with a local stand-in server.
-- The relay has no inbound HTTP in the docs. `/health`, `/metrics` and `TraceMiddleware` are an exercise
-  of this workshop.
+- The delivery route follows ADR-004 D4 (`POST /api/v1/<domain>/internal/tenants/{tenantId}/events`, `201` the
+  first time, `200` for a repeat). `identity-audit.yaml` does not publish it yet, and the `identity-audit`
+  segment is an assumption. The test and `cmd/relay` use a local stand-in server that answers `201`.
+- The client timeout is 5 s, the `HTTP_TIMEOUT` of ADR-004 D10. This module does not retry and does not call the
+  `attempts` route (D4, route 4); that part is designed, not built.
+- A real `multi-tour-worker-event-relay` already exists in the product repositories (`transversales/`). It has its
+  own routing table, `SERVICE_TOKEN`, `HEALTH_ADDR` (`:8080`) and no `/metrics`, and it does not know
+  `CatalogServiceInactivated`. This module is a separate exercise, it does not replace it, and the product
+  repositories were not modified. Its `/health`, `/metrics`, `TraceMiddleware` and port 8087 are an exercise of this
+  workshop; the real worker exposes only `/health`.

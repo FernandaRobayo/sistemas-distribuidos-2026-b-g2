@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"net"
 	"net/http"
+	"net/url"
 	"strings"
 	"time"
 )
@@ -27,7 +28,9 @@ type Relay struct {
 }
 
 // DeliverToAudit restores the trace from correlationId and sends traceparent downstream.
-// The receiving route of identity-audit is not defined in 07-api yet: /internal/events is assumed.
+// The delivery route follows ADR-004 D4 (route 2): POST /api/v1/<domain>/internal/tenants/{tenantId}/events,
+// answered 201 the first time and 200 for a repeat. identity-audit.yaml does not publish it yet and the
+// "identity-audit" segment of <domain> is an assumption.
 func (r Relay) DeliverToAudit(ctx context.Context, e Event) error {
 	tc, ok := FromCorrelationID(e.CorrelationID)
 	if !ok {
@@ -35,7 +38,7 @@ func (r Relay) DeliverToAudit(ctx context.Context, e Event) error {
 		r.Log.Log("WARN", "trace.restore.failed", "correlationId is not a trace_id, new trace started", tc, e.CorrelationID, 0, nil)
 	}
 	body := fmt.Sprintf(`{"eventId":%q,"eventType":%q,"tenantId":%q}`, e.EventID, e.EventType, e.TenantID)
-	req, err := http.NewRequestWithContext(ctx, http.MethodPost, r.AuditURL+"/internal/events", strings.NewReader(body))
+	req, err := http.NewRequestWithContext(ctx, http.MethodPost, r.AuditURL+"/api/v1/identity-audit/internal/tenants/"+url.PathEscape(e.TenantID)+"/events", strings.NewReader(body))
 	if err != nil {
 		return err
 	}
@@ -55,9 +58,10 @@ func (r Relay) DeliverToAudit(ctx context.Context, e Event) error {
 		outcome, level, event = "timeout", "ERROR", "event.delivery.timeout"
 	case err != nil:
 		outcome, level, event = "error", "ERROR", "event.delivery.failed"
-	case resp.StatusCode >= 400:
+	case resp.StatusCode != http.StatusOK && resp.StatusCode != http.StatusCreated: // ADR-004 D4: 201 first time, 200 repeat
 		outcome, level, event = "rejected", "WARN", "event.delivery.rejected"
 		fields["http_status"] = resp.StatusCode
+		err = fmt.Errorf("identity-audit rejected delivery: HTTP %d", resp.StatusCode)
 	}
 	if resp != nil {
 		resp.Body.Close()

@@ -48,7 +48,7 @@ All the others are proposed. The generic names `http_requests_total`,
 
 ## cash-reporting
 
-The docs keep cash-reporting as portal only for now (its API and database are deferred), so this table is a design for when it consumes events.
+The project owner keeps cash-reporting as portal only for now (its API and database are deferred; this is not written in the docs tree yet), so this table is a design for when it consumes events.
 
 | Signal | Metric | Type | Labels | PromQL |
 |---|---|---|---|---|
@@ -63,8 +63,8 @@ The docs keep cash-reporting as portal only for now (its API and database are de
 |---|---|---|---|
 | `method` | GET, POST, PATCH | 3 | Closed set |
 | `route` | route template, not the raw URL | about 25 | Example `/catalog/services/{serviceId}/inactivate` |
-| `status` | HTTP codes used by the contract | about 8 | 200, 400, 401, 403, 404, 422, 500, 502 |
-| `outcome` in `catalog_inactivations_total` | success, already_inactive, rejected, error | 4 | `already_inactive` is the repeated call that answers 200 and emits nothing (contract); `rejected` is 403, 404 or 422; `error` is 5xx |
+| `status` | HTTP codes used by the contract | about 8 | 200, 400, 401, 403, 404, 500, 502 |
+| `outcome` in `catalog_inactivations_total` | success, already_inactive, rejected, error | 4 | `already_inactive` is the repeated call that answers 200 and emits nothing (contract); `rejected` is 400, 403 or 404 (the contract of `inactivateCatalogService` has no 422); `error` is 5xx |
 | `outcome` in `relay_deliveries_total` | success, rejected, timeout, error | 4 | Same words as the logs of CP2 and as `metrics.go` |
 | `outcome` in `events_received_total` | success, rejected, error | 3 | `rejected` is a business rule refusal (422) |
 | `target_service` | identity-audit, cash-reporting | 2 | Consumers of job 7 |
@@ -83,9 +83,9 @@ Worst case is `route` x `method` x `status`, about 25 x 3 x 8 = 600 series per s
 ## Histogram buckets
 
 The non-functional requirements ask for 95th percentile of 3 seconds or less for the evaluated
-operations (`04-requirements/non-functional.md`; ADR-004 D8). The delivery timeout of the relay is also 3 s.
+operations (`04-requirements/non-functional.md`, NFR-006). The delivery timeout of the relay is 5 s (`HTTP_TIMEOUT`, ADR-004 D10).
 
 - HTTP: `0.05, 0.1, 0.25, 0.5, 1, 2, 3, 5`. An administrator clicking "Inactivate" expects an answer
   below 1 s, and 3 s is the limit of the requirement, so there are buckets around both.
-- Relay delivery: `0.1, 0.5, 1, 3, 5`, as in `metrics.go`. The 3 s bucket shows deliveries that
-  reach the timeout; the 5 s bucket catches the slow ones.
+- Relay delivery: `0.1, 0.5, 1, 3, 5`, as in `metrics.go`. The 3 s bucket is the limit of the requirement and the 5 s bucket shows deliveries that
+  reach the timeout.

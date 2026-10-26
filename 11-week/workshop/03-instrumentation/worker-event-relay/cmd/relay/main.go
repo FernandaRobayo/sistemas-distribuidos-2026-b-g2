@@ -19,13 +19,14 @@ func main() {
 	logger := relay.Logger{Service: "worker-event-relay", Version: "0.1.0", Environment: "qa", Out: os.Stdout}
 	metrics := relay.NewMetrics()
 
-	// Stand-in of identity-audit: its receiving route is not defined in 07-api yet.
+	// Stand-in of identity-audit: it answers 201 like ADR-004 D4 says; the real route is not in identity-audit.yaml yet.
 	audit := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, _ *http.Request) {
-		w.WriteHeader(http.StatusAccepted)
+		w.WriteHeader(http.StatusCreated)
 	}))
 	defer audit.Close()
 
-	r := relay.Relay{Log: logger, Metrics: metrics, Client: &http.Client{Timeout: 3 * time.Second}, AuditURL: audit.URL}
+	// The client timeout is the HTTP_TIMEOUT of ADR-004 D10 (5 s).
+	r := relay.Relay{Log: logger, Metrics: metrics, Client: &http.Client{Timeout: 5 * time.Second}, AuditURL: audit.URL}
 	event := relay.Event{EventID: "9c1d7a52-48be-4f0a-b3c6-6e2d1f9a8b11", TenantID: "0b6f2c1e-5d3a-4e8b-9a47-2f1c8d6e7b30",
 		EventType: "CatalogServiceInactivated", CorrelationID: "4bf92f3577b34da6a3ce929d0e0e4736"}
 	if err := r.DeliverToAudit(context.Background(), event); err != nil {

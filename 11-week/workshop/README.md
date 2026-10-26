@@ -18,7 +18,9 @@
 | CP2 Structured log contract | 02-log-contract.md | done |
 | CP3 Instrumentation code | 03-instrumentation/ | done |
 | CP4 Golden signals and metric catalog | 04-metrics.md | done |
+| CP5 Close delivery 1 | ../hu-status/README.md (commit `2deb9c5`) | done |
 | CP6 SLIs, SLOs and error budget | 05-slo.md | done |
 | CP7 Burn-rate alerts | 06-alerts.yml, 06-alert-policy.md | done |
 | CP8 Runbook | 07-runbook.md | done |
 | CP9 Incident drill and postmortem | 08-incident.md | done |
+| CP10 Close delivery 2 | ../hu-status/README.md (commit `61474d9`) | done |

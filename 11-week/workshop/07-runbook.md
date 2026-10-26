@@ -22,10 +22,10 @@ Which route and status fail (PromQL, gateway):
 sum by (route, status) (rate(http_requests_total{job="api-gateway",route=~"/api/v1/catalog/.*",status=~"5.."}[5m]))
 ```
 
-Is the problem in the gateway or behind it (compare the same query for `job="commercial-reservation-api"`).
+Is the problem in the gateway or behind it (compare the same query for `job="commercial-reservation-api"`, with `route=~"/catalog/.*"`, because that service sees the route without the gateway prefix).
 
 Follow one failed request by `trace_id` (Loki in Grafana). The `traceId` comes from the error body or
-from the `traceparent` header of the response:
+from the `X-Correlation-Id` header of the response (the gateway returns it):
 
 ```logql
 {service=~"api-gateway|commercial-reservation-api|worker-event-relay"} | json | trace_id="<trace_id>"
