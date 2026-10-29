@@ -19,7 +19,8 @@
 | Date | Hours | Chapters or labs | Evidence file |
 |---|---|---|---|
 | 2026-10-28 | 3 | Chapter 1 | evidence/01-chapter-01.png |
-| Total | 3 | | |
+| 2026-10-28 | 1 | Chapter 2 | evidence/02-chapter-02.png |
+| Total | 4 | | |
 
 ## Labs
 
