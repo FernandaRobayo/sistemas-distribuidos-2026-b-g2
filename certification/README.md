@@ -22,8 +22,8 @@
 | 2026-10-28 | 1 | Chapter 2 | evidence/02-chapter-02.png |
 | 2026-10-29 | 1 | Chapter 3 | evidence/03-chapter-03.png |
 | 2026-10-29 | 1 | Chapter 4 | evidence/04-chapter-04.png |
-| 2026-11-01 | 2 | Chapter 5 | evidence/05-chapter-05.png |
-| Total | 8 | | |
+| 2026-11-01 | 3 | Chapter 5 | evidence/05-chapter-05.png |
+| Total | 9 | | |
 
 ## Labs
 
