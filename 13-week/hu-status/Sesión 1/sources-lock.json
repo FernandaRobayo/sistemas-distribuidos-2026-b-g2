@@ -1,0 +1,30 @@
+{
+  "security": {
+    "repository": "transversales/multi-tour-security",
+    "revision": "aafda9c9bba60b3a486d0e502cb522c5d91e73c4"
+  },
+  "commercial": {
+    "repository": "d02-comercial-reservas/multi-tour-commercial-reservation-api",
+    "revision": "a88e26bd5fefcb4f29440bd250a00a117c0ad5a1"
+  },
+  "identity-audit": {
+    "repository": "d01-plataforma/multi-tour-identity-audit-api",
+    "revision": "a5e4ebb07d487b2c26bb7eb8b74c4cc511029c9b"
+  },
+  "cash-reporting": {
+    "repository": "d04-caja-reportes/multi-tour-cash-reporting-api",
+    "revision": "c0d846d86a06ed0dab0cd1be6c5918a0fabe02a4"
+  },
+  "operations-cost": {
+    "repository": "d03-operacion-costos/multi-tour-operations-cost-api",
+    "revision": "a2833703225db61044fbd5f55454e73948b0f00d"
+  },
+  "relay": {
+    "repository": "transversales/multi-tour-worker-event-relay",
+    "revision": "2e58fff1d164bbca2f303a046b9cff2d7d0ecc32"
+  },
+  "gateway": {
+    "repository": "transversales/multi-tour-api-gateway",
+    "revision": "c718b534eecb3fd36ba32f66c2c129ffce282a39"
+  }
+}
