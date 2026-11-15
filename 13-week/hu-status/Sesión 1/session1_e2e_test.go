@@ -212,6 +212,7 @@ func TestSession1LiveSecurity(t *testing.T) {
 		return strings.TrimSpace(out.String())
 	}
 	serviceToken := issue()
+	check("service_identity_cannot_create_catalog_items", 403, "POST", gateway+route, serviceToken, catalogBody)
 	internal := server.URL + "/api/v1/security/internal/outbox?status=PENDING&limit=10"
 	check("real_service_credential_calls_real_internal_api", 200, "GET", internal, serviceToken, "")
 	check("person_cannot_call_internal_api", 403, "GET", internal, admin, "")

@@ -9,7 +9,7 @@ const here = path.dirname(fileURLToPath(import.meta.url));
 const product = process.env.WORKSHOP_PRODUCT_ROOT || path.resolve(here, '../../../../MultiTour');
 const evidence = path.join(here, 'evidence');
 const temp = fs.mkdtempSync(path.join(os.tmpdir(), 'week13-security-'));
-const containers = [], networks = [], children = [], results = [];
+const containers = [], networks = [], images = [], children = [], results = [];
 const redact = s => s.replace(/eyJ[A-Za-z0-9_-]*\.[A-Za-z0-9_-]+\.[A-Za-z0-9_-]*/g, '[JWT]')
   .replace(/postgres(?:ql)?:\/\/[^\s"']+/g, '[TEST_DATABASE_URL]');
 const sync = (tool, args, cwd = temp, env = process.env, input) => execFileSync(tool, args, {cwd, env, input, encoding:'utf8', maxBuffer:64*1024*1024}).trim();
@@ -150,16 +150,16 @@ try {
     const p=path.join(gateway,'nginx/routes',file);fs.writeFileSync(p,fs.readFileSync(p,'utf8').replaceAll(host,`${upstreamHost}:${port}`));
   }
   const server=path.join(gateway,'nginx/conf.d/20-server.conf');
-  fs.writeFileSync(server,fs.readFileSync(server,'utf8').replace('listen 8080;','listen 8443 ssl;\n    ssl_certificate /test-tls/tls.crt;\n    ssl_certificate_key /test-tls/tls.key;\n    ssl_protocols TLSv1.2 TLSv1.3;\n    add_header Strict-Transport-Security "max-age=31536000" always;'));
+  fs.writeFileSync(server,fs.readFileSync(server,'utf8').replace('listen 8080;','listen 8443 ssl;\n    ssl_certificate /tmp/tls.crt;\n    ssl_certificate_key /tmp/tls.key;\n    ssl_protocols TLSv1.2 TLSv1.3;'));
   // Locations that add headers must repeat HSTS under NGINX inheritance rules.
   const headers=path.join(gateway,'nginx/snippets/headers.conf');fs.appendFileSync(headers,'\nadd_header Strict-Transport-Security "max-age=31536000" always;\n');
   const gwName=`week13-live-${randomBytes(5).toString('hex')}`;containers.push(gwName);
   const network=`${gwName}-network`;networks.push(network);sync('docker',['network','create',network]);
-  const cors=path.join(gateway,'nginx/conf.d/10-cors.conf');fs.writeFileSync(cors,'map $http_origin $cors_origin { default ""; "https://localhost" "https://localhost"; }\n');
-  sync('docker',['run','-d','--rm','--name',gwName,'--network',network,'-p','127.0.0.1::8443','-e','ALLOWED_ORIGIN=https://localhost',
-    '-v',`${gateway.replaceAll('\\','/')}/nginx:/etc/nginx:ro`,'-v',`${keys.replaceAll('\\','/')}/tls.crt:/test-tls/tls.crt:ro`,'-v',`${keys.replaceAll('\\','/')}/tls.key:/test-tls/tls.key:ro`,
-    'nginx:1.30.5-alpine','nginx','-g','daemon off;']);
-  // The standard image does not render templates when /etc/nginx is read-only.
+  images.push(gwName);sync('docker',['build','-q','-f','deploy/Dockerfile','-t',gwName,'.'],gateway);
+  sync('docker',['create','--name',gwName,'--network',network,'-p','127.0.0.1::8443','-e','ALLOWED_ORIGIN=https://localhost',gwName]);
+  for(const file of ['tls.crt','tls.key'])sync('docker',['cp',path.join(keys,file),`${gwName}:/tmp/${file}`]);
+  sync('docker',['start',gwName]);
+  if(sync('docker',['inspect','--format','{{.State.Running}}',gwName])!=='true')throw Error(redact(sync('docker',['logs',gwName])));
   const gwPort=sync('docker',['port',gwName,'8443/tcp']).split(':').at(-1);
   fs.writeFileSync(path.join(temp,'gateway-ready'),`https://localhost:${gwPort}`);
   await waitFile(path.join(temp,'rotate-ready'),go,300);
@@ -167,6 +167,7 @@ try {
   fs.unlinkSync(path.join(temp,'java-stop'));fs.unlinkSync(path.join(temp,'java-ready'));
   java=startJava();const secondPort=await waitFile(path.join(temp,'java-ready'),java);
   const route=path.join(gateway,'nginx/routes/commercial-reservation.conf');fs.writeFileSync(route,fs.readFileSync(route,'utf8').replaceAll(`${upstreamHost}:${javaPort}`,`${upstreamHost}:${secondPort}`));
+  sync('docker',['cp',route,`${gwName}:/etc/nginx/routes/commercial-reservation.conf`]);
   sync('docker',['exec',gwName,'nginx','-s','reload']);fs.writeFileSync(path.join(temp,'rotation-ready'),'ready');
   const code=await go.done;save('live-integration',go,code);
   fs.writeFileSync(path.join(temp,'java-stop'),'stop');const javaCode=await java.done;save('live-java-server',java,javaCode);
@@ -178,6 +179,7 @@ finally {
   for(const job of children)if(job.child.exitCode===null)job.child.kill();
   for(const name of containers.reverse())try{sync('docker',['rm','-f',name])}catch{}
   for(const name of networks.reverse())try{sync('docker',['network','rm',name])}catch{}
+  for(const name of images.reverse())try{sync('docker',['rmi',name])}catch{}
   if(fs.existsSync(path.join(temp,'keys')))fs.rmSync(path.join(temp,'keys'),{recursive:true,force:true});
   // Keep only redacted evidence; transient keys, databases and source exports are discarded.
   if(!process.exitCode)fs.rmSync(temp,{recursive:true,force:true});
