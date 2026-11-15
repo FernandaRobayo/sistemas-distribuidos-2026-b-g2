@@ -29,6 +29,7 @@ const lockFile=path.join(here,'sources-lock.json');
 const locked=fs.existsSync(lockFile)?JSON.parse(fs.readFileSync(lockFile,'utf8')):{};
 const previous=fs.existsSync(path.join(evidence,'sources.json'))?JSON.parse(fs.readFileSync(path.join(evidence,'sources.json'),'utf8').replace(/^\uFEFF/,'')):{};
 fs.mkdirSync(evidence,{recursive:true});
+fs.rmSync(path.join(evidence,'completion.json'),{force:true});
 for (const [name, relative, ref] of records) {
   const repo = path.join(product,relative), sha = sync('git',['-C',repo,'rev-parse',locked[name]?.revision||ref]);
   const dest = path.join(temp,name); fs.mkdirSync(dest);
@@ -40,7 +41,7 @@ for (const [name, relative, ref] of records) {
 fs.writeFileSync(path.join(evidence,'sources.json'),JSON.stringify(Object.fromEntries(Object.entries(sources).map(([k,{directory,...v}])=>[k,v])),null,2)+'\n');
 
 function start(tool,args,cwd,env=process.env) {
-  const child = spawn(tool,args,{cwd,env,windowsHide:true,stdio:['ignore','pipe','pipe']});
+  const child = spawn(tool,args,{cwd,env,windowsHide:true,detached:process.platform!=='win32',stdio:['ignore','pipe','pipe']});
   let output=''; child.stdout.on('data',b=>output+=b); child.stderr.on('data',b=>output+=b);
   const done = new Promise(resolve=>{child.on('error',e=>{output+=e.message;resolve(127)});child.on('exit',code=>resolve(code??1))});
   const job={child,done,get output(){return output}}; children.push(job); return job;
@@ -83,6 +84,7 @@ function resumed(name) {
   const p=path.join(evidence,`${name}.json`);if(!fs.existsSync(p))return false;
   const result=JSON.parse(fs.readFileSync(p,'utf8').replace(/^\uFEFF/,''));
   if(previous[name]?.revision!==sources[name].revision||result.exitCode!==0)return false;
+  if(name==='cash-reporting'&&previous['cash-db']?.revision!==sources['cash-db'].revision)return false;
   if(name==='security'&&result.skippedGoTests)return false;
   results.push(result);console.log(`${name}: retaining passing evidence for identical source revision`);return true;
 }
@@ -170,16 +172,21 @@ try {
   sync('docker',['cp',route,`${gwName}:/etc/nginx/routes/commercial-reservation.conf`]);
   sync('docker',['exec',gwName,'nginx','-s','reload']);fs.writeFileSync(path.join(temp,'rotation-ready'),'ready');
   const code=await go.done;save('live-integration',go,code);
+  fs.writeFileSync(path.join(evidence,'live-gateway.log'),redact(sync('docker',['logs',gwName]))+'\n');
   fs.writeFileSync(path.join(temp,'java-stop'),'stop');const javaCode=await java.done;save('live-java-server',java,javaCode);
   if(code||javaCode)throw Error('Live integration failed');
   fs.writeFileSync(path.join(evidence,'completion.json'),JSON.stringify({checkedAt:new Date().toISOString(),status:'passed',results,scope:'session-1 local integration; no production deployment'},null,2)+'\n');
   console.log('SESSION 1: ALL CHECKS PASSED, with no skipped security integration tests.');
 } catch(error) { console.error(redact(error.message));console.error(`Diagnostic directory: ${temp}`);process.exitCode=1; }
 finally {
-  for(const job of children)if(job.child.exitCode===null)job.child.kill();
+  for(const job of children)if(job.child.exitCode===null) {
+    try {if(process.platform==='win32')sync('taskkill',['/PID',String(job.child.pid),'/T','/F']);else process.kill(-job.child.pid,'SIGTERM')}catch{}
+  }
   for(const name of containers.reverse())try{sync('docker',['rm','-f',name])}catch{}
   for(const name of networks.reverse())try{sync('docker',['network','rm',name])}catch{}
   for(const name of images.reverse())try{sync('docker',['rmi',name])}catch{}
+  const ownedTemp=path.dirname(path.resolve(temp))===path.resolve(os.tmpdir())&&path.basename(temp).startsWith('week13-security-');
+  if(!ownedTemp)throw Error('Refusing cleanup outside the generated test directory');
   if(fs.existsSync(path.join(temp,'keys')))fs.rmSync(path.join(temp,'keys'),{recursive:true,force:true});
   // Keep only redacted evidence; transient keys, databases and source exports are discarded.
   if(!process.exitCode)fs.rmSync(temp,{recursive:true,force:true});

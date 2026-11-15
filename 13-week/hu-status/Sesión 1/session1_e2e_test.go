@@ -6,6 +6,7 @@ import (
 	"crypto/rsa"
 	"crypto/tls"
 	"crypto/x509"
+	"encoding/hex"
 	"encoding/json"
 	"encoding/pem"
 	"io"
@@ -22,6 +23,7 @@ import (
 
 	"github.com/code-corhuila/multi-tour-security/internal/adapter/postgres/pgtest"
 	"github.com/golang-jwt/jwt/v5"
+	"github.com/jackc/pgx/v5/pgxpool"
 )
 
 // This file is overlaid only in a disposable export of the real security service.
@@ -36,11 +38,27 @@ func TestSession1LiveSecurity(t *testing.T) {
 		t.Fatal(err)
 	}
 	s := newStack(t) // real PostgreSQL DDL, tenant copies and real bcrypt adapter
+	// The administrator is used only by the test fixture; HTTP runs as security_app.
+	runtimePassword := make([]byte, 24)
+	if _, err := rand.Read(runtimePassword); err != nil {
+		t.Fatal(err)
+	}
+	passwordText := hex.EncodeToString(runtimePassword)
+	if _, err := s.pool.Exec(ctx, "CREATE ROLE security_app LOGIN PASSWORD '"+passwordText+"'; GRANT USAGE ON SCHEMA security TO security_app; GRANT SELECT,INSERT,UPDATE,DELETE ON ALL TABLES IN SCHEMA security TO security_app; GRANT USAGE,SELECT ON ALL SEQUENCES IN SCHEMA security TO security_app;"); err != nil {
+		t.Fatal(err)
+	}
+	runtimeConfig := s.pool.Config()
+	runtimeConfig.ConnConfig.User, runtimeConfig.ConnConfig.Password = "security_app", passwordText
+	runtimePool, err := pgxpool.NewWithConfig(ctx, runtimeConfig)
+	if err != nil {
+		t.Fatal(err)
+	}
+	t.Cleanup(runtimePool.Close)
 	s.private, s.public = key, &key.PublicKey
 	var lock sync.RWMutex
 	var handler http.Handler
 	rebuild := func() {
-		next, err := buildHandler(s.pool, config{privateKey: key, publicKey: &key.PublicKey}, slog.New(slog.NewTextHandler(io.Discard, nil)))
+		next, err := buildHandler(runtimePool, config{privateKey: key, publicKey: &key.PublicKey}, slog.New(slog.NewTextHandler(io.Discard, nil)))
 		if err != nil {
 			t.Fatal(err)
 		}
@@ -150,6 +168,13 @@ func TestSession1LiveSecurity(t *testing.T) {
 	const route = "/api/v1/commercial-reservation/catalog/services"
 	const catalogBody = `{"serviceType":"TOUR","commercialName":"Session 1 tour","baseRateCents":35000000,"baseOperationalCostCents":21000000,"configuredCapacity":18,"transportRequired":true,"highRisk":false}`
 	check("edge_rejects_missing_credential", 401, "GET", gateway+route, "", "")
+	t.Run("http_service_uses_an_unprivileged_database_identity", func(t *testing.T) {
+		var name string
+		var super bool
+		if err := runtimePool.QueryRow(ctx, "SELECT current_user, rolsuper FROM pg_roles WHERE rolname=current_user").Scan(&name, &super); err != nil || name != "security_app" || super {
+			t.Error("runtime database identity is not least privilege")
+		}
+	})
 	check("edge_login_rejects_wrong_password", 401, "POST", gateway+tenantURL, "", `{"email":"admin@example.com","password":"wrong"}`)
 	admin := login("edge_login_issues_real_signed_admin_token", "admin@example.com")
 	collaborator := login("edge_login_issues_collaborator_token", "collaborator@example.com")
