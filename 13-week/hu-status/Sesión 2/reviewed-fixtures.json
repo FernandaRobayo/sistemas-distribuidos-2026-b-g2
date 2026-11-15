@@ -1,0 +1,101 @@
+[
+  {
+    "file": "commercial/commercial-reservation-app/src/test/java/co/edu/corhuila/multi_tour/commercial_reservation/app/AdditionalDiscountRegistrationHttpTest.java",
+    "rule": "generic-api-key",
+    "line": 170,
+    "sha256": "d53909200984d23a13ca406c86d908bacc4ef3d350a57a40ed2f3fba8f9472b0",
+    "reason": "Idempotency header input in an HTTP contract test, with runtime JWT signing keys generated separately.",
+    "sourceRevision": "a88e26bd5fefcb4f29440bd250a00a117c0ad5a1",
+    "reviewedOn": "2026-11-15"
+  },
+  {
+    "file": "commercial/commercial-reservation-app/src/test/java/co/edu/corhuila/multi_tour/commercial_reservation/app/PaymentExpiryLogsHttpTest.java",
+    "rule": "generic-api-key",
+    "line": 92,
+    "sha256": "c92becdb946f1766bf3509730226db7c13049eb2045a00a5c2d2324c1516656e",
+    "reason": "Idempotency header input in an HTTP contract test, with runtime JWT signing keys generated separately.",
+    "sourceRevision": "a88e26bd5fefcb4f29440bd250a00a117c0ad5a1",
+    "reviewedOn": "2026-11-15"
+  },
+  {
+    "file": "commercial/commercial-reservation-app/src/test/java/co/edu/corhuila/multi_tour/commercial_reservation/app/OwnReservationHttpTest.java",
+    "rule": "generic-api-key",
+    "line": 74,
+    "sha256": "03efd4f8b051b81b09682652e15bac31678fc13110b8ca8064c0dd8ebaf66f2b",
+    "reason": "Idempotency header input in an HTTP contract test, with runtime JWT signing keys generated separately.",
+    "sourceRevision": "a88e26bd5fefcb4f29440bd250a00a117c0ad5a1",
+    "reviewedOn": "2026-11-15"
+  },
+  {
+    "file": "commercial/commercial-reservation-app/src/test/java/co/edu/corhuila/multi_tour/commercial_reservation/app/PaymentProofDecisionHttpTest.java",
+    "rule": "generic-api-key",
+    "line": 128,
+    "sha256": "35bdcd4962f92151a81e991bc07b5bf8c6e2a7a20f56b40a03bf11c2d64127ae",
+    "reason": "Idempotency header input in an HTTP contract test, with runtime JWT signing keys generated separately.",
+    "sourceRevision": "a88e26bd5fefcb4f29440bd250a00a117c0ad5a1",
+    "reviewedOn": "2026-11-15"
+  },
+  {
+    "file": "security/.env.example",
+    "rule": "generic-api-key",
+    "line": 29,
+    "sha256": "1856e1deda804f852aacdac17ec66556e29b6df21841e94926e649c40d6d01e7",
+    "reason": "Empty SECURITY_APP_PASSWORD and JWT_KEYS_DIR declarations in the published environment template.",
+    "sourceRevision": "aafda9c9bba60b3a486d0e502cb522c5d91e73c4",
+    "reviewedOn": "2026-11-15"
+  },
+  {
+    "file": "security/cmd/security/bootstrap_command_test.go",
+    "rule": "generic-api-key",
+    "line": 21,
+    "sha256": "ce585e1623d684035eba139e4d86d8d0f431f78dd4bc41f183223246cef64a62",
+    "reason": "Synthetic password, idempotency key or token input used only by the named test fixture.",
+    "sourceRevision": "aafda9c9bba60b3a486d0e502cb522c5d91e73c4",
+    "reviewedOn": "2026-11-15"
+  },
+  {
+    "file": "security/internal/core/createaccount/fakes_test.go",
+    "rule": "generic-api-key",
+    "line": 17,
+    "sha256": "4b411e600ddc24cdc9137a8437302d71abf51104eb89980b99c62f818685ecf0",
+    "reason": "Synthetic password, idempotency key or token input used only by the named test fixture.",
+    "sourceRevision": "aafda9c9bba60b3a486d0e502cb522c5d91e73c4",
+    "reviewedOn": "2026-11-15"
+  },
+  {
+    "file": "security/internal/adapter/http/signin_routes_test.go",
+    "rule": "generic-api-key",
+    "line": 123,
+    "sha256": "21aaee51a7d1c6a65906ae16affdbcd2299d3dab786730d786f4610b6697e87a",
+    "reason": "Synthetic password, idempotency key or token input used only by the named test fixture.",
+    "sourceRevision": "aafda9c9bba60b3a486d0e502cb522c5d91e73c4",
+    "reviewedOn": "2026-11-15"
+  },
+  {
+    "file": "security/internal/adapter/http/tenantevents_test.go",
+    "rule": "generic-api-key",
+    "line": 22,
+    "sha256": "cf1edfb1d4cf8eaf704dbe4d519750cfe4d26c50d124458bdce2cb5a7b40d32d",
+    "reason": "Synthetic password, idempotency key or token input used only by the named test fixture.",
+    "sourceRevision": "aafda9c9bba60b3a486d0e502cb522c5d91e73c4",
+    "reviewedOn": "2026-11-15"
+  },
+  {
+    "file": "security/internal/adapter/http/changepassword_test.go",
+    "rule": "generic-api-key",
+    "line": 24,
+    "sha256": "a10e1ab8ab65b9e5081a3c530a0639de9f2891b0f7790d92fb4c0d0fe4bc59e2",
+    "reason": "Synthetic password, idempotency key or token input used only by the named test fixture.",
+    "sourceRevision": "aafda9c9bba60b3a486d0e502cb522c5d91e73c4",
+    "reviewedOn": "2026-11-15"
+  },
+  {
+    "file": "security/internal/adapter/http/changepassword_test.go",
+    "rule": "generic-api-key",
+    "line": 73,
+    "sha256": "a10e1ab8ab65b9e5081a3c530a0639de9f2891b0f7790d92fb4c0d0fe4bc59e2",
+    "reason": "Synthetic password, idempotency key or token input used only by the named test fixture.",
+    "sourceRevision": "aafda9c9bba60b3a486d0e502cb522c5d91e73c4",
+    "reviewedOn": "2026-11-15"
+  }
+]

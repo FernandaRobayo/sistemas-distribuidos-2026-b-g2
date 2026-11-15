@@ -1,0 +1,79 @@
+name: Week 13 session 2 security gates
+
+on:
+  workflow_dispatch:
+  pull_request:
+    branches: [main]
+    paths:
+      - '13-week/hu-status/Sesión 2/**'
+      - '.github/workflows/week13-threat-model-security.yml'
+      - '.github/workflows/week13-security.yml'
+  push:
+    branches: ['docs/13-week-session2-security']
+    paths:
+      - '13-week/hu-status/Sesión 2/**'
+      - '.github/workflows/week13-threat-model-security.yml'
+      - '.github/workflows/week13-security.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  secrets:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Install checksum-verified scanners
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: bash '13-week/hu-status/Sesión 2/install-tools.sh' "$RUNNER_TEMP/session2-tools"
+      - name: Prove clean inputs pass and unsafe inputs block
+        run: node '13-week/hu-status/Sesión 2/gate-self-test.mjs' "$RUNNER_TEMP/session2-evidence"
+      - name: Export the Multi Tour source revisions
+        run: node '13-week/hu-status/Sesión 2/prepare-sources.mjs' "$RUNNER_TEMP/session2-sources"
+      - name: Reject unreviewed secrets in product snapshots and delivery history
+        run: node '13-week/hu-status/Sesión 2/secret-gate.mjs' "$RUNNER_TEMP/session2-sources" "$RUNNER_TEMP/session2-evidence"
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: week13-session2-secrets
+          path: ${{ runner.temp }}/session2-evidence/
+
+  dependencies:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+      - uses: actions/cache@v4
+        with:
+          path: ~/.m2/repository
+          key: ${{ runner.os }}-week13-session2-cyclonedx-${{ hashFiles('13-week/hu-status/**/sources-lock.json') }}
+      - name: Install checksum-verified scanners
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: bash '13-week/hu-status/Sesión 2/install-tools.sh' "$RUNNER_TEMP/session2-tools"
+      - name: Export the Multi Tour source revisions
+        run: node '13-week/hu-status/Sesión 2/prepare-sources.mjs' "$RUNNER_TEMP/session2-sources"
+      - name: Resolve runtime dependencies and block reported advisories
+        run: node '13-week/hu-status/Sesión 2/dependency-gate.mjs' "$RUNNER_TEMP/session2-sources" "$RUNNER_TEMP/session2-evidence"
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: week13-session2-dependencies
+          path: ${{ runner.temp }}/session2-evidence/
+
+  authorization:
+    uses: ./.github/workflows/week13-security.yml

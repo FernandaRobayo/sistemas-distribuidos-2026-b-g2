@@ -1,6 +1,7 @@
 name: Week 13 session 1 security integration
 
 on:
+  workflow_call:
   workflow_dispatch:
   pull_request:
     paths:
