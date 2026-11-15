@@ -32,7 +32,8 @@
 | 2026-11-13 | 3 | Chapter 12 | evidence/12-chapter-12.png |
 | 2026-11-14 | 4 | Chapter 13 | evidence/13-chapter-13.png |
 | 2026-11-15 | 3 | Chapter 14 | evidence/14-chapter-14.png |
-| Total | 31 | | |
+| 2026-11-15 | 1.5 | Final exam | evidence/19-final-exam.png |
+| Total | 32.5 | | |
 
 ## Labs
 
@@ -45,8 +46,8 @@
 
 ## Final exam
 
-- Score: <score>
-- Date: <YYYY-MM-DD>
+- Score: 72
+- Date: 2026-11-15
 - Evidence: evidence/19-final-exam.png
 
 ## Skills summary
