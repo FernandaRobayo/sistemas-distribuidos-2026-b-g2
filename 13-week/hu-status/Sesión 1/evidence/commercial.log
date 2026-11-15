@@ -1,0 +1,13 @@
+Exit code: 0
+[INFO] Running co.edu.corhuila.multi_tour.commercial_reservation.adapter.in.http.Rs256VerifierExceptionalAccessTest
+[INFO] Tests run: 6, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.662 s -- in co.edu.corhuila.multi_tour.commercial_reservation.adapter.in.http.Rs256VerifierExceptionalAccessTest
+[INFO] Tests run: 6, Failures: 0, Errors: 0, Skipped: 0
+[INFO] Running co.edu.corhuila.multi_tour.commercial_reservation.app.CatalogSecurityThreatsHttpTest
+[INFO] Tests run: 9, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 5.231 s -- in co.edu.corhuila.multi_tour.commercial_reservation.app.CatalogSecurityThreatsHttpTest
+[INFO] Running co.edu.corhuila.multi_tour.commercial_reservation.app.OutboxHttpTest
+[INFO] Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.827 s -- in co.edu.corhuila.multi_tour.commercial_reservation.app.OutboxHttpTest
+[INFO] Running co.edu.corhuila.multi_tour.commercial_reservation.app.CatalogHttpTest
+[INFO] Tests run: 114, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 2.282 s -- in co.edu.corhuila.multi_tour.commercial_reservation.app.CatalogHttpTest
+[INFO] Tests run: 126, Failures: 0, Errors: 0, Skipped: 0
+[INFO] BUILD SUCCESS
+[INFO] Total time:  27.057 s

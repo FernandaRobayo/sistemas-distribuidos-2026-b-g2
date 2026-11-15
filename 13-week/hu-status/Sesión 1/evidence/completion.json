@@ -1,0 +1,88 @@
+{
+  "checkedAt": "2026-11-15T07:58:46.293Z",
+  "status": "passed",
+  "results": [
+    {
+      "component": "gateway",
+      "exitCode": 0,
+      "checkedAt": "2026-11-15T07:55:38.258Z",
+      "passedGoTests": 0,
+      "passedSubtests": 0,
+      "skippedGoTests": 0,
+      "passedSmokeChecks": 96
+    },
+    {
+      "component": "relay",
+      "exitCode": 0,
+      "checkedAt": "2026-11-15T07:55:44.157Z",
+      "passedGoTests": 67,
+      "passedSubtests": 17,
+      "skippedGoTests": 0,
+      "passedSmokeChecks": 0
+    },
+    {
+      "component": "security",
+      "exitCode": 0,
+      "checkedAt": "2026-11-15T07:56:41.549Z",
+      "passedGoTests": 335,
+      "passedSubtests": 28,
+      "skippedGoTests": 0,
+      "passedSmokeChecks": 0
+    },
+    {
+      "component": "commercial",
+      "exitCode": 0,
+      "checkedAt": "2026-11-15T07:57:13.695Z",
+      "passedGoTests": 0,
+      "passedSubtests": 0,
+      "skippedGoTests": 0,
+      "passedSmokeChecks": 0
+    },
+    {
+      "component": "cash-reporting",
+      "exitCode": 0,
+      "checkedAt": "2026-11-15T07:57:32.163Z",
+      "passedGoTests": 0,
+      "passedSubtests": 0,
+      "skippedGoTests": 0,
+      "passedSmokeChecks": 0
+    },
+    {
+      "component": "identity-audit",
+      "exitCode": 0,
+      "checkedAt": "2026-11-15T07:57:49.477Z",
+      "passedGoTests": 0,
+      "passedSubtests": 0,
+      "skippedGoTests": 0,
+      "passedSmokeChecks": 0
+    },
+    {
+      "component": "operations-cost",
+      "exitCode": 0,
+      "checkedAt": "2026-11-15T07:58:14.800Z",
+      "passedGoTests": 0,
+      "passedSubtests": 0,
+      "skippedGoTests": 0,
+      "passedSmokeChecks": 0
+    },
+    {
+      "component": "live-integration",
+      "exitCode": 0,
+      "checkedAt": "2026-11-15T07:58:45.852Z",
+      "passedGoTests": 1,
+      "passedSubtests": 29,
+      "skippedGoTests": 0,
+      "passedSmokeChecks": 0
+    },
+    {
+      "component": "live-java-server",
+      "exitCode": 0,
+      "checkedAt": "2026-11-15T07:58:46.293Z",
+      "passedGoTests": 0,
+      "passedSubtests": 0,
+      "skippedGoTests": 0,
+      "passedSmokeChecks": 0
+    }
+  ],
+  "scope": "session-1 local integration; no production deployment"
+}

@@ -1,0 +1,11 @@
+Exit code: 0
+[INFO] Running co.edu.corhuila.multi_tour.identity_audit.adapters.security.RouteAuthorizationTest
+[INFO] Tests run: 4, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.098 s -- in co.edu.corhuila.multi_tour.identity_audit.adapters.security.RouteAuthorizationTest
+[INFO] Tests run: 4, Failures: 0, Errors: 0, Skipped: 0
+[INFO] Running co.edu.corhuila.multi_tour.identity_audit.app.JwtIssuerAudienceTest
+[INFO] Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 5.151 s -- in co.edu.corhuila.multi_tour.identity_audit.app.JwtIssuerAudienceTest
+[INFO] Running co.edu.corhuila.multi_tour.identity_audit.app.JwtFilterTest
+[INFO] Tests run: 19, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 2.868 s -- in co.edu.corhuila.multi_tour.identity_audit.app.JwtFilterTest
+[INFO] Tests run: 22, Failures: 0, Errors: 0, Skipped: 0
+[INFO] BUILD SUCCESS
+[INFO] Total time:  16.048 s

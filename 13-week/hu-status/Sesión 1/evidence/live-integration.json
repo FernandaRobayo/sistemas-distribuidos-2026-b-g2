@@ -1,0 +1,9 @@
+{
+  "component": "live-integration",
+  "exitCode": 0,
+  "checkedAt": "2026-11-15T07:58:45.852Z",
+  "passedGoTests": 1,
+  "passedSubtests": 29,
+  "skippedGoTests": 0,
+  "passedSmokeChecks": 0
+}

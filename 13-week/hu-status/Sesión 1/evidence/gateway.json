@@ -1,0 +1,9 @@
+{
+  "component": "gateway",
+  "exitCode": 0,
+  "checkedAt": "2026-11-15T07:55:38.258Z",
+  "passedGoTests": 0,
+  "passedSubtests": 0,
+  "skippedGoTests": 0,
+  "passedSmokeChecks": 96
+}

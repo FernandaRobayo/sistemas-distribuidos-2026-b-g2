@@ -1,0 +1,28 @@
+/docker-entrypoint.sh: /docker-entrypoint.d/ is not empty, will attempt to perform configuration
+/docker-entrypoint.sh: Looking for shell scripts in /docker-entrypoint.d/
+/docker-entrypoint.sh: Launching /docker-entrypoint.d/10-listen-on-ipv6-by-default.sh
+10-listen-on-ipv6-by-default.sh: info: /etc/nginx/conf.d/default.conf is not a file or does not exist
+/docker-entrypoint.sh: Sourcing /docker-entrypoint.d/15-local-resolvers.envsh
+/docker-entrypoint.sh: Launching /docker-entrypoint.d/20-envsubst-on-templates.sh
+20-envsubst-on-templates.sh: Running envsubst on /etc/nginx/templates/10-cors.conf.template to /etc/nginx/conf.d/10-cors.conf
+/docker-entrypoint.sh: Launching /docker-entrypoint.d/30-tune-worker-processes.sh
+/docker-entrypoint.sh: Configuration complete; ready for start up
+{"time":"2026-11-15T07:58:33+00:00","correlationId":"session1-live","method":"GET","uri":"/api/v1/commercial-reservation/catalog/services","status":401,"upstream":"","durationMs":0.000}
+{"time":"2026-11-15T07:58:33+00:00","correlationId":"session1-live","method":"POST","uri":"/api/v1/security/public/tenants/travesia-natural/sessions","status":401,"upstream":"172.17.0.1:46769","durationMs":0.277}
+{"time":"2026-11-15T07:58:34+00:00","correlationId":"session1-live","method":"POST","uri":"/api/v1/security/public/tenants/travesia-natural/sessions","status":200,"upstream":"172.17.0.1:46769","durationMs":0.270}
+{"time":"2026-11-15T07:58:34+00:00","correlationId":"session1-live","method":"POST","uri":"/api/v1/security/public/tenants/travesia-natural/sessions","status":200,"upstream":"172.17.0.1:46769","durationMs":0.264}
+{"time":"2026-11-15T07:58:34+00:00","correlationId":"session1-live","method":"POST","uri":"/api/v1/commercial-reservation/catalog/services","status":201,"upstream":"172.17.0.1:46219","durationMs":0.222}
+{"time":"2026-11-15T07:58:34+00:00","correlationId":"session1-live","method":"POST","uri":"/api/v1/commercial-reservation/catalog/services","status":403,"upstream":"172.17.0.1:46219","durationMs":0.036}
+{"time":"2026-11-15T07:58:34+00:00","correlationId":"session1-live","method":"POST","uri":"/api/v1/commercial-reservation/catalog/services","status":400,"upstream":"172.17.0.1:46219","durationMs":0.017}
+{"time":"2026-11-15T07:58:34+00:00","correlationId":"session1-live","method":"POST","uri":"/api/v1/commercial-reservation/catalog/services","status":400,"upstream":"172.17.0.1:46219","durationMs":0.009}
+{"time":"2026-11-15T07:58:34+00:00","correlationId":"session1-live","method":"GET","uri":"/api/v1/commercial-reservation/catalog/services","status":401,"upstream":"172.17.0.1:46219","durationMs":0.004}
+{"time":"2026-11-15T07:58:34+00:00","correlationId":"session1-live","method":"GET","uri":"/api/v1/commercial-reservation/catalog/services","status":401,"upstream":"172.17.0.1:46219","durationMs":0.002}
+{"time":"2026-11-15T07:58:34+00:00","correlationId":"session1-live","method":"GET","uri":"/api/v1/commercial-reservation/catalog/services","status":401,"upstream":"172.17.0.1:46219","durationMs":0.003}
+{"time":"2026-11-15T07:58:34+00:00","correlationId":"session1-live","method":"POST","uri":"/api/v1/security/public/tenants/otra-agencia/sessions","status":200,"upstream":"172.17.0.1:46769","durationMs":0.269}
+{"time":"2026-11-15T07:58:34+00:00","correlationId":"session1-live","method":"GET","uri":"/api/v1/commercial-reservation/catalog/services/d330a123-9ae9-4dd0-bac7-53a9a0aa0b45","status":404,"upstream":"172.17.0.1:46219","durationMs":0.008}
+{"time":"2026-11-15T07:58:34+00:00","correlationId":"session1-live","method":"GET","uri":"/api/v1/commercial-reservation/catalog/services/00000000-0000-0000-0000-000000000001","status":404,"upstream":"172.17.0.1:46219","durationMs":0.006}
+{"time":"2026-11-15T07:58:34+00:00","correlationId":"session1-live","method":"POST","uri":"/api/v1/commercial-reservation/catalog/services","status":403,"upstream":"172.17.0.1:46219","durationMs":0.004}
+{"time":"2026-11-15T07:58:34+00:00","correlationId":"session1-live","method":"GET","uri":"/api/v1/security/internal/outbox","status":404,"upstream":"","durationMs":0.000}
+{"time":"2026-11-15T07:58:45+00:00","correlationId":"session1-live","method":"GET","uri":"/api/v1/commercial-reservation/catalog/services","status":401,"upstream":"172.17.0.1:39691","durationMs":0.103}
+{"time":"2026-11-15T07:58:45+00:00","correlationId":"session1-live","method":"POST","uri":"/api/v1/security/public/tenants/travesia-natural/sessions","status":200,"upstream":"172.17.0.1:46769","durationMs":0.265}
+{"time":"2026-11-15T07:58:45+00:00","correlationId":"session1-live","method":"POST","uri":"/api/v1/commercial-reservation/catalog/services","status":201,"upstream":"172.17.0.1:39691","durationMs":0.113}

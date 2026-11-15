@@ -1,0 +1,9 @@
+{
+  "component": "security",
+  "exitCode": 0,
+  "checkedAt": "2026-11-15T07:56:41.549Z",
+  "passedGoTests": 335,
+  "passedSubtests": 28,
+  "skippedGoTests": 0,
+  "passedSmokeChecks": 0
+}
