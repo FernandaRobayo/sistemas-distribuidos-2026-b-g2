@@ -102,7 +102,9 @@ try {
   const pgPassword=randomBytes(24).toString('hex');
   sync('docker',['run','-d','--rm','--name',pgName,'-e','POSTGRES_PASSWORD','-p','127.0.0.1::5432','postgres:18-alpine'],temp,{...process.env,POSTGRES_PASSWORD:pgPassword});
   let pgReady=false;
-  for(let i=0;i<60;i++){try{sync('docker',['exec',pgName,'pg_isready','-U','postgres']);pgReady=true;break}catch{}await sleep(500)}
+  // The entrypoint starts a temporary socket-only server for initialization.
+  // TCP readiness selects the final server after that temporary process exits.
+  for(let i=0;i<60;i++){try{sync('docker',['exec',pgName,'pg_isready','-h','127.0.0.1','-U','postgres']);pgReady=true;break}catch{}await sleep(500)}
   if(!pgReady)throw Error('PostgreSQL did not become ready');
   const pgPort=sync('docker',['port',pgName,'5432/tcp']).split(':').at(-1);
   const testEnv={...process.env,TEST_DATABASE_URL:`postgres://postgres:${pgPassword}@127.0.0.1:${pgPort}/postgres?sslmode=disable`};
