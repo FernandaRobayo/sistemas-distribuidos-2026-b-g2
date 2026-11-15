@@ -2,6 +2,20 @@ import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
 import {spawnSync} from 'node:child_process';
+import {createHash} from 'node:crypto';
+
+export function sourceHash(file) {
+  const text = fs.readFileSync(file, 'utf8').replaceAll('\r\n', '\n');
+  return createHash('sha256').update(text).digest('hex');
+}
+
+export function reviewedFinding(finding, sources, reviewed) {
+  const relative = path.relative(sources, finding.File).replaceAll('\\', '/');
+  if (relative.startsWith('../') || path.isAbsolute(relative)) throw new Error('Scanner path is outside the source export.');
+  const hash = sourceHash(finding.File);
+  return reviewed.some(item => item.file === relative && item.rule === finding.RuleID
+    && item.line === finding.StartLine && item.sha256 === hash);
+}
 
 export function run(command, args, cwd) {
   const result = spawnSync(command, args, {

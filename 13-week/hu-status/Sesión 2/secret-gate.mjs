@@ -1,8 +1,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
-import {createHash} from 'node:crypto';
 import {fileURLToPath} from 'node:url';
-import {checked, executable, readJson, run, writeJson} from './tools.mjs';
+import {checked, executable, readJson, reviewedFinding, run, writeJson} from './tools.mjs';
 
 const here = path.dirname(fileURLToPath(import.meta.url));
 const sources = path.resolve(process.argv[2]);
@@ -19,12 +18,7 @@ for (const name of ['commercial', 'security', 'gateway']) {
   const findings = readJson(file);
   let reviewedCount = 0;
   for (const finding of findings) {
-    const relative = path.relative(sources, finding.File).replaceAll('\\', '/');
-    if (relative.startsWith('../') || path.isAbsolute(relative)) throw new Error('Scanner path is outside the source export.');
-    const hash = createHash('sha256').update(fs.readFileSync(finding.File)).digest('hex');
-    const benign = reviewed.some(item => item.file === relative && item.rule === finding.RuleID
-      && item.line === finding.StartLine && item.sha256 === hash);
-    if (benign) reviewedCount++;
+    if (reviewedFinding(finding, sources, reviewed)) reviewedCount++;
   }
   results.push({target: name, findings: findings.length, reviewedFixtures: reviewedCount,
     unreviewedFindings: findings.length - reviewedCount, exitCode: findings.length === reviewedCount ? 0 : 1});
@@ -40,7 +34,7 @@ results.push({target: 'delivery changes since origin/main', base, findings: read
 const code = results.some(result => result.exitCode !== 0) ? 1 : 0;
 writeJson(path.join(output, 'secret-summary.json'), {
   checkedAt: new Date().toISOString(), scanner: 'Gitleaks 8.30.1',
-  policy: 'Zero unreviewed findings. Benign fixtures require an exact file hash, line and rule match. Detected values are redacted.',
+  policy: 'Zero unreviewed findings. Benign fixtures require the LF-normalized file SHA-256, line and rule match. Detected values are redacted.',
   status: code === 0 ? 'passed' : 'blocked', results
 });
 console.log(`Secret gate ${code === 0 ? 'passed' : 'blocked'} across ${results.length} scan targets.`);

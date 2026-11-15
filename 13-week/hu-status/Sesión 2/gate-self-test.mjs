@@ -2,8 +2,9 @@ import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
 import {randomBytes} from 'node:crypto';
+import assert from 'node:assert/strict';
 import {fileURLToPath} from 'node:url';
-import {executable, run, writeJson} from './tools.mjs';
+import {executable, reviewedFinding, run, sourceHash, writeJson} from './tools.mjs';
 
 const here = path.dirname(fileURLToPath(import.meta.url));
 const temporary = fs.mkdtempSync(path.join(os.tmpdir(), 'multi-tour-session2-selftest-'));
@@ -19,7 +20,7 @@ function expect(name, expected, command, args) {
 function bom(name, purl) {
   const file = path.join(temporary, `${name}.cdx.json`);
   writeJson(file, {bomFormat: 'CycloneDX', specVersion: '1.5', version: 1,
-    components: [{type: 'library', name, version: '1.0.0', purl}]});
+    components: [{type: 'library', name, version: decodeURIComponent(purl.split('@').at(-1)), purl}]});
   return file;
 }
 
@@ -41,8 +42,18 @@ try {
   const osvFlags = ['scan', 'source', '--config', path.join(here, 'osv-scanner.toml'), '--format=json'];
   expect('synthetic dependency with no advisory passes', 0, executable('osv-scanner'), [...osvFlags, '--lockfile', cleanBom]);
   expect('known vulnerable Log4j fixture blocks dependency scanning', 1, executable('osv-scanner'), [...osvFlags, '--lockfile', vulnerableBom]);
-  writeJson(path.join(output, 'gate-self-test.json'), {checkedAt: new Date().toISOString(), status: 'passed', results});
-  console.log('All four security-gate self-tests passed.');
+  const fixture = path.join(temporary, 'reviewed.txt');
+  fs.writeFileSync(fixture, 'synthetic fixture\n');
+  const finding = {File: fixture, RuleID: 'test-rule', StartLine: 1};
+  const review = [{file: 'reviewed.txt', rule: 'test-rule', line: 1, sha256: sourceHash(fixture)}];
+  assert.equal(reviewedFinding(finding, temporary, review), true);
+  fs.writeFileSync(fixture, 'synthetic fixture\r\n');
+  assert.equal(reviewedFinding(finding, temporary, review), true);
+  fs.writeFileSync(fixture, 'changed fixture containing a new value\n');
+  assert.equal(reviewedFinding(finding, temporary, review), false);
+  writeJson(path.join(output, 'gate-self-test.json'), {checkedAt: new Date().toISOString(), status: 'passed', results,
+    fixtureReviewChecks: ['exact content accepted', 'CRLF/LF equivalence accepted', 'changed content rejected']});
+  console.log('Four scanner exit-code cases and three fixture-review checks passed.');
 } finally {
   const owned = path.dirname(path.resolve(temporary)) === path.resolve(os.tmpdir())
     && path.basename(temporary).startsWith('multi-tour-session2-selftest-');

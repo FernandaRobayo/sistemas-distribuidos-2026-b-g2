@@ -32,9 +32,12 @@ const findings = [];
 for (const group of report.results) {
   for (const entry of group.packages || []) {
     for (const vulnerability of entry.vulnerabilities || []) {
+      const affected = (vulnerability.affected || []).filter(item => item.package?.name === entry.package.name);
+      const fixedVersions = [...new Set(affected.flatMap(item => (item.ranges || [])
+        .flatMap(range => (range.events || []).filter(event => event.fixed).map(event => event.fixed))))];
       findings.push({package: entry.package, id: vulnerability.id, aliases: vulnerability.aliases,
         summary: vulnerability.summary, severity: vulnerability.database_specific?.severity,
-        severityVectors: vulnerability.severity, affected: vulnerability.affected,
+        severityVectors: vulnerability.severity, fixedVersions,
         url: `https://osv.dev/${vulnerability.id}`});
     }
   }
