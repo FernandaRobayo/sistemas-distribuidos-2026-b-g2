@@ -26,5 +26,9 @@
     "gateway":  {
                     "repository":  "transversales/multi-tour-api-gateway",
                     "revision":  "c718b534eecb3fd36ba32f66c2c129ffce282a39"
+                },
+    "cash-db":  {
+                    "repository":  "d04-caja-reportes/multi-tour-cash-reporting-db",
+                    "revision":  "980454759a7dddf2852968e189c91460251c83cc"
                 }
 }

@@ -12,13 +12,14 @@ const temp = fs.mkdtempSync(path.join(os.tmpdir(), 'week13-security-'));
 const containers = [], networks = [], children = [], results = [];
 const redact = s => s.replace(/eyJ[A-Za-z0-9_-]*\.[A-Za-z0-9_-]+\.[A-Za-z0-9_-]*/g, '[JWT]')
   .replace(/postgres(?:ql)?:\/\/[^\s"']+/g, '[TEST_DATABASE_URL]');
-const sync = (tool, args, cwd = temp, env = process.env) => execFileSync(tool, args, {cwd, env, encoding:'utf8', maxBuffer:64*1024*1024}).trim();
+const sync = (tool, args, cwd = temp, env = process.env, input) => execFileSync(tool, args, {cwd, env, input, encoding:'utf8', maxBuffer:64*1024*1024}).trim();
 const sleep = ms => new Promise(r => setTimeout(r, ms));
 const records = [
   ['security','transversales/multi-tour-security','HEAD'],
   ['commercial','d02-comercial-reservas/multi-tour-commercial-reservation-api','HEAD'],
   ['identity-audit','d01-plataforma/multi-tour-identity-audit-api','HEAD'],
   ['cash-reporting','d04-caja-reportes/multi-tour-cash-reporting-api','HEAD'],
+  ['cash-db','d04-caja-reportes/multi-tour-cash-reporting-db','origin/develop'],
   ['operations-cost','d03-operacion-costos/multi-tour-operations-cost-api','origin/develop'],
   ['relay','transversales/multi-tour-worker-event-relay','HEAD'],
   ['gateway','transversales/multi-tour-api-gateway','HEAD']
@@ -45,9 +46,10 @@ function start(tool,args,cwd,env=process.env) {
   const job={child,done,get output(){return output}}; children.push(job); return job;
 }
 function save(name,job,code) {
-  const lines=redact(job.output).split(/\r?\n/).filter(l=>/^(--- (PASS|SKIP|FAIL):|PASS$|FAIL|ok\s|PASS  |ALL CHECKS|\[INFO\] (Running |Tests run:|BUILD |Total time:)|\[ERROR\])/.test(l));
+  const lines=redact(job.output).split(/\r?\n/).filter(l=>/^(\s*--- (PASS|SKIP|FAIL):|PASS$|FAIL|ok\s|PASS  |ALL CHECKS|\[INFO\] (Running |Tests run:|BUILD |Total time:)|\[ERROR\])/.test(l));
   const result={component:name,exitCode:code,checkedAt:new Date().toISOString(),
     passedGoTests:lines.filter(l=>l.startsWith('--- PASS:')).length,
+    passedSubtests:lines.filter(l=>/^\s+--- PASS:/.test(l)).length,
     skippedGoTests:lines.filter(l=>l.startsWith('--- SKIP:')).length,
     passedSmokeChecks:lines.filter(l=>l.startsWith('PASS  ')).length};
   fs.writeFileSync(path.join(evidence,`${name}.log`),`Exit code: ${code}\n${lines.join('\n')}\n`);
@@ -102,6 +104,14 @@ try {
   if(!pgReady)throw Error('PostgreSQL did not become ready');
   const pgPort=sync('docker',['port',pgName,'5432/tcp']).split(':').at(-1);
   const testEnv={...process.env,TEST_DATABASE_URL:`postgres://postgres:${pgPassword}@127.0.0.1:${pgPort}/postgres?sslmode=disable`};
+  const sqlFiles = dir => fs.readdirSync(dir,{withFileTypes:true}).sort((a,b)=>a.name.localeCompare(b.name)).flatMap(e=>
+    e.isDirectory()?sqlFiles(path.join(dir,e.name)):e.name.endsWith('.sql')?[path.join(dir,e.name)]:[]);
+  sync('docker',['exec','-i',pgName,'psql','-U','postgres','-v','ON_ERROR_STOP=1'],temp,process.env,'CREATE DATABASE cash_reporting_test;');
+  const cashDdl=sqlFiles(path.join(sources['cash-db'].directory,'01_ddl')).map(p=>fs.readFileSync(p,'utf8')).join('\n');
+  const cashPassword=randomBytes(24).toString('hex');
+  sync('docker',['exec','-i',pgName,'psql','-U','postgres','-d','cash_reporting_test','-v','ON_ERROR_STOP=1'],temp,process.env,
+    cashDdl+`\nCREATE ROLE cash_reporting_app LOGIN PASSWORD '${cashPassword}';\nGRANT USAGE ON SCHEMA cash_reporting TO cash_reporting_app;\nGRANT SELECT, INSERT, UPDATE, DELETE ON ALL TABLES IN SCHEMA cash_reporting TO cash_reporting_app;\nGRANT USAGE, SELECT ON ALL SEQUENCES IN SCHEMA cash_reporting TO cash_reporting_app;`);
+  const cashEnv={...process.env,DB_URL:`jdbc:postgresql://127.0.0.1:${pgPort}/cash_reporting_test`,DB_USER:'cash_reporting_app',DB_PASSWORD:cashPassword};
   const mongoName=`week13-mongo-${randomBytes(5).toString('hex')}`;containers.push(mongoName);
   sync('docker',['run','-d','--rm','--name',mongoName,'-p','127.0.0.1::27017','mongo:8.0']);
   const mongoPort=sync('docker',['port',mongoName,'27017/tcp']).split(':').at(-1);
@@ -113,7 +123,7 @@ try {
   ]);
   // Bound memory use: only one Maven/Surefire pair runs at a time.
   checks.push(await javaCheck('commercial','CatalogSecurityThreatsHttpTest,CatalogHttpTest,OutboxHttpTest,Rs256VerifierExceptionalAccessTest'));
-  checks.push(await javaCheck('cash-reporting','RestEnvelopeTest,InternalRoutesControllersTest,OutboxRelayRoutesControllersTest'));
+  checks.push(await javaCheck('cash-reporting','RestEnvelopeTest,InternalRoutesControllersTest,OutboxRelayRoutesControllersTest',cashEnv));
   checks.push(await javaCheck('identity-audit','JwtFilterTest,JwtIssuerAudienceTest,RouteAuthorizationTest',identityEnv));
   checks.push(await javaCheck('operations-cost','JwtFilterTest,RouteAuthorizationTest,InternalOutboxRouteTest,HttpShellTest'));
   if(checks.some(x=>x))throw Error('A product check failed; see evidence logs');

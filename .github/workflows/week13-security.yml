@@ -32,6 +32,13 @@ jobs:
         with:
           distribution: temurin
           java-version: '21'
+      - uses: actions/cache@v4
+        with:
+          path: |
+            ~/.m2/repository
+            ~/go/pkg/mod
+          key: ${{ runner.os }}-week13-${{ hashFiles('13-week/hu-status/**/sources-lock.json') }}
+          restore-keys: ${{ runner.os }}-week13-
       - name: Obtain the exact product revisions used by this exercise
         env:
           WORKSHOP_PRODUCT_ROOT: ${{ runner.temp }}/MultiTour
