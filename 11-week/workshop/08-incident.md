@@ -9,7 +9,7 @@ which runbook step stops the bleeding") has a different answer for each kind of 
   fires and a runbook step stops the bleeding.
 
 Reference values from the docs: relay `HTTP_TIMEOUT` is 5 s and `HTTP_ATTEMPTS` is 3 (ADR-004 D10). When a
-consumer does not accept an event, the relay calls route 4 (`POST .../internal/outbox/{eventId}/attempts`);
+consumer has a transient delivery failure, the relay calls route 4 (`POST .../internal/outbox/{eventId}/attempts`);
 the owning API computes `nextAttemptAt` (the wait doubles from 5 s up to 15 min, 20 attempts, ADR-004 D4 and D10).
 `relay.go` only does the delivery and the metrics; recording attempts is designed, not built.
 
@@ -134,8 +134,8 @@ exactly the "when" column of the runbook. The check of the last migration comes 
 | 40 | `identity-audit-api` is back to normal | The retried events are delivered |
 
 **Impact:** 0 failed or slow requests for users; 15 deliveries to identity-audit timed out on the first attempt and all
-arrived on retry; the cash-reporting refusal (422, see CP2) is a business rule refusal: the attempt is recorded and the
-event is retried, up to 20 attempts, before it goes to the failure destination (ADR-004 D4); 0 minutes of error
+arrived on retry; the cash-reporting refusal (422, see CP2) is a business rule refusal: record it and
+escalate for correction, without automatic retry (Anexo D, rule 7); 0 minutes of error
 budget spent in SLO-1, SLO-2 and SLO-3.
 
 **Root cause (5 whys)**

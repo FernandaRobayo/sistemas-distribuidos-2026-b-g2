@@ -28,10 +28,16 @@ Follow one failed request by `trace_id` (Loki in Grafana). The `traceId` comes f
 from the `X-Correlation-Id` header of the response (the gateway returns it):
 
 ```logql
-{service=~"api-gateway|commercial-reservation-api|worker-event-relay"} | json | trace_id="<trace_id>"
+{service=~"commercial-reservation-api|worker-event-relay"} | json | trace_id="<trace_id>"
 ```
 
-The last line with level `ERROR` of that trace tells which service failed first.
+For gateway logs use the correlation ID returned in the response; it may differ from the trace ID:
+
+```logql
+{service="api-gateway"} | json | correlation_id="<X-Correlation-Id>"
+```
+
+Compare timestamps and spans to locate the first failing hop. The gateway has no trace_id in CP2.
 
 Is the service alive:
 

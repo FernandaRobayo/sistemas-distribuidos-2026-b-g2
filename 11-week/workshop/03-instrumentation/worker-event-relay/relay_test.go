@@ -3,6 +3,7 @@ package relay
 import (
 	"bytes"
 	"context"
+	"encoding/json"
 	"net/http"
 	"net/http/httptest"
 	"strings"
@@ -74,6 +75,13 @@ func TestTraceIdReceivedEqualsTraceIdSentDownstream(t *testing.T) {
 	}
 	if !strings.Contains(logs.String(), `"trace_id":"`+traceID+`"`) {
 		t.Fatalf("log line does not carry the trace_id: %s", logs.String())
+	}
+	var line map[string]any
+	if err := json.Unmarshal(logs.Bytes(), &line); err != nil {
+		t.Fatal(err)
+	}
+	if line["span_id"] != sent.SpanID {
+		t.Fatalf("delivery log span %v differs from outbound span %s", line["span_id"], sent.SpanID)
 	}
 	m := httptest.NewRecorder()
 	r.Metrics.Handler().ServeHTTP(m, httptest.NewRequest("GET", "/metrics", nil))

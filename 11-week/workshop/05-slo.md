@@ -24,11 +24,11 @@ measured on all catalog routes and not only on the inactivation.
 |---|---|
 | SLI | good requests / valid requests, where good = status is not 5xx, on routes `/api/v1/catalog/*` of the gateway |
 | Target | 99 % over 30 days |
-| Budget | 1 % = 600 failed requests of 60,000, or 432 minutes (7.2 h) of full outage |
+| Budget | 1 % = 600 failed requests of 60,000. At constant traffic this is equivalent to 432 minutes (7.2 h) of full outage |
 
 ```promql
 1 - (
-  sum(rate(http_requests_total{job="api-gateway",route=~"/api/v1/catalog/.*",status=~"5.."}[30d]))
+  (sum(rate(http_requests_total{job="api-gateway",route=~"/api/v1/catalog/.*",status=~"5.."}[30d])) or vector(0))
   / sum(rate(http_requests_total{job="api-gateway",route=~"/api/v1/catalog/.*"}[30d]))
 )
 ```
@@ -36,6 +36,10 @@ measured on all catalog routes and not only on the inactivation.
 The PDR asks for 95 % monthly availability (about 36 hours down). I set 99 % as the internal target
 because the catalog is a light and simple service, and a 36 hour budget would hide a bad day. The PDR
 95 % stays as the floor. This is a proposal of mine, not a requirement.
+
+Here valid requests means all observed catalog requests, including 4xx as defined in CP7.
+An absent 5xx series counts as zero errors when traffic exists. A zero denominator is no traffic,
+not evidence of 100 % availability. Missing telemetry must be investigated separately.
 
 ## SLO-2 Latency
 
@@ -56,9 +60,9 @@ The `le="3"` bucket exists in the buckets chosen in CP4.
 
 | Item | Value |
 |---|---|
-| SLI | time with the oldest unread outbox event younger than 60 s / total time |
+| SLI | time with the oldest unread outbox event at most 60 s old / total time |
 | Target | 99 % over 30 days |
-| Budget | 1 % = 432 minutes of lag over 60 s; as events, 1 % of about 200 deliveries is 2 late events |
+| Budget | 1 % = 432 minutes with lag over 60 s. This time-based SLI cannot be converted to a number of late deliveries |
 
 ```promql
 avg_over_time((relay_outbox_lag_seconds <= bool 60)[30d:1m])
@@ -66,6 +70,9 @@ avg_over_time((relay_outbox_lag_seconds <= bool 60)[30d:1m])
 
 `relay_outbox_lag_seconds` is a proposed metric (CP4) and does not exist in the code yet. The 60 s limit is
 mine: the audit trail and the cash view should not stay behind for more than a minute after an inactivation.
+
+The proposed exporter must emit 0 when the queue is empty. Missing samples are unknown, not good;
+the query averages available samples and therefore also needs a separate telemetry-coverage check.
 
 ## Error budget policy
 

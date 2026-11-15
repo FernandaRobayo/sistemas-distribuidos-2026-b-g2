@@ -24,3 +24,10 @@
 | CP8 Runbook | 07-runbook.md | done |
 | CP9 Incident drill and postmortem | 08-incident.md | done |
 | CP10 Close delivery 2 | ../hu-status/README.md (commit `61474d9`) | done |
+
+## Review and execution
+
+See [REVIEW.md](REVIEW.md) for the review of 2026-11-05, corrections and validation commands.
+The checkpoint statuses above describe the workshop artifacts; product deployment and
+measurement of the proposed SLIs remain outside this local exercise.
+The burn-rate rules now include [executable scenarios](06-alerts.test.yml).

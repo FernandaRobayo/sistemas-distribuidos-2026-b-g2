@@ -20,7 +20,15 @@
 |---|---|---|
 | CP0 Setup and boundary claim | README.md | done |
 | CP1 Attack surface map | 01-attack-surface.md | done |
-| CP2 STRIDE Pull Request | team -docs PR #580, branch `security/stride-FernandaRobayo` | done |
-| CP3 Security backlog | team -docs issues #581, #582, #583 | done, refined in CP7 |
+| CP2 STRIDE Pull Request | [local snapshot](02-stride.md), [team PR #580](https://github.com/code-corhuila/multi-tour-docs/pull/580) | analysis submitted; PR open |
+| CP3 Security backlog | [stories and role matrix](03-security-backlog.md), team issues #581, #582, #583 | stories refined; implementation open |
 | CP4 Security gates and negative test | 04-security-ci/ | done |
-| CP5 Peer review and close | ../hu-status/README.md | done |
+| CP5 Peer review and close | [peer evidence](05-peer-review.md), ../hu-status/README.md | review delivered |
+| CP6 Address peer feedback | [STRIDE row D](02-stride.md), [reply](05-peer-review.md) | applied in 920c95a |
+| CP7 Refine security stories | [security backlog](03-security-backlog.md) | refinement delivered |
+| CP8 Run negative test | [run guide](04-security-ci/HOW-TO-RUN.md) | local fixture verified; real integration pending |
+
+## Review and execution
+
+See [REVIEW.md](REVIEW.md) for corrections, checks run on 2026-11-05 and remaining delivery work.
+The minimal module is a local exercise; its decoded token is not a verified identity.

@@ -8,7 +8,7 @@ import (
 	"sync"
 )
 
-// Buckets in seconds. 3 s is the delivery timeout, so the histogram shows how many deliveries reach it.
+// Buckets in seconds: 3 s is the latency target and 5 s is the delivery timeout.
 var Buckets = []float64{0.1, 0.5, 1, 3, 5}
 
 type histogram struct {

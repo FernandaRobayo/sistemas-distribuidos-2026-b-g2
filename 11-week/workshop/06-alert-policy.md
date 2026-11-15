@@ -4,6 +4,10 @@ Journey: inactivate a catalog service (HU-COM-001). Rules in `06-alerts.yml`, va
 `promtool check rules` (2 rules found). They alert on how fast SLO-1 spends its budget (`05-slo.md`):
 availability 99 % over 30 days, so the budget is 1 % = 600 failed requests of about 60,000, or 432 minutes.
 
+On 2026-11-05, `promtool test rules 06-alerts.test.yml` also passed five scenarios: fast burn,
+slow burn only, healthy, insufficient traffic and zero traffic. See [REVIEW.md](REVIEW.md)
+for reproducible Docker commands. These tests use synthetic counters, not live traffic.
+
 ## The two alerts
 
 | | Fast burn | Slow burn |

@@ -61,7 +61,7 @@ sequenceDiagram
     API->>DB: UPDATE catalog item + INSERT outbox_event (trace_id saved as correlationId)
     API-->>GW: 200 CatalogServiceResponse (X-Correlation-Id)
     GW-->>Portal: 200 (X-Correlation-Id)
-    Relay->>API: GET internal outbox (new span, link to saved trace_id)
+    Relay->>API: GET internal outbox (trace_id restored; parent span not stored)
     Relay-)Audit: CatalogServiceInactivated (traceparent, Idempotency-Key eventId)
     Relay-)Cash: CatalogServiceInactivated (traceparent, Idempotency-Key eventId)
     Audit--)Relay: 201 (first time) or 200 (repeat)

@@ -43,7 +43,7 @@ func (r Relay) DeliverToAudit(ctx context.Context, e Event) error {
 		return err
 	}
 	req.Header.Set("Content-Type", "application/json")
-	req.Header.Set("traceparent", tc.Child().Traceparent())
+	req.Header.Set("traceparent", tc.Traceparent())
 	req.Header.Set("X-Correlation-Id", e.CorrelationID)
 	req.Header.Set("Idempotency-Key", e.EventID)
 

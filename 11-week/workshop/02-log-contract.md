@@ -51,7 +51,7 @@ message) plus the fields asked by this workshop. The docs use `correlationId`; t
 | Level | When | Example |
 |---|---|---|
 | `ERROR` | A step failed and needs attention | `event.delivery.timeout`: identity-audit did not answer in 5 s (HTTP_TIMEOUT, ADR-004 D10) |
-| `WARN` | Abnormal but the system keeps working | `event.delivery.rejected`: cash-reporting refused the event by a business rule; the relay records the failed attempt and the owner schedules a retry (ADR-004 D4, up to 20 attempts) |
+| `WARN` | Abnormal but the system keeps working | `event.delivery.rejected`: cash-reporting refused the event by a business rule (422); record it and escalate for correction, without an automatic retry (Anexo D, rule 7) |
 | `INFO` | Normal business step | `catalog.service.inactivated` |
 | `DEBUG` | Detail for development, off in production | Headers received at the gateway, without tokens |
 

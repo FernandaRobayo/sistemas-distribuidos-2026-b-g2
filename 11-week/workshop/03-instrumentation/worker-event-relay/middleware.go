@@ -20,8 +20,18 @@ type statusWriter struct {
 }
 
 func (w *statusWriter) WriteHeader(code int) {
+	if w.status != 0 {
+		return
+	}
 	w.status = code
 	w.ResponseWriter.WriteHeader(code)
+}
+
+func (w *statusWriter) Write(body []byte) (int, error) {
+	if w.status == 0 {
+		w.WriteHeader(http.StatusOK)
+	}
+	return w.ResponseWriter.Write(body)
 }
 
 // TraceMiddleware reads traceparent or creates a new trace, returns the context
@@ -38,8 +48,12 @@ func (l Logger) TraceMiddleware(next http.Handler) http.Handler {
 			correlationID = tc.TraceID
 		}
 		w.Header().Set("traceparent", tc.Traceparent())
-		sw := &statusWriter{ResponseWriter: w, status: http.StatusOK}
+		w.Header().Set("X-Correlation-Id", correlationID)
+		sw := &statusWriter{ResponseWriter: w}
 		next.ServeHTTP(sw, r.WithContext(context.WithValue(r.Context(), ctxKey{}, tc)))
+		if sw.status == 0 {
+			sw.status = http.StatusOK
+		}
 		l.Log("INFO", "request.completed", r.Method+" "+r.URL.Path, tc, correlationID,
 			time.Since(start).Milliseconds(), Fields{"http_status": sw.status})
 	})

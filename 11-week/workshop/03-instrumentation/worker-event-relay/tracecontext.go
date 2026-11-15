@@ -10,6 +10,7 @@ import (
 type TraceContext struct {
 	TraceID string // 32 hex characters
 	SpanID  string // 16 hex characters
+	Flags   string // two lowercase hex characters; preserve the incoming sampling decision
 }
 
 func randomHex(bytes int) string {
@@ -33,12 +34,16 @@ func NewTraceContext() TraceContext {
 
 // Child keeps the trace_id and starts a new span.
 func (c TraceContext) Child() TraceContext {
-	return TraceContext{TraceID: c.TraceID, SpanID: randomHex(8)}
+	return TraceContext{TraceID: c.TraceID, SpanID: randomHex(8), Flags: c.Flags}
 }
 
 // Traceparent formats the header value: 00-<trace_id>-<span_id>-01.
 func (c TraceContext) Traceparent() string {
-	return "00-" + c.TraceID + "-" + c.SpanID + "-01"
+	flags := c.Flags
+	if flags == "" {
+		flags = "01" // local workshop traces are sampled
+	}
+	return "00-" + c.TraceID + "-" + c.SpanID + "-" + flags
 }
 
 // ParseTraceparent reads the header value; ok is false when it is missing or malformed.
@@ -47,7 +52,13 @@ func ParseTraceparent(header string) (TraceContext, bool) {
 	if len(p) != 4 || p[0] != "00" || !validHex(p[1], 32) || !validHex(p[2], 16) {
 		return TraceContext{}, false
 	}
-	return TraceContext{TraceID: p[1], SpanID: p[2]}, true
+	if len(p[3]) != 2 || p[3] != strings.ToLower(p[3]) {
+		return TraceContext{}, false
+	}
+	if _, err := hex.DecodeString(p[3]); err != nil {
+		return TraceContext{}, false
+	}
+	return TraceContext{TraceID: p[1], SpanID: p[2], Flags: p[3]}, true
 }
 
 // FromCorrelationID restores the trace of an outbox event. In my CP1 proposal the
