@@ -18,6 +18,7 @@ const appPassword = randomBytes(24).toString('hex');
 const env = {...process.env, POSTGRES_PASSWORD: password,
   DATABASE_URL: `postgres://security_app:${appPassword}@${database}:5432/postgres?sslmode=disable`};
 const sleep = ms => new Promise(resolve => setTimeout(resolve, ms));
+let deployment;
 function docker(args) {
   const result = run('docker', args, source, env);
   if (result.code) throw new Error(`Docker operation ${args[0]} failed.`);
@@ -58,13 +59,20 @@ try {
   if (!['{}', 'null'].includes(bindings)) throw new Error('Business API must not publish host ports.');
   const actual = docker(['inspect', service, '--format', '{{.Image}}']);
   if (actual !== id) throw new Error('Running container differs from the selected tagged image.');
-  writeJson(path.join(output, 'deployment.json'), {checkedAt: new Date().toISOString(), status: 'passed',
+  const denied = run('docker', ['exec', service, 'wget', '-S', '-O-', 'http://127.0.0.1:8086/accounts'], source);
+  if (!/HTTP\/1\.[01] 401/.test(denied.output)) throw new Error('Unauthenticated account access must return 401.');
+  deployment = {checkedAt: new Date().toISOString(), status: 'passed',
     environment: 'isolated disposable exercise; no QA/production deployment', image, imageId: id,
-    runtimeUser: user, hostPortBindings: bindings, health: 'passed', cleanup: 'containers/network/temporary keys removed in finally'});
-  console.log('Tagged Multi Tour image deployed; identity, non-root user, internal port and health verified.');
+    runtimeUser: user, hostPortBindings: bindings, health: 'passed', unauthenticatedAccounts: 401,
+    cleanup: 'containers/network/temporary keys removed in finally'};
 } finally {
   run('docker', ['rm', '-f', service, database], source);
   run('docker', ['network', 'rm', prefix], source);
   if (path.dirname(directory) !== path.resolve(os.tmpdir()) || !path.basename(directory).startsWith('week14-preview-')) throw new Error('Unsafe temporary directory.');
   fs.rmSync(directory, {recursive: true, force: true});
 }
+if (run('docker', ['inspect', service], source).code === 0
+  || run('docker', ['inspect', database], source).code === 0
+  || run('docker', ['network', 'inspect', prefix], source).code === 0) throw new Error('Preview cleanup is incomplete.');
+writeJson(path.join(output, 'deployment.json'), deployment);
+console.log('Tagged Multi Tour image deployed; image identity, non-root user, internal port, health, 401 and cleanup verified.');

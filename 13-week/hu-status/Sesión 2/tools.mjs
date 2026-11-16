@@ -17,9 +17,9 @@ export function reviewedFinding(finding, sources, reviewed) {
     && item.line === finding.StartLine && item.sha256 === hash);
 }
 
-export function run(command, args, cwd) {
+export function run(command, args, cwd, env = process.env) {
   const result = spawnSync(command, args, {
-    cwd, encoding: 'utf8', windowsHide: true, maxBuffer: 32 * 1024 * 1024
+    cwd, env, encoding: 'utf8', windowsHide: true, maxBuffer: 32 * 1024 * 1024
   });
   if (result.error) throw result.error;
   return {code: result.status ?? 2, output: result.stdout + result.stderr};
