@@ -10,6 +10,8 @@ on:
       - '15-week/hu-status/**/pom.xml'
       - '15-week/hu-status/**/sources-lock.json'
       - '14-week/hu-status/**/*.mjs'
+      - '13-week/hu-status/**/*.mjs'
+      - '13-week/hu-status/**/reviewed-fixtures.json'
 permissions:
   contents: read
 env:

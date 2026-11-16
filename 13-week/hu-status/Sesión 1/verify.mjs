@@ -153,7 +153,7 @@ import (
   "github.com/jackc/pgx/v5/pgxpool"
 )
 func buildHandler(pool *pgxpool.Pool, cfg config, logger *slog.Logger) (http.Handler, error) {
-  mail, err := loadMail("smtp.invalid", "1025", "week15@example.test", "https://example.test", func(string) string { return "" })
+  mail, err := loadMail(func(string) string { return "" }, "smtp.invalid", "1025", "week15@example.test", "https://example.test")
   if err != nil { return nil, err }
   cfg.mail = mail
   cfg.recoveryKey = make([]byte, 32)

@@ -134,7 +134,7 @@
     "rule": "generic-api-key",
     "line": 20,
     "sha256": "9214786db772800628e041968480d321016caf0dee799924011533ceb110452f",
-    "reason": "Synthetic idempotency key in the create-account in-memory test doubles.",
+    "reason": "Synthetic password in create-account in-memory unit test fixtures.",
     "sourceRevision": "1dcb3e284876af5e98d9504b8e41f5cee4ea3b97",
     "reviewedOn": "2026-11-15",
     "hashMode": "SHA-256 of UTF-8 source with CRLF normalized to LF"
@@ -145,6 +145,16 @@
     "line": 24,
     "sha256": "a2d063600853e9d5ae8f93696c533e651fcfd8c3332ab37a102eac32f9cd7b9c",
     "reason": "Synthetic idempotency key in support-request in-memory unit tests.",
+    "sourceRevision": "1dcb3e284876af5e98d9504b8e41f5cee4ea3b97",
+    "reviewedOn": "2026-11-15",
+    "hashMode": "SHA-256 of UTF-8 source with CRLF normalized to LF"
+  },
+  {
+    "file": "security/internal/adapter/http/tenantevents_test.go",
+    "rule": "generic-api-key",
+    "line": 22,
+    "sha256": "24b7bab35a7328300b9f8f3b99b8acf096e90adcdd828445a2a71ae513967499",
+    "reason": "Synthetic UUID event key in tenant-event HTTP contract tests.",
     "sourceRevision": "1dcb3e284876af5e98d9504b8e41f5cee4ea3b97",
     "reviewedOn": "2026-11-15",
     "hashMode": "SHA-256 of UTF-8 source with CRLF normalized to LF"
