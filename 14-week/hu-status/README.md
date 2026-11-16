@@ -14,6 +14,7 @@
 ## 1. User stories worked this week
 | HU ID | Title | Status (todo/doing/done) | Evidence (PR or commit URL) |
 |---|---|---|---|
+| N/A (Session 1 CI/CD) | Configure Multi Tour build, static analysis, types, tests, coverage, security gates, main protection and tagged image deployment | done | [session 1 delivery](Sesi%C3%B3n%201/README.md) · [pipeline](../../.github/workflows/week14-cicd.yml) |
 | HU-COM-003 | Manage discount rules for associated establishment packages | doing | [db PR #58](https://github.com/code-corhuila/multi-tour-commercial-reservation-db/pull/58) · [portal PR #192](https://github.com/code-corhuila/multi-tour-commercial-reservation-portal/pull/192) |
 | HU-COM-005 | Collect titular and companion details when creating a reservation | doing | [portal PR #189](https://github.com/code-corhuila/multi-tour-commercial-reservation-portal/pull/189) |
 | HU-COM-006 | Display and navigate the public tour offer with departures and capacity | doing | [portal PR #184](https://github.com/code-corhuila/multi-tour-commercial-reservation-portal/pull/184) |
@@ -32,6 +33,7 @@
 | HU-CSH-001 | Manage the daily cash: open, move, close, reopen and correct | doing | [db PRs #5–#15](https://github.com/code-corhuila/multi-tour-cash-reporting-db/pulls) · [api PRs #19–#38](https://github.com/code-corhuila/multi-tour-cash-reporting-api/pulls) · [portal PRs #28–#40](https://github.com/code-corhuila/multi-tour-cash-reporting-portal/pulls) |
 
 ## 2. My individual contribution
+- Session 1 CI/CD: added a real Multi Tour security-service build, format/vet checks, production/test type checking, PostgreSQL-backed tests and an 80% statement coverage gate. Reused the dependency, secret and service authorization gates. Applied and read back course main protection; added tagged image startup verification and gated GHCR publication. Verified 93% coverage, 363 passing test events, zero skips and the tagged-image preview. The dependency gate correctly blocks release. See [session 1](Sesi%C3%B3n%201/README.md).
 - Completed the HU-COM-008 self-service reservation flow: the Final Customer now quotes their selection through the own reservation route (portal PR #182), creates the reservation with payment type and method (portal PR #183), reads departures and tours from the public routes (portal PR #191), captures the holder on screen 21 (portal PR #193), collects risk data for each traveler (portal PR #197), sees the cash creation notice on Mis reservas (portal PR #201), continues a payment on screen 21 in its second mode (portal PR #204), reads full departures as full (portal PR #205), and reads the payment deadline from the service on screens 21 and 24 (portal PR #206); start time and N/M seats now appear on the departure list of screen 20 (portal PR #207).
 - Advanced HU-COM-009 payment parameters: promoted the payment parameters port to QA (portal PR #188), fixed the demo bank account fallback on screen 24 (portal PR #196), guarded the payments copy and corrected parameters texts (portal PR #208), translated service refusals to Spanish (portal PR #209), and wired screen 24 to read the declared amount from the payment quote (portal PR #210). On the api side: the payment deadline in force is now returned in the reservation answers (api PR #197), the effective and frozen deadline is judged when a proof is decided (api PR #195), seat hold is restricted to scheduled departures only (api PR #189).
 - Delivered HU-COM-010 proof review: the reviewer now sees the uploaded proof file on the validate screen (portal PR #211) and receives a privacy notice warning that the decision reason must not contain personal data (portal PR #212). On the api side: the reservation is locked when a proof is decided (api PR #206) and the idempotent proof decision was moved to the core layer (api PR #208).
@@ -46,11 +48,13 @@
 - Completed minor slices: the stackable flag on discount rules (db PR #58, portal PR #192 for HU-COM-003); the relay partial index to avoid sequential scans (db PR #69 for HU-COM-015); refused a future birth date in the operator customer form (portal PR #189 for HU-COM-005); connected the public tour departures to the visitor route (portal PR #184 for HU-COM-006); promoted copy files for HU-COM-007 to QA (portal PRs #185 and #187).
 
 ## 3. Blockers and risks
+- Session 1 release readiness remains blocked by the assessed Multi Tour dependency advisories (SEC-01). Main requires week14-required and a reviewed PR; this branch is published without merging or bypassing protection. The deployed candidate is an isolated exercise, with no production server configured.
 - Deadline for domain 02 delivery is 2026-11-10; several HUs (HU-COM-012, HU-COM-013, HU-COM-017, HU-COM-019) have db and api work done but their portal slices are still pending or incomplete.
 - HU-COM-008 portal work is merged; a final QA promotion PR is still pending.
 - multi-tour-docs spec alignment PRs for HU-COM-010 and HU-COM-011 are open.
 
 ## 4. Plan for next week
+- In session 2, map DoD to the executable gates, split MVP 3 pipeline stories, remediate SEC-01 and define persistent deployment/rollback acceptance criteria.
 - Promote all completed domain 02 HUs to QA before the 2026-11-10 deadline.
 - Complete portal slices for HU-COM-012 (reservation modification) and HU-COM-013 (cancellation).
 - Advance HU-CSH-001 toward done: complete any remaining AC and promote the portal to QA.
@@ -65,6 +69,7 @@
 - [x] No secrets; config via environment variables
 
 ## 6. Evidence links
+- CI/CD session 1: [implementation and policy](Sesi%C3%B3n%201/README.md), [main protection](Sesi%C3%B3n%201/evidence/main-protection.json), [CI runs](https://github.com/FernandaRobayo/sistemas-distribuidos-2026-b-g2/actions/workflows/week14-cicd.yml?query=branch%3Adocs%2F14-week-session1-cicd).
 - portal PRs — HU-COM-003 discount rules (Nov 4): [PR #192](https://github.com/code-corhuila/multi-tour-commercial-reservation-portal/pull/192) · db: [PR #58](https://github.com/code-corhuila/multi-tour-commercial-reservation-db/pull/58)
 - portal PRs — HU-COM-005 future birth date (Nov 4): [PR #189](https://github.com/code-corhuila/multi-tour-commercial-reservation-portal/pull/189)
 - portal PRs — HU-COM-006 public offer departures (Nov 3): [PR #184](https://github.com/code-corhuila/multi-tour-commercial-reservation-portal/pull/184)

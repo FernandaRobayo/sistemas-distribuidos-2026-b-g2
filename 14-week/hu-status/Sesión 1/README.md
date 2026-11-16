@@ -22,6 +22,12 @@ The 80% coverage threshold is PROPUESTO (session 1 quality policy). Go compilati
 
 Dependency security retains the explicit session 2 policy: every reported advisory blocks. The previously assessed baseline reports 106 package-advisory matches across 15 package versions. These are inventory matches, including aliases, rather than 106 unique vulnerabilities. Remediation and reachability assessment remain SEC-01. [Security policy and evidence](../../../13-week/hu-status/Sesi%C3%B3n%202/03-ci-security-gates.md)
 
+## Verified execution
+
+[Run 43784282724](https://github.com/FernandaRobayo/sistemas-distribuidos-2026-b-g2/actions/runs/43784282724) verified source commit `715fded`: compilation, formatting, static analysis, production/test types, PostgreSQL-backed tests and image deployment passed. Coverage was 93%, with 363 passing test events and zero skipped. Secret and authorization jobs passed. The dependency job reported 106 package-advisory matches, so week14-required failed and release publication/deployment was skipped.
+
+[Quality summary](evidence/quality-summary.json), [tagged deployment identity and probes](evidence/deployment.json), [complete job outcomes](evidence/ci-validation.json). Registry-tag guard tests also passed: existing tag blocks, confirmed missing tag continues, lookup failure blocks. [Registry guard evidence](evidence/registry-guard.json)
+
 ## Main protection
 
 Main protection was applied to `FernandaRobayo/sistemas-distribuidos-2026-b-g2`, the course repository, and read back through GitHub's API. It requires a PR, one approving review, dismissal of stale approvals, resolved conversations, an up-to-date branch and the GitHub Actions `week14-required` check. Administrators are included. Force pushes and branch deletion are disabled. [Requested policy](main-protection.json), [observed settings](evidence/main-protection.json)
@@ -34,7 +40,7 @@ The PR quality job builds `multi-tour-security:ci-<delivery SHA>` using the prod
 
 The verifier deploys that tagged image in an isolated Docker network with disposable PostgreSQL and a `security_app` runtime identity. It generates short-lived test signing keys outside the repository, mounts them read-only, waits for health, verifies the running image ID, non-root user, absence of published service ports and HTTP 401 without credentials. Containers, network and generated keys are removed afterward. This is a startup/authentication smoke test; the shared authorization job supplies the broader functional security evidence. The preview creates no persistent QA/production schema or volume.
 
-A push of `security-v<major>.<minor>.<patch>` runs all gates. Only after `week14-required` succeeds does the release job verify tag syntax and ancestry in reviewed main, reject an existing registry tag, build/push the versioned image to GHCR, pull it back and deploy it into the same disposable exercise environment. Registry write permission exists only in this gated release job. PRs cannot publish images. The registry credentials use GITHUB_TOKEN and are not stored in files.
+A push of `security-v<major>.<minor>.<patch>` runs all gates. Only after `week14-required` succeeds does the release job verify tag syntax and ancestry in reviewed main, reject an existing registry tag, build/push the versioned image to GHCR, pull it back and deploy it into the same disposable exercise environment. A registry lookup error fails closed. Registry write permission exists only in this gated release job. PRs cannot publish images. Registry credentials use GITHUB_TOKEN in the ephemeral runner and are never versioned.
 
 The current dependency findings block release publication and the release deployment job. The candidate preview remains an isolated integration test. No production release tag is created by this activity, and no external server is configured. A persistent Multi Tour rollout must use its infra-owned databases, domain migration tooling, environment secrets and approved release promotion, preserving Annex J data ownership and volumes.
 

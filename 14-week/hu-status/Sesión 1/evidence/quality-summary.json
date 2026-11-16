@@ -1,0 +1,47 @@
+{
+  "checkedAt": "2026-11-16T01:08:20.777Z",
+  "status": "passed",
+  "scope": "Multi Tour security service, pinned source export",
+  "coveragePercent": 93,
+  "minimumCoveragePercent": 80,
+  "passedTestEvents": 363,
+  "skippedTestEvents": 0,
+  "results": [
+    {
+      "name": "build",
+      "exitCode": 0
+    },
+    {
+      "name": "format",
+      "exitCode": 0
+    },
+    {
+      "name": "static-analysis",
+      "exitCode": 0
+    },
+    {
+      "name": "types",
+      "exitCode": 0
+    },
+    {
+      "name": "database-start",
+      "exitCode": 0
+    },
+    {
+      "name": "database-port",
+      "exitCode": 0
+    },
+    {
+      "name": "tests",
+      "exitCode": 0
+    },
+    {
+      "name": "coverage",
+      "exitCode": 0
+    },
+    {
+      "name": "coverage-html",
+      "exitCode": 0
+    }
+  ]
+}

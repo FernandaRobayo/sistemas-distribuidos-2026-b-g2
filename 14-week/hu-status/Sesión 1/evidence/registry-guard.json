@@ -1,0 +1,21 @@
+{
+  "source": "exact guard extracted from week14-cicd.yml; Docker manifest command stubbed",
+  "status": "passed",
+  "checks": [
+    {
+      "case": "present",
+      "expectedExitCode": 1,
+      "observedExitCode": 1
+    },
+    {
+      "case": "missing",
+      "expectedExitCode": 0,
+      "observedExitCode": 0
+    },
+    {
+      "case": "network-error",
+      "expectedExitCode": 1,
+      "observedExitCode": 1
+    }
+  ]
+}
