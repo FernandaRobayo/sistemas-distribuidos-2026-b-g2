@@ -1,0 +1,176 @@
+[
+    {
+        "branch":  "develop",
+        "createdAtMain":  true,
+        "initialReference":  "6bbd8f19c37289c52a0244b1c26e9d041a384227",
+        "protection":  {
+                           "url":  "https://api.github.com/repos/FernandaRobayo/sistemas-distribuidos-2026-b-g2/branches/develop/protection",
+                           "required_status_checks":  {
+                                                          "url":  "https://api.github.com/repos/FernandaRobayo/sistemas-distribuidos-2026-b-g2/branches/develop/protection/required_status_checks",
+                                                          "strict":  true,
+                                                          "contexts":  [
+                                                                           "week14-required"
+                                                                       ],
+                                                          "contexts_url":  "https://api.github.com/repos/FernandaRobayo/sistemas-distribuidos-2026-b-g2/branches/develop/protection/required_status_checks/contexts",
+                                                          "checks":  [
+                                                                         {
+                                                                             "context":  "week14-required",
+                                                                             "app_id":  15368
+                                                                         }
+                                                                     ]
+                                                      },
+                           "required_pull_request_reviews":  {
+                                                                 "url":  "https://api.github.com/repos/FernandaRobayo/sistemas-distribuidos-2026-b-g2/branches/develop/protection/required_pull_request_reviews",
+                                                                 "dismiss_stale_reviews":  true,
+                                                                 "require_code_owner_reviews":  false,
+                                                                 "require_last_push_approval":  false,
+                                                                 "required_approving_review_count":  1
+                                                             },
+                           "required_signatures":  {
+                                                       "url":  "https://api.github.com/repos/FernandaRobayo/sistemas-distribuidos-2026-b-g2/branches/develop/protection/required_signatures",
+                                                       "enabled":  false
+                                                   },
+                           "enforce_admins":  {
+                                                  "url":  "https://api.github.com/repos/FernandaRobayo/sistemas-distribuidos-2026-b-g2/branches/develop/protection/enforce_admins",
+                                                  "enabled":  true
+                                              },
+                           "required_linear_history":  {
+                                                           "enabled":  false
+                                                       },
+                           "allow_force_pushes":  {
+                                                      "enabled":  false
+                                                  },
+                           "allow_deletions":  {
+                                                   "enabled":  false
+                                               },
+                           "block_creations":  {
+                                                   "enabled":  false
+                                               },
+                           "required_conversation_resolution":  {
+                                                                    "enabled":  true
+                                                                },
+                           "lock_branch":  {
+                                               "enabled":  false
+                                           },
+                           "allow_fork_syncing":  {
+                                                      "enabled":  false
+                                                  }
+                       }
+    },
+    {
+        "branch":  "qa",
+        "createdAtMain":  true,
+        "initialReference":  "6bbd8f19c37289c52a0244b1c26e9d041a384227",
+        "protection":  {
+                           "url":  "https://api.github.com/repos/FernandaRobayo/sistemas-distribuidos-2026-b-g2/branches/qa/protection",
+                           "required_status_checks":  {
+                                                          "url":  "https://api.github.com/repos/FernandaRobayo/sistemas-distribuidos-2026-b-g2/branches/qa/protection/required_status_checks",
+                                                          "strict":  true,
+                                                          "contexts":  [
+                                                                           "week14-required"
+                                                                       ],
+                                                          "contexts_url":  "https://api.github.com/repos/FernandaRobayo/sistemas-distribuidos-2026-b-g2/branches/qa/protection/required_status_checks/contexts",
+                                                          "checks":  [
+                                                                         {
+                                                                             "context":  "week14-required",
+                                                                             "app_id":  15368
+                                                                         }
+                                                                     ]
+                                                      },
+                           "required_pull_request_reviews":  {
+                                                                 "url":  "https://api.github.com/repos/FernandaRobayo/sistemas-distribuidos-2026-b-g2/branches/qa/protection/required_pull_request_reviews",
+                                                                 "dismiss_stale_reviews":  true,
+                                                                 "require_code_owner_reviews":  false,
+                                                                 "require_last_push_approval":  false,
+                                                                 "required_approving_review_count":  1
+                                                             },
+                           "required_signatures":  {
+                                                       "url":  "https://api.github.com/repos/FernandaRobayo/sistemas-distribuidos-2026-b-g2/branches/qa/protection/required_signatures",
+                                                       "enabled":  false
+                                                   },
+                           "enforce_admins":  {
+                                                  "url":  "https://api.github.com/repos/FernandaRobayo/sistemas-distribuidos-2026-b-g2/branches/qa/protection/enforce_admins",
+                                                  "enabled":  true
+                                              },
+                           "required_linear_history":  {
+                                                           "enabled":  false
+                                                       },
+                           "allow_force_pushes":  {
+                                                      "enabled":  false
+                                                  },
+                           "allow_deletions":  {
+                                                   "enabled":  false
+                                               },
+                           "block_creations":  {
+                                                   "enabled":  false
+                                               },
+                           "required_conversation_resolution":  {
+                                                                    "enabled":  true
+                                                                },
+                           "lock_branch":  {
+                                               "enabled":  false
+                                           },
+                           "allow_fork_syncing":  {
+                                                      "enabled":  false
+                                                  }
+                       }
+    },
+    {
+        "branch":  "main",
+        "createdAtMain":  false,
+        "initialReference":  "6bbd8f19c37289c52a0244b1c26e9d041a384227",
+        "protection":  {
+                           "url":  "https://api.github.com/repos/FernandaRobayo/sistemas-distribuidos-2026-b-g2/branches/main/protection",
+                           "required_status_checks":  {
+                                                          "url":  "https://api.github.com/repos/FernandaRobayo/sistemas-distribuidos-2026-b-g2/branches/main/protection/required_status_checks",
+                                                          "strict":  true,
+                                                          "contexts":  [
+                                                                           "week14-required"
+                                                                       ],
+                                                          "contexts_url":  "https://api.github.com/repos/FernandaRobayo/sistemas-distribuidos-2026-b-g2/branches/main/protection/required_status_checks/contexts",
+                                                          "checks":  [
+                                                                         {
+                                                                             "context":  "week14-required",
+                                                                             "app_id":  15368
+                                                                         }
+                                                                     ]
+                                                      },
+                           "required_pull_request_reviews":  {
+                                                                 "url":  "https://api.github.com/repos/FernandaRobayo/sistemas-distribuidos-2026-b-g2/branches/main/protection/required_pull_request_reviews",
+                                                                 "dismiss_stale_reviews":  true,
+                                                                 "require_code_owner_reviews":  false,
+                                                                 "require_last_push_approval":  false,
+                                                                 "required_approving_review_count":  1
+                                                             },
+                           "required_signatures":  {
+                                                       "url":  "https://api.github.com/repos/FernandaRobayo/sistemas-distribuidos-2026-b-g2/branches/main/protection/required_signatures",
+                                                       "enabled":  false
+                                                   },
+                           "enforce_admins":  {
+                                                  "url":  "https://api.github.com/repos/FernandaRobayo/sistemas-distribuidos-2026-b-g2/branches/main/protection/enforce_admins",
+                                                  "enabled":  true
+                                              },
+                           "required_linear_history":  {
+                                                           "enabled":  false
+                                                       },
+                           "allow_force_pushes":  {
+                                                      "enabled":  false
+                                                  },
+                           "allow_deletions":  {
+                                                   "enabled":  false
+                                               },
+                           "block_creations":  {
+                                                   "enabled":  false
+                                               },
+                           "required_conversation_resolution":  {
+                                                                    "enabled":  true
+                                                                },
+                           "lock_branch":  {
+                                               "enabled":  false
+                                           },
+                           "allow_fork_syncing":  {
+                                                      "enabled":  false
+                                                  }
+                       }
+    }
+]

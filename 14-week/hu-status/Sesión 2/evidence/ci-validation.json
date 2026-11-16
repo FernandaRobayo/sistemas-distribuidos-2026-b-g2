@@ -1,0 +1,91 @@
+{
+  "runId": 43790091251,
+  "url": "https://github.com/FernandaRobayo/sistemas-distribuidos-2026-b-g2/actions/runs/43790091251",
+  "testedCommit": "faa738720cb45faf12d0f494dc10a19b67441372",
+  "status": "completed",
+  "conclusion": "failure",
+  "jobs": [
+    {
+      "name": "plan",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/FernandaRobayo/sistemas-distribuidos-2026-b-g2/actions/runs/43790091251/job/133046301663"
+    },
+    {
+      "name": "security / secrets",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/FernandaRobayo/sistemas-distribuidos-2026-b-g2/actions/runs/43790091251/job/133046301959"
+    },
+    {
+      "name": "security / dependencies",
+      "status": "completed",
+      "conclusion": "failure",
+      "url": "https://github.com/FernandaRobayo/sistemas-distribuidos-2026-b-g2/actions/runs/43790091251/job/133046302095"
+    },
+    {
+      "name": "security / authorization",
+      "status": "completed",
+      "conclusion": "skipped",
+      "url": "https://github.com/FernandaRobayo/sistemas-distribuidos-2026-b-g2/actions/runs/43790091251/job/133046303543"
+    },
+    {
+      "name": "smoke",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/FernandaRobayo/sistemas-distribuidos-2026-b-g2/actions/runs/43790091251/job/133046364290"
+    },
+    {
+      "name": "service-identity-audit",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/FernandaRobayo/sistemas-distribuidos-2026-b-g2/actions/runs/43790091251/job/133046364368"
+    },
+    {
+      "name": "service-cash-reporting",
+      "status": "completed",
+      "conclusion": "failure",
+      "url": "https://github.com/FernandaRobayo/sistemas-distribuidos-2026-b-g2/actions/runs/43790091251/job/133046364370"
+    },
+    {
+      "name": "service-operations-cost",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/FernandaRobayo/sistemas-distribuidos-2026-b-g2/actions/runs/43790091251/job/133046364440"
+    },
+    {
+      "name": "service-commercial",
+      "status": "completed",
+      "conclusion": "failure",
+      "url": "https://github.com/FernandaRobayo/sistemas-distribuidos-2026-b-g2/actions/runs/43790091251/job/133046364474"
+    },
+    {
+      "name": "service-relay",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/FernandaRobayo/sistemas-distribuidos-2026-b-g2/actions/runs/43790091251/job/133046364520"
+    },
+    {
+      "name": "contracts / verify-session1",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/FernandaRobayo/sistemas-distribuidos-2026-b-g2/actions/runs/43790091251/job/133046364559"
+    },
+    {
+      "name": "service-security",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/FernandaRobayo/sistemas-distribuidos-2026-b-g2/actions/runs/43790091251/job/133046364952"
+    },
+    {
+      "name": "week14-required",
+      "status": "completed",
+      "conclusion": "failure",
+      "url": "https://github.com/FernandaRobayo/sistemas-distribuidos-2026-b-g2/actions/runs/43790091251/job/133047431322"
+    }
+  ],
+  "dependencyMatches": 106,
+  "dependencyPackageVersions": 15,
+  "artifactDigestsVerified": 11,
+  "note": "Configuration/evidence delivered; failed product gates block acceptance. Planned job skips do not represent skipped test cases."
+}

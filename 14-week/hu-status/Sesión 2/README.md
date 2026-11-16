@@ -49,7 +49,26 @@ Security retains the measured 93% statement baseline, relay 74.5% statements, id
 
 The live contract job uses the same source lock as the service matrix. It issues real user/SERVICE tokens in Go, calls the real Java HTTP adapter through NGINX HTTPS, and checks valid/invalid credentials, authorization, tenant isolation and key rotation. It retains at least 29 assertions. The Java catalog uses its published test ports; this is a real wire/authentication contract, not a claim that all business persistence or every pair of services was exercised. Other provider contracts are checked in their complete native suites.
 
+The shared security workflow's older monolithic authorization job is deliberately disabled in this entry point: the dedicated contract job and selected full service suites now perform those checks. That planned job choice is separate from the zero-skipped-test requirement inside an executed service suite.
+
 The smoke job builds a tagged security image, verifies its running image ID, health, non-root UID, private-route 401, absence of published business ports and cleanup. It also exports the gateway and runs `nginx -t` plus the existing smoke suite. Both are disposable test environments. Version publication in session 1 now depends on this final pipeline and uses this session's source lock; known failed gates prevent release publication.
+
+## Verified component execution
+
+[Run 43790091251](https://github.com/FernandaRobayo/sistemas-distribuidos-2026-b-g2/actions/runs/43790091251) verified the complete service runners at course source commit `faa7387`. The eleven downloaded artifact ZIP digests were checked against GitHub metadata. [Job outcomes](evidence/ci-validation.json), [verified artifact identities](evidence/artifacts.json).
+
+| Service | Executed cases / test events | Coverage | Result |
+|---|---|---|---|
+| Security | 363 Go test events, zero skipped | 93% statements | passed |
+| Event relay | 84 Go test events, zero skipped | 74.5% statements | passed |
+| Identity-audit | 280 Java cases, zero skipped | 68.5% aggregate instructions | passed |
+| Operations-cost | 708 Java cases, zero skipped | 73.9% aggregate instructions | passed |
+| Commercial | 2,253 Java cases, zero skipped; two failures and three errors | failed reactor; no healthy baseline | blocked |
+| Cash-reporting | 361 core cases, zero skipped | native core coverage floor fails; later modules are not accepted | blocked |
+
+[Per-service summaries and runtime records](evidence/services/) preserve source revisions and distinguish partial failed-build measurements from accepted baselines. The [live contract](evidence/contracts.json) passed 29 assertions; the [tagged image smoke](evidence/smoke.json) and [96 gateway checks including nginx -t](evidence/gateway-smoke.json) passed. [Secret scanning](evidence/secret-summary.json) passed with zero unreviewed findings. [Dependency scanning](evidence/dependency-summary.json) blocked 106 package-advisory matches across 15 package versions.
+
+The latest workflow run, including the required-check ownership audit, is recorded in [workflow-validation.json](evidence/workflow-validation.json). The release entry point is configured to invoke the final pipeline once; registry publication remains unexecuted while product gates block. No production acceptance is claimed.
 
 ## Branch protection and adoption
 

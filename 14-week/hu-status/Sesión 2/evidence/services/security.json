@@ -1,0 +1,18 @@
+{
+  "name": "security",
+  "status": "passed",
+  "checkedAt": "2026-11-16T02:07:34.797Z",
+  "tests": 363,
+  "skipped": 0,
+  "failures": 0,
+  "errors": 0,
+  "coverage": 93,
+  "coverageUnit": "statements",
+  "baseline": 93,
+  "sources": {
+    "security": {
+      "repository": "transversales/multi-tour-security",
+      "revision": "aafda9c9bba60b3a486d0e502cb522c5d91e73c4"
+    }
+  }
+}
