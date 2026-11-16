@@ -1,0 +1,21 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>co.edu.corhuila.multitour.workshop</groupId><artifactId>week15-system-tests</artifactId><version>0.1.0-SNAPSHOT</version>
+  <properties><maven.compiler.release>21</maven.compiler.release><project.build.sourceEncoding>UTF-8</project.build.sourceEncoding></properties>
+  <dependencies>
+    <dependency><groupId>org.junit.jupiter</groupId><artifactId>junit-jupiter</artifactId><version>5.12.2</version><scope>test</scope></dependency>
+    <dependency><groupId>org.testcontainers</groupId><artifactId>junit-jupiter</artifactId><version>1.21.4</version><scope>test</scope></dependency>
+    <dependency><groupId>org.testcontainers</groupId><artifactId>postgresql</artifactId><version>1.21.4</version><scope>test</scope></dependency>
+    <dependency><groupId>org.postgresql</groupId><artifactId>postgresql</artifactId><version>42.7.8</version><scope>test</scope></dependency>
+    <dependency><groupId>com.fasterxml.jackson.core</groupId><artifactId>jackson-databind</artifactId><version>2.19.2</version><scope>test</scope></dependency>
+    <dependency><groupId>com.atlassian.oai</groupId><artifactId>swagger-request-validator-core</artifactId><version>2.46.1</version><scope>test</scope></dependency>
+    <dependency><groupId>org.slf4j</groupId><artifactId>slf4j-simple</artifactId><version>1.7.36</version><scope>test</scope></dependency>
+  </dependencies>
+  <build><plugins>
+    <plugin><groupId>org.apache.maven.plugins</groupId><artifactId>maven-compiler-plugin</artifactId><version>3.13.0</version></plugin>
+    <plugin><groupId>org.apache.maven.plugins</groupId><artifactId>maven-surefire-plugin</artifactId><version>3.5.2</version><configuration>
+      <argLine>-Xmx512m -Dapi.version=1.44</argLine><failIfNoTests>true</failIfNoTests>
+      <systemPropertyVariables><workshop.sources>${env.SOURCES_DIR}</workshop.sources><workshop.image.cash>${env.CASH_IMAGE}</workshop.image.cash><workshop.image.security>${env.SECURITY_IMAGE}</workshop.image.security><workshop.image.gateway>${env.GATEWAY_IMAGE}</workshop.image.gateway></systemPropertyVariables>
+    </configuration></plugin>
+  </plugins></build>
+</project>

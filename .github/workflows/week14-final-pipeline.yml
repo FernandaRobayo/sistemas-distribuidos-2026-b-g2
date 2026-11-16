@@ -114,6 +114,12 @@ jobs:
         with:
           name: week14-s2-smoke
           path: ${{ runner.temp }}/smoke/
+  system_tests:
+    needs: plan
+    if: needs.plan.outputs.smoke == 'true'
+    uses: ./.github/workflows/week15-testing.yml
+    with:
+      run_contracts: false
   security:
     uses: ./.github/workflows/week13-threat-model-security.yml
     with:
@@ -122,7 +128,7 @@ jobs:
   required:
     name: week14-required
     if: always()
-    needs: [plan, services, contracts, smoke, security]
+    needs: [plan, services, contracts, smoke, system_tests, security]
     runs-on: ubuntu-latest
     timeout-minutes: 2
     steps:
@@ -133,12 +139,14 @@ jobs:
           SERVICES: ${{ needs.services.result }}
           CONTRACTS: ${{ needs.contracts.result }}
           SMOKE: ${{ needs.smoke.result }}
+          SYSTEM: ${{ needs.system_tests.result }}
           HAS_SERVICES: ${{ needs.plan.outputs.services }}
           HAS_CONTRACTS: ${{ needs.plan.outputs.contracts }}
           HAS_SMOKE: ${{ needs.plan.outputs.smoke }}
+          HAS_SYSTEM: ${{ needs.plan.outputs.smoke }}
         run: |
           test "$PLAN" = success && test "$SECURITY" = success
-          for item in SERVICES CONTRACTS SMOKE; do
+          for item in SERVICES CONTRACTS SMOKE SYSTEM; do
             flag="HAS_$item"
             if [ "${!flag}" = true ]; then test "${!item}" = success; else test "${!item}" = skipped; fi
           done
