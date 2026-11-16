@@ -82,7 +82,14 @@ jobs:
         run: |
           IMAGE="ghcr.io/${GITHUB_REPOSITORY_OWNER,,}/multi-tour-security:$GITHUB_REF_NAME"
           printf '%s' "$GH_TOKEN" | docker login ghcr.io -u "$GITHUB_ACTOR" --password-stdin
-          test -z "$(docker manifest inspect "$IMAGE" 2>/dev/null)"
+          if docker manifest inspect "$IMAGE" > "$RUNNER_TEMP/manifest.json" 2> "$RUNNER_TEMP/manifest.error"; then
+            echo 'Release tag already exists; refusing overwrite.' >&2
+            exit 1
+          fi
+          grep -Eqi 'manifest unknown|no such manifest' "$RUNNER_TEMP/manifest.error" || {
+            echo 'Cannot establish that the release tag is absent.' >&2
+            exit 1
+          }
           SOURCE=$(node -p "require(process.env.RUNNER_TEMP + '/week14-sources/sources.json').security.revision")
           docker build --label "org.opencontainers.image.revision=$SOURCE" --label "edu.corhuila.delivery-revision=$GITHUB_SHA" -t "$IMAGE" "$RUNNER_TEMP/week14-sources/security"
           docker push "$IMAGE"
