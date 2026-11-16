@@ -11,7 +11,8 @@
     "smoke": "Tagged container health, private route 401, non-root user, port isolation and cleanup.",
     "security": "Pinned dependency and secret scans; no unreviewed findings.",
     "branch-review": "GitHub required PR approval, stale-review dismissal and resolved conversations; semantic criteria require reviewer evidence.",
-    "week14-required": "Always-emitted fail-closed aggregate for all applicable jobs."
+    "week14-required": "Always-emitted fail-closed aggregate for all applicable jobs.",
+    "system-tests": "Week 15 real-container integration, two cash monetary backend E2Es, published-response contracts, scoped k6 probe and isolated stop/restart recovery. Full Phase 1 workload remains subject to review."
   },
   "items": [
     {
@@ -189,7 +190,8 @@
         "branch-review",
         "services",
         "smoke",
-        "week14-required"
+        "week14-required",
+        "system-tests"
       ],
       "reviewEvidence": "Reviewer checks applicability and the story-specific evidence; missing applicable evidence blocks approval."
     },
@@ -324,7 +326,8 @@
       "category": "Tests",
       "criterion": "If the story affects consultation or registration performance, evidence shows the applicable main operation completes within 3 seconds under normal Phase 1 conditions",
       "gates": [
-        "branch-review"
+        "branch-review",
+        "system-tests"
       ],
       "reviewEvidence": "Reviewer checks applicability and the story-specific evidence; missing applicable evidence blocks approval."
     },
@@ -353,7 +356,8 @@
       "gates": [
         "branch-review",
         "contracts",
-        "week14-required"
+        "week14-required",
+        "system-tests"
       ],
       "reviewEvidence": "Reviewer checks applicability and the story-specific evidence; missing applicable evidence blocks approval."
     },

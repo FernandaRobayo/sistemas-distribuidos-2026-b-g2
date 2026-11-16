@@ -8,7 +8,15 @@ on:
   workflow_dispatch:
   push:
     branches: [docs/15-week-session1-testing]
-    paths: ['15-week/**', '.github/workflows/**']
+    paths:
+      - '15-week/hu-status/**/*.java'
+      - '15-week/hu-status/**/*.xml'
+      - '15-week/hu-status/**/*.js'
+      - '15-week/hu-status/**/*.mjs'
+      - '14-week/hu-status/**/sources-lock.json'
+      - '14-week/hu-status/**/prepare.mjs'
+      - '13-week/hu-status/**/*.mjs'
+      - '.github/workflows/**'
 permissions:
   contents: read
 jobs:
