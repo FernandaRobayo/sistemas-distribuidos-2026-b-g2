@@ -108,5 +108,45 @@
     "sourceRevision": "aafda9c9bba60b3a486d0e502cb522c5d91e73c4",
     "reviewedOn": "2026-11-15",
     "hashMode": "SHA-256 of UTF-8 source with CRLF normalized to LF"
+  },
+  {
+    "file": "security/cmd/security/bootstrap_command_test.go",
+    "rule": "generic-api-key",
+    "line": 21,
+    "sha256": "2100181d3cc38b3d2655bc5db29f70b5349f0db2d7b19a3faeb10028f9fbd7ea",
+    "reason": "Synthetic password for the example.com administrator created only inside bootstrap integration tests.",
+    "sourceRevision": "1dcb3e284876af5e98d9504b8e41f5cee4ea3b97",
+    "reviewedOn": "2026-11-15",
+    "hashMode": "SHA-256 of UTF-8 source with CRLF normalized to LF"
+  },
+  {
+    "file": "security/internal/adapter/http/signin_routes_test.go",
+    "rule": "generic-api-key",
+    "line": 123,
+    "sha256": "12990176c66460e1a2ce867cc6ae02ebeae93f837ab53b90ae6d9ecd3ed8605d",
+    "reason": "Synthetic malformed-body password used to assert that request logs never expose credentials.",
+    "sourceRevision": "1dcb3e284876af5e98d9504b8e41f5cee4ea3b97",
+    "reviewedOn": "2026-11-15",
+    "hashMode": "SHA-256 of UTF-8 source with CRLF normalized to LF"
+  },
+  {
+    "file": "security/internal/core/createaccount/fakes_test.go",
+    "rule": "generic-api-key",
+    "line": 20,
+    "sha256": "9214786db772800628e041968480d321016caf0dee799924011533ceb110452f",
+    "reason": "Synthetic idempotency key in the create-account in-memory test doubles.",
+    "sourceRevision": "1dcb3e284876af5e98d9504b8e41f5cee4ea3b97",
+    "reviewedOn": "2026-11-15",
+    "hashMode": "SHA-256 of UTF-8 source with CRLF normalized to LF"
+  },
+  {
+    "file": "security/internal/core/supportrequest/supportrequest_test.go",
+    "rule": "generic-api-key",
+    "line": 24,
+    "sha256": "a2d063600853e9d5ae8f93696c533e651fcfd8c3332ab37a102eac32f9cd7b9c",
+    "reason": "Synthetic idempotency key in support-request in-memory unit tests.",
+    "sourceRevision": "1dcb3e284876af5e98d9504b8e41f5cee4ea3b97",
+    "reviewedOn": "2026-11-15",
+    "hashMode": "SHA-256 of UTF-8 source with CRLF normalized to LF"
   }
 ]

@@ -142,6 +142,27 @@ try {
   const fixture=path.join(javaDir,'CatalogHttpFixture.java');
   fs.writeFileSync(fixture,fs.readFileSync(fixture,'utf8').replace('Clock.fixed(TestJwtKeys.NOW, ZoneOffset.UTC)','Clock.systemUTC()'));
   fs.copyFileSync(path.join(here,'session1_e2e_test.go'),path.join(sources.security.directory,'cmd/security/session1_e2e_test.go'));
+  const wiring = fs.readFileSync(path.join(sources.security.directory, 'cmd/security/wiring.go'), 'utf8');
+  if (!wiring.includes('func buildHandler(') && wiring.includes('func build(')) {
+    // Adapt the course fixture to the released wiring signature in its disposable export.
+    fs.writeFileSync(path.join(sources.security.directory, 'cmd/security/session1_compat_test.go'), `package main
+import (
+  "crypto/rand"
+  "log/slog"
+  "net/http"
+  "github.com/jackc/pgx/v5/pgxpool"
+)
+func buildHandler(pool *pgxpool.Pool, cfg config, logger *slog.Logger) (http.Handler, error) {
+  mail, err := loadMail("smtp.invalid", "1025", "week15@example.test", "https://example.test", func(string) string { return "" })
+  if err != nil { return nil, err }
+  cfg.mail = mail
+  cfg.recoveryKey = make([]byte, 32)
+  if _, err := rand.Read(cfg.recoveryKey); err != nil { return nil, err }
+  handler, _, err := build(pool, cfg, logger)
+  return handler, err
+}
+`);
+  }
   const keys=path.join(temp,'keys');fs.mkdirSync(keys);
   const pair=generateKeyPairSync('rsa',{modulusLength:2048,privateKeyEncoding:{type:'pkcs8',format:'pem'},publicKeyEncoding:{type:'spki',format:'pem'}});
   fs.writeFileSync(path.join(keys,'private.pem'),pair.privateKey,{mode:0o600});fs.writeFileSync(path.join(keys,'public.pem'),pair.publicKey);

@@ -98,6 +98,8 @@ class MultiTourSystemTest {
         security = new GenericContainer<>(System.getProperty("workshop.image.security"))
                 .withNetwork(NETWORK).withNetworkAliases("multi-tour-security")
                 .withEnv("DATABASE_URL", "postgres://security_app:" + SECURITY_PASSWORD + "@postgres:5432/multitour?sslmode=disable")
+                .withEnv("SMTP_HOST", "smtp.invalid").withEnv("SMTP_PORT", "1025").withEnv("SMTP_FROM", "week15@example.test")
+                .withEnv("PUBLIC_BASE_URL", "https://example.test").withEnv("RECOVERY_CODE_KEY", UUID.randomUUID().toString())
                 .withEnv("JWT_PRIVATE_KEY_FILE", "/run/keys/private.pem").withEnv("JWT_PUBLIC_KEY_FILE", "/run/keys/public.pem")
                 .withCopyToContainer(Transferable.of(privateKey, 0444), "/run/keys/private.pem")
                 .withCopyToContainer(Transferable.of(publicKey, 0444), "/run/keys/public.pem")
