@@ -155,7 +155,8 @@ class MultiTourSystemTest {
         request("POST", day + "/close", token, "money-two-closing", null, 200);
         var after = request("POST", day + "/movements", token, "money-two-late-income", movement("INCOME", "TRANSFER", 300000), 201);
         assertTrue(after.path("afterClosing").asBoolean());
-        assertEquals(after, request("POST", day + "/movements", token, "money-two-late-income", movement("INCOME", "TRANSFER", 300000), 200));
+        var replay = request("POST", day + "/movements", token, "money-two-late-income", movement("INCOME", "TRANSFER", 300000), 200);
+        assertEquals(after.path("cashMovementId"), replay.path("cashMovementId"));
         request("POST", day + "/reopen", token, "money-two-reopen", "{\"reason\":\"Reconciliation in the disposable test\"}", 200);
         var result = request("GET", day, token, null, null, 200);
         assertEquals(opened.path("cashSessionId"), result.path("cashSessionId"));
@@ -165,8 +166,11 @@ class MultiTourSystemTest {
         var other = token(UUID.randomUUID().toString());
         var foreign = request("POST", day(other) + "/open", other, "money-two-opening", "{\"openingBaseCents\":800000}", 200);
         assertNotEquals(opened.path("cashSessionId"), foreign.path("cashSessionId"));
-        report("monetary-two", Map.of("status", "passed", "totalCents", 1300000, "expectedCashCents", 800000,
-                "idempotentReplay", true, "tenantIsolation", true, "closurePreserved", true));
+        report("monetary-two", Map.of("status", after.equals(replay) ? "passed" : "failed", "totalCents", 1300000, "expectedCashCents", 800000,
+                "noDuplicateMovement", true, "tenantIsolation", true, "closurePreserved", true,
+                "replayRepresentationStable", after.equals(replay), "initialRegisteredAt", after.path("registeredAt").asText(),
+                "replayRegisteredAt", replay.path("registeredAt").asText()));
+        assertEquals(after, replay, "Idempotent replay must preserve the complete response representation.");
     }
 
     @Test @Order(4) void loadMeetsTheDeclaredCashReadSlo() throws Exception {
