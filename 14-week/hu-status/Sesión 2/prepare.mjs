@@ -5,7 +5,7 @@ import {checked, readJson, writeJson} from '../../../13-week/hu-status/Sesión 2
 const here = path.dirname(fileURLToPath(import.meta.url));
 const destination = path.resolve(process.argv[2]);
 const component = process.argv[3] || 'all';
-const lock = readJson(path.join(here, 'sources-lock.json'));
+const lock = readJson(process.env.WORKSHOP_SOURCES_LOCK || path.join(here, 'sources-lock.json'));
 const databases = {commercial: 'commercial-db', 'identity-audit': 'identity-db', 'operations-cost': 'operations-db', 'cash-reporting': 'cash-db'};
 const names = component === 'all' ? Object.keys(lock) : [component, databases[component]].filter(Boolean);
 if (names.some(name => !lock[name])) throw new Error('Unknown component.');

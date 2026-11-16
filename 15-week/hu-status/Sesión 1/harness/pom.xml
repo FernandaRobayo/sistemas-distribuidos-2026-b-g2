@@ -15,6 +15,7 @@
     <plugin><groupId>org.apache.maven.plugins</groupId><artifactId>maven-compiler-plugin</artifactId><version>3.13.0</version></plugin>
     <plugin><groupId>org.apache.maven.plugins</groupId><artifactId>maven-surefire-plugin</artifactId><version>3.5.2</version><configuration>
       <argLine>-Xmx512m -Dapi.version=1.44</argLine><failIfNoTests>true</failIfNoTests>
+      <includes><include>**/MultiTourSystemTest.java</include></includes>
       <systemPropertyVariables><workshop.sources>${env.SOURCES_DIR}</workshop.sources><workshop.image.cash>${env.CASH_IMAGE}</workshop.image.cash><workshop.image.security>${env.SECURITY_IMAGE}</workshop.image.security><workshop.image.gateway>${env.GATEWAY_IMAGE}</workshop.image.gateway></systemPropertyVariables>
     </configuration></plugin>
   </plugins></build>
