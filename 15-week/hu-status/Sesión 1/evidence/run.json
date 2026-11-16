@@ -1,0 +1,31 @@
+{
+  "repository": "FernandaRobayo/sistemas-distribuidos-2026-b-g2",
+  "runId": 43798627784,
+  "url": "https://github.com/FernandaRobayo/sistemas-distribuidos-2026-b-g2/actions/runs/43798627784",
+  "sourceRevision": "1077d6e6eec48e8a4205e1f981b1c0c84049b482",
+  "conclusion": "success",
+  "junit": {
+    "tests": 5,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  "issuerConsumerContractChecks": 29,
+  "cashResponsesValidated": 41,
+  "artifacts": [
+    {
+      "id": 14195691125,
+      "name": "week15-system-evidence",
+      "sha256": "3728cf2b7fb7c0b04eb1eecbb025ba833c384c042fc70188d25b246b1ed0c7c0"
+    },
+    {
+      "id": 14195536414,
+      "name": "week13-session1-evidence",
+      "sha256": "5a8b4d8b27c34c4a85f03ad145bba4708f3e31e0f7e70602a9b6c69f96ff982b"
+    }
+  ],
+  "zipDigestsVerifiedAgainstGitHub": true,
+  "releaseReady": false,
+  "releaseBlockers": "Week 14 commercial tests, cash native core coverage and dependency advisories remain blocking.",
+  "timestampPrecisionObservation": "Creation and replay differ by 127 ns; replay equals the stored instant, verified precision is 6 digits; all other fields are identical."
+}

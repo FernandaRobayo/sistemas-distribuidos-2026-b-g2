@@ -1,0 +1,7 @@
+{
+  "pathSelectionAssertions": 12,
+  "coverageRatchetAssertions": 5,
+  "mappedDoDCriteria": 61,
+  "secretScan": "passed: no leaks found",
+  "diffCheck": "passed"
+}

@@ -1,0 +1,7 @@
+{
+  "closures" : 1,
+  "expectedCashCents" : 5000000,
+  "persistedMovements" : 2,
+  "totalCents" : 134000000,
+  "status" : "passed"
+}
