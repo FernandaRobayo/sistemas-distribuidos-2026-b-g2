@@ -59,11 +59,11 @@ try {
   if (!['{}', 'null'].includes(bindings)) throw new Error('Business API must not publish host ports.');
   const actual = docker(['inspect', service, '--format', '{{.Image}}']);
   if (actual !== id) throw new Error('Running container differs from the selected tagged image.');
-  const denied = run('docker', ['exec', service, 'wget', '-S', '-O-', 'http://127.0.0.1:8086/accounts'], source);
-  if (!/HTTP\/1\.[01] 401/.test(denied.output)) throw new Error('Unauthenticated account access must return 401.');
+  const denied = run('docker', ['exec', service, 'wget', '-S', '-O-', 'http://127.0.0.1:8086/api/v1/security/internal/outbox'], source);
+  if (!/HTTP\/1\.[01] 401/.test(denied.output)) throw new Error('Unauthenticated internal outbox access must return 401.');
   deployment = {checkedAt: new Date().toISOString(), status: 'passed',
     environment: 'isolated disposable exercise; no QA/production deployment', image, imageId: id,
-    runtimeUser: user, hostPortBindings: bindings, health: 'passed', unauthenticatedAccounts: 401,
+    runtimeUser: user, hostPortBindings: bindings, health: 'passed', unauthenticatedInternalOutbox: 401,
     cleanup: 'containers/network/temporary keys removed in finally'};
 } finally {
   run('docker', ['rm', '-f', service, database], source);

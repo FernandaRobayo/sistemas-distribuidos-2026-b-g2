@@ -6,6 +6,10 @@ on:
   push:
     branches: [docs/14-week-session1-cicd]
     tags: ['security-v*']
+    paths:
+      - '.github/workflows/**'
+      - '13-week/hu-status/**'
+      - '14-week/hu-status/**/*.mjs'
 permissions:
   contents: read
 jobs:
