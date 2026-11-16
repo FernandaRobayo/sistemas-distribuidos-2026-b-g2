@@ -23,7 +23,7 @@ function command(label, tool, args) {
   if (result.code) throw new Error(`${label} failed; inspect its redacted log.`);
   return result.output.trim();
 }
-let coverage, tests = 0, skipped = 0, coverageUnit, nativeBuildExitCode;
+let coverage, tests = 0, skipped = 0, failures = 0, errors = 0, coverageUnit, nativeBuildExitCode;
 try {
   if (name === 'security') {
     command('quality', 'node', [path.join(here, '../Sesión 1/quality.mjs'), source, output]);
@@ -72,6 +72,9 @@ try {
         TEST_DATABASE_USER: `${domain}_app`, TEST_DATABASE_PASSWORD: password,
         DB_URL: `jdbc:postgresql://127.0.0.1:${port}/postgres`, DB_USER: `${domain}_app`, DB_PASSWORD: password});
     }
+    const compilation = maven(['-DskipTests', 'package'], source, env);
+    fs.writeFileSync(path.join(output, 'build-types.log'), redact(compilation.output));
+    if (compilation.code) throw new Error('Production/test compilation failed; inspect build-types.log.');
     const nativeCoverage = fs.readFileSync(path.join(source, 'pom.xml'), 'utf8').includes('<artifactId>jacoco-maven-plugin</artifactId>');
     const goals = nativeCoverage ? ['verify'] : ['org.jacoco:jacoco-maven-plugin:0.8.14:prepare-agent', 'verify', 'org.jacoco:jacoco-maven-plugin:0.8.14:report'];
     const build = maven(goals, source, env);
@@ -83,6 +86,8 @@ try {
       const suite = fs.readFileSync(file, 'utf8').match(/<testsuite\b[^>]+>/)?.[0] || '';
       tests += Number(suite.match(/\btests="(\d+)"/)?.[1] || 0);
       skipped += Number(suite.match(/\bskipped="(\d+)"/)?.[1] || 0);
+      failures += Number(suite.match(/\bfailures="(\d+)"/)?.[1] || 0);
+      errors += Number(suite.match(/\berrors="(\d+)"/)?.[1] || 0);
     }
     let covered = 0, missed = 0;
     for (const file of files.filter(file => /target[\\/]site[\\/]jacoco[\\/]jacoco.xml$/.test(file))) {
@@ -96,7 +101,7 @@ try {
   if (!tests || skipped) throw new Error(`Expected executed tests and zero skipped, got ${tests} / ${skipped}.`);
   if (!Number.isFinite(coverage)) throw new Error('Coverage report is missing or invalid.');
   const status = baseline === null ? 'baseline-required' : coverage < baseline ? 'blocked' : 'passed';
-  writeJson(path.join(output, 'service-summary.json'), {name, status, checkedAt: new Date().toISOString(), tests, skipped,
+  writeJson(path.join(output, 'service-summary.json'), {name, status, checkedAt: new Date().toISOString(), tests, skipped, failures, errors,
     coverage, coverageUnit, baseline, sources: readJson(path.join(sources, 'sources.json'))});
   if (status !== 'passed') throw new Error(`${status}: measured coverage ${coverage}%, baseline ${baseline}.`);
   console.log(`${name}: ${tests} tests, zero skipped; coverage ${coverage}% ${coverageUnit}.`);
@@ -106,7 +111,7 @@ try {
     fs.writeFileSync(path.join(output, `${container}-diagnostic.log`), redact(logs.output));
   }
   if (!fs.existsSync(path.join(output, 'service-summary.json'))) writeJson(path.join(output, 'service-summary.json'), {
-    name, status: 'blocked', reason: redact(error.message), tests, skipped, coverage, coverageUnit, baseline, nativeBuildExitCode,
+    name, status: 'blocked', reason: redact(error.message), tests, skipped, failures, errors, coverage, coverageUnit, baseline, nativeBuildExitCode,
     metricsScope: 'Partial if native verification failed; not a healthy baseline.', sources: readJson(path.join(sources, 'sources.json'))});
   console.error(redact(error.message)); process.exitCode = 1;
 } finally {
