@@ -5,33 +5,85 @@
 # Weekly Status - Week 15
 
 <!-- CONFIG-START - must match your profile repo (username/username) CONFIG -->
-- FULL_NAME:
-- GITHUB_USER:
-- TEAM:
-- SPRINT_GOAL:
+- FULL_NAME: Maria Fernanda Robayo Laguna
+- GITHUB_USER: FernandaRobayo
+- TEAM: ErrorCapa8
+- SPRINT_GOAL: Cut the release/3.0.0 milestone across all six D-02 and D-04 repos, deliver the rescheduling-episode handler for HU-COM-018 across api and portal, complete the monthly report (HU-CSH-003) and the daily dashboard (HU-CSH-002) in D-04, wire the register-payment and execute-refund sagas to their internal api reads (HU-WFL-002), and advance the cancellation penalty policy, credit balance portal flows, security session-cutoff and exceptional-access events.
 <!-- CONFIG-END -->
 
 ## 1. User stories worked this week
 | HU ID | Title | Status (todo/doing/done) | Evidence (PR or commit URL) |
 |---|---|---|---|
-| HU-XXX-001 |  |  |  |
+| HU-COM-002 | Manage the data and contact of associated establishments | doing | [db PR #117](https://github.com/code-corhuila/multi-tour-commercial-reservation-db/pull/117) · [portal PR #284](https://github.com/code-corhuila/multi-tour-commercial-reservation-portal/pull/284) · [portal PR #285](https://github.com/code-corhuila/multi-tour-commercial-reservation-portal/pull/285) |
+| HU-COM-006 | Display the public tour offer with departures and real capacity | doing | [db PR #129](https://github.com/code-corhuila/multi-tour-commercial-reservation-db/pull/129) · [api PR #503](https://github.com/code-corhuila/multi-tour-commercial-reservation-api/pull/503) |
+| HU-COM-010 | Review and decide a payment proof | doing | [portal PR #289](https://github.com/code-corhuila/multi-tour-commercial-reservation-portal/pull/289) · [portal PR #292](https://github.com/code-corhuila/multi-tour-commercial-reservation-portal/pull/292) |
+| HU-COM-012 | Modify a reservation before execution | doing | [portal PR #268](https://github.com/code-corhuila/multi-tour-commercial-reservation-portal/pull/268) |
+| HU-COM-013 | Cancel a reservation from a customer request | doing | [db PR #122](https://github.com/code-corhuila/multi-tour-commercial-reservation-db/pull/122) · [db PR #123](https://github.com/code-corhuila/multi-tour-commercial-reservation-db/pull/123) · [portal PR #290](https://github.com/code-corhuila/multi-tour-commercial-reservation-portal/pull/290) · [portal PR #301](https://github.com/code-corhuila/multi-tour-commercial-reservation-portal/pull/301) |
+| HU-COM-015 | Process relay pending events without a sequential scan | doing | [db PR #120](https://github.com/code-corhuila/multi-tour-commercial-reservation-db/pull/120) · [db PR #121](https://github.com/code-corhuila/multi-tour-commercial-reservation-db/pull/121) |
+| HU-COM-016 | Authorize and execute a refund | doing | [api PR #516](https://github.com/code-corhuila/multi-tour-commercial-reservation-api/pull/516) · [api PR #518](https://github.com/code-corhuila/multi-tour-commercial-reservation-api/pull/518) · [api PR #531](https://github.com/code-corhuila/multi-tour-commercial-reservation-api/pull/531) · [api PR #532](https://github.com/code-corhuila/multi-tour-commercial-reservation-api/pull/532) · [api PR #533](https://github.com/code-corhuila/multi-tour-commercial-reservation-api/pull/533) · [portal PR #287](https://github.com/code-corhuila/multi-tour-commercial-reservation-portal/pull/287) · [portal PR #295](https://github.com/code-corhuila/multi-tour-commercial-reservation-portal/pull/295) · [portal PR #300](https://github.com/code-corhuila/multi-tour-commercial-reservation-portal/pull/300) |
+| HU-COM-017 | Record and apply a credit balance to a reservation | doing | [portal PR #277](https://github.com/code-corhuila/multi-tour-commercial-reservation-portal/pull/277) · [portal PR #279](https://github.com/code-corhuila/multi-tour-commercial-reservation-portal/pull/279) · [portal PR #280](https://github.com/code-corhuila/multi-tour-commercial-reservation-portal/pull/280) |
+| HU-COM-018 | Handle a rescheduling episode of a departure for the operator | doing | [api PR #534](https://github.com/code-corhuila/multi-tour-commercial-reservation-api/pull/534) · [api PR #535](https://github.com/code-corhuila/multi-tour-commercial-reservation-api/pull/535) · [api PR #536](https://github.com/code-corhuila/multi-tour-commercial-reservation-api/pull/536) · [portal PR #269](https://github.com/code-corhuila/multi-tour-commercial-reservation-portal/pull/269) · [portal PR #271](https://github.com/code-corhuila/multi-tour-commercial-reservation-portal/pull/271) · [portal PR #273](https://github.com/code-corhuila/multi-tour-commercial-reservation-portal/pull/273) · [portal PR #274](https://github.com/code-corhuila/multi-tour-commercial-reservation-portal/pull/274) · [portal PR #275](https://github.com/code-corhuila/multi-tour-commercial-reservation-portal/pull/275) |
+| HU-COM-020 | Restrict access to a reservation in special circumstances | doing | [db PR #114](https://github.com/code-corhuila/multi-tour-commercial-reservation-db/pull/114) · [db PR #103](https://github.com/code-corhuila/multi-tour-commercial-reservation-db/pull/103) |
+| HU-CSH-002 | Show the daily cash dashboard to the administrator | doing | [api PR #83](https://github.com/code-corhuila/multi-tour-cash-reporting-api/pull/83) · [portal PR #45](https://github.com/code-corhuila/multi-tour-cash-reporting-portal/pull/45) · [portal PR #46](https://github.com/code-corhuila/multi-tour-cash-reporting-portal/pull/46) |
+| HU-CSH-003 | Generate and display the monthly cash report | doing | [api PR #82](https://github.com/code-corhuila/multi-tour-cash-reporting-api/pull/82) · [api PR #84](https://github.com/code-corhuila/multi-tour-cash-reporting-api/pull/84) · [portal PR #47](https://github.com/code-corhuila/multi-tour-cash-reporting-portal/pull/47) · [portal PR #49](https://github.com/code-corhuila/multi-tour-cash-reporting-portal/pull/49) · [portal PR #51](https://github.com/code-corhuila/multi-tour-cash-reporting-portal/pull/51) · [portal PR #52](https://github.com/code-corhuila/multi-tour-cash-reporting-portal/pull/52) |
+| HU-SEC-005 | Invalidate all sessions of an account after a security event | doing | [db PR #112](https://github.com/code-corhuila/multi-tour-commercial-reservation-db/pull/112) · [db PR #33](https://github.com/code-corhuila/multi-tour-cash-reporting-db/pull/33) |
+| HU-SEC-007 | Record and publish a platform exceptional access used event | doing | [db PR #102](https://github.com/code-corhuila/multi-tour-commercial-reservation-db/pull/102) · [db PR #106](https://github.com/code-corhuila/multi-tour-commercial-reservation-db/pull/106) |
+| HU-WFL-002 | Execute the register-payment saga end to end | doing | [api PR #524](https://github.com/code-corhuila/multi-tour-commercial-reservation-api/pull/524) · [api PR #96](https://github.com/code-corhuila/multi-tour-cash-reporting-api/pull/96) · [api PR #97](https://github.com/code-corhuila/multi-tour-cash-reporting-api/pull/97) |
 
 ## 2. My individual contribution
--
+- Delivered the HU-COM-018 rescheduling episode handler: the api now opens episodes when a departure is cancelled (api PR #535), opens the decision of an extraordinary cancellation (api PR #534), and moves the departure row when it is rescheduled (api PR #536); the portal promotes the rescheduling reads and writes over the service (portal PR #269), the external answer and the episode history (portal PR #271), the entries of the rescheduling episode (portal PR #273), the notification and instants of the deadline on screen 24A (portal PR #274), and the shared error state helper of a failed read (portal PR #275).
+- Completed the HU-COM-016 refund flows: the api now serves the internal read of a refund to the execute-refund saga (api PR #516), keeps credit-balance refund requests out of the 24-hour default (api PR #518), determines a refund without an amount (api PR #531), and consumes the personal emergency event (api PRs #532 and #533); the portal draws the refund panel and eyebrow texts of mockup v1.9 (portal PR #287), lists and decides the credit-balance refund requests in the refund list (portal PR #295), and promotes the approval of a payment proof through the saga (portal PR #292).
+- Advanced HU-COM-017 credit balance portal flows: the customer can now request the refund of their own credit balance in Mis pagos (portal PR #277), apply the credit balance from the checkout box (portal PR #279), and the operator can register a refund request of a credit balance (portal PR #280).
+- Delivered HU-COM-013 cancellation penalty: added the cancellation penalty policy table to the db (db PRs #122 and #123) and connected the portal to read and write the cancellation penalty on the policy routes (portal PR #290, promoted in portal PR #301).
+- Completed HU-COM-002 establishment contact: added the contact columns and the change log of associated establishments to the db (db PR #117) and connected the portal to show the contact, reason and bitacora of the associated establishments (portal PR #284, promoted in portal PR #285).
+- Delivered HU-COM-006 vehicle capacity: added the vehicle total of a departure on the capacity row to the db (db PR #129) and triggered the effective capacity recomputation in the api (api PR #503).
+- Wired HU-WFL-002 register-payment saga: the commercial-reservation api now serves the internal read of a validated payment to the register-payment saga (api PR #524); the cash-reporting api serves the cash income of a payment to the same saga (api PRs #96 and #97).
+- Delivered HU-CSH-002 daily dashboard: the api applies the cost, zone and shared events (api PR #83); the portal reads the daily dashboard through the container client (portal PRs #45 and #46).
+- Delivered HU-CSH-003 monthly report: the api computes the monthly and zone events, the monthly report and cash consolidation (api PRs #82 and #84); the portal reads the monthly report through the container client (portal PR #47), draws the three extra consolidation lines (portal PR #49), and draws Sin dato for null confirmed sales (portal PRs #51 and #52).
+- Added HU-SEC-005 session cutoff tables to commercial-reservation db (db PR #112) and cash-reporting db (db PR #33).
+- Added HU-SEC-007 exceptional access outbox event and its usedAt key to commercial-reservation db (db PRs #102 and #106).
+- Added HU-COM-020 restricted access outbox reason (db PR #114) and episode frozen total (db PR #103) to commercial-reservation db.
+- Promoted the modification panel and its history for HU-COM-012 to QA (portal PR #268).
+- Wired HU-COM-010 to approve a payment proof by starting the register-payment saga (portal PR #289, promoted in portal PR #292).
+- Added HU-COM-015 ReschedulingProposed notice trigger to commercial-reservation db (db PRs #120 and #121).
+- Cut release/3.0.0 across all six repos: commercial-reservation-api (api PR #526), commercial-reservation-db (db PR #142), commercial-reservation-portal (portal PR #308), cash-reporting-api (api PR #100), cash-reporting-db (db PR #42), cash-reporting-portal (portal PR #57).
 
 ## 3. Blockers and risks
--
+- HU-COM-018 portal work is in QA; api episodes for the saga consumer still need a final QA promotion.
+- HU-COM-016 personal emergency path was merged on Nov 15; end-to-end saga verification is pending.
+- HU-COM-017 credit balance portal slices are in QA; api integration with the checkout payment flow is pending confirmation.
+- HU-COM-012 modification panel is in QA; full modification flow over the api is still pending.
+- HU-COM-019 portal slice is still missing.
+- HU-CSH-002 and HU-CSH-003 dashboard and report screens need a final QA promotion check.
 
 ## 4. Plan for next week
--
+- Complete HU-COM-012 and HU-COM-019 portal slices.
+- Confirm all AC of HU-COM-016, HU-COM-017 and HU-COM-018 and promote to release.
+- Run the full execute-refund and register-payment sagas end to end.
+- Confirm HU-CSH-002 and HU-CSH-003 final screens in QA.
 
 ## 5. Compliance self-check
-- [ ] Conventional Commits - `type(scope): summary`
-- [ ] Per-environment HU branch + PR to that environment (hu-xxx-dev -> develop, ...)
-- [ ] Testable acceptance criteria
-- [ ] Tests added/updated (unit / integration)
-- [ ] DDD / hexagonal boundaries respected (domain has no I/O)
-- [ ] No secrets; config via environment variables
+- [x] Conventional Commits - `type(scope): summary`
+- [x] Per-environment HU branch + PR to that environment (`feat/hu-com-XXX-dev-*` → develop; `chore/hu-com-XXX-promote-*` → qa)
+- [x] Testable acceptance criteria
+- [x] Tests added/updated (unit / integration — concurrent modification, tenant isolation, contract conformance, hexagonal architecture rules)
+- [x] DDD / hexagonal boundaries respected (domain aggregates in core; use cases in application; http and persistence adapters in infrastructure)
+- [x] No secrets; config via environment variables
 
 ## 6. Evidence links
--
+- db + portal — HU-COM-002 establishment contact (Nov 13): db [PR #117](https://github.com/code-corhuila/multi-tour-commercial-reservation-db/pull/117) · portal [PR #284](https://github.com/code-corhuila/multi-tour-commercial-reservation-portal/pull/284) · [PR #285](https://github.com/code-corhuila/multi-tour-commercial-reservation-portal/pull/285)
+- db + api — HU-COM-006 vehicle capacity (Nov 13–14): db [PR #129](https://github.com/code-corhuila/multi-tour-commercial-reservation-db/pull/129) · api [PR #503](https://github.com/code-corhuila/multi-tour-commercial-reservation-api/pull/503)
+- portal — HU-COM-010 approve proof via saga (Nov 13): [PR #289](https://github.com/code-corhuila/multi-tour-commercial-reservation-portal/pull/289) · [PR #292](https://github.com/code-corhuila/multi-tour-commercial-reservation-portal/pull/292)
+- portal — HU-COM-012 modification panel QA (Nov 11): [PR #268](https://github.com/code-corhuila/multi-tour-commercial-reservation-portal/pull/268)
+- db + portal — HU-COM-013 cancellation penalty (Nov 13): db [PR #122](https://github.com/code-corhuila/multi-tour-commercial-reservation-db/pull/122) · portal [PR #290](https://github.com/code-corhuila/multi-tour-commercial-reservation-portal/pull/290)
+- db — HU-COM-015 rescheduling trigger (Nov 13): [PR #120](https://github.com/code-corhuila/multi-tour-commercial-reservation-db/pull/120) · [PR #121](https://github.com/code-corhuila/multi-tour-commercial-reservation-db/pull/121)
+- api + portal — HU-COM-016 refund flows (Nov 13–15): api [PR #516](https://github.com/code-corhuila/multi-tour-commercial-reservation-api/pull/516) · [PR #518](https://github.com/code-corhuila/multi-tour-commercial-reservation-api/pull/518) · [PR #531](https://github.com/code-corhuila/multi-tour-commercial-reservation-api/pull/531) · [PR #532](https://github.com/code-corhuila/multi-tour-commercial-reservation-api/pull/532) · [PR #533](https://github.com/code-corhuila/multi-tour-commercial-reservation-api/pull/533) · portal [PR #287](https://github.com/code-corhuila/multi-tour-commercial-reservation-portal/pull/287) · [PR #295](https://github.com/code-corhuila/multi-tour-commercial-reservation-portal/pull/295) · [PR #300](https://github.com/code-corhuila/multi-tour-commercial-reservation-portal/pull/300)
+- portal — HU-COM-017 credit balance portal (Nov 12): [PR #277](https://github.com/code-corhuila/multi-tour-commercial-reservation-portal/pull/277) · [PR #279](https://github.com/code-corhuila/multi-tour-commercial-reservation-portal/pull/279) · [PR #280](https://github.com/code-corhuila/multi-tour-commercial-reservation-portal/pull/280)
+- api + portal — HU-COM-018 rescheduling episodes (Nov 11–15): api [PR #534](https://github.com/code-corhuila/multi-tour-commercial-reservation-api/pull/534) · [PR #535](https://github.com/code-corhuila/multi-tour-commercial-reservation-api/pull/535) · [PR #536](https://github.com/code-corhuila/multi-tour-commercial-reservation-api/pull/536) · portal [PR #269](https://github.com/code-corhuila/multi-tour-commercial-reservation-portal/pull/269) · [PR #273](https://github.com/code-corhuila/multi-tour-commercial-reservation-portal/pull/273) · [PR #274](https://github.com/code-corhuila/multi-tour-commercial-reservation-portal/pull/274) · [PR #275](https://github.com/code-corhuila/multi-tour-commercial-reservation-portal/pull/275)
+- db — HU-COM-020 restricted access + frozen total (Nov 11–13): [PR #103](https://github.com/code-corhuila/multi-tour-commercial-reservation-db/pull/103) · [PR #114](https://github.com/code-corhuila/multi-tour-commercial-reservation-db/pull/114)
+- api + portal — HU-CSH-002 daily dashboard (Nov 12): api [PR #83](https://github.com/code-corhuila/multi-tour-cash-reporting-api/pull/83) · portal [PR #45](https://github.com/code-corhuila/multi-tour-cash-reporting-portal/pull/45) · [PR #46](https://github.com/code-corhuila/multi-tour-cash-reporting-portal/pull/46)
+- api + portal — HU-CSH-003 monthly report (Nov 12–13): api [PR #82](https://github.com/code-corhuila/multi-tour-cash-reporting-api/pull/82) · [PR #84](https://github.com/code-corhuila/multi-tour-cash-reporting-api/pull/84) · portal [PR #47](https://github.com/code-corhuila/multi-tour-cash-reporting-portal/pull/47) · [PR #49](https://github.com/code-corhuila/multi-tour-cash-reporting-portal/pull/49) · [PR #51](https://github.com/code-corhuila/multi-tour-cash-reporting-portal/pull/51) · [PR #52](https://github.com/code-corhuila/multi-tour-cash-reporting-portal/pull/52)
+- db — HU-SEC-005 session cutoff (Nov 12): commercial [PR #112](https://github.com/code-corhuila/multi-tour-commercial-reservation-db/pull/112) · cash [PR #33](https://github.com/code-corhuila/multi-tour-cash-reporting-db/pull/33)
+- db — HU-SEC-007 exceptional access event (Nov 11): [PR #102](https://github.com/code-corhuila/multi-tour-commercial-reservation-db/pull/102) · [PR #106](https://github.com/code-corhuila/multi-tour-commercial-reservation-db/pull/106)
+- api — HU-WFL-002 register-payment saga reads (Nov 14–15): commercial [PR #524](https://github.com/code-corhuila/multi-tour-commercial-reservation-api/pull/524) · cash [PR #96](https://github.com/code-corhuila/multi-tour-cash-reporting-api/pull/96) · [PR #97](https://github.com/code-corhuila/multi-tour-cash-reporting-api/pull/97)
+- release/3.0.0 — all six repos (Nov 15): commercial api [PR #526](https://github.com/code-corhuila/multi-tour-commercial-reservation-api/pull/526) · commercial db [PR #142](https://github.com/code-corhuila/multi-tour-commercial-reservation-db/pull/142) · commercial portal [PR #308](https://github.com/code-corhuila/multi-tour-commercial-reservation-portal/pull/308) · cash api [PR #100](https://github.com/code-corhuila/multi-tour-cash-reporting-api/pull/100) · cash db [PR #42](https://github.com/code-corhuila/multi-tour-cash-reporting-db/pull/42) · cash portal [PR #57](https://github.com/code-corhuila/multi-tour-cash-reporting-portal/pull/57)
