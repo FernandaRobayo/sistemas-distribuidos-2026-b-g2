@@ -70,6 +70,7 @@ try {
         encoding: 'utf8', windowsHide: true, maxBuffer: 16 * 1024 * 1024});
       Object.assign(env, {TEST_DATABASE_URL: `jdbc:postgresql://127.0.0.1:${port}/postgres`,
         TEST_DATABASE_USER: `${domain}_app`, TEST_DATABASE_PASSWORD: password,
+        TEST_DATABASE_ADMIN_USER: 'postgres', TEST_DATABASE_ADMIN_PASSWORD: password,
         DB_URL: `jdbc:postgresql://127.0.0.1:${port}/postgres`, DB_USER: `${domain}_app`, DB_PASSWORD: password});
     }
     const compilation = maven(['-DskipTests', 'package'], source, env);
