@@ -26,7 +26,7 @@ jobs:
           cache: false
       - name: Export immutable Multi Tour sources
         run: node '13-week/hu-status/Sesión 2/prepare-sources.mjs' "$RUNNER_TEMP/week14-sources"
-      - name: Build, static analysis, types, tests and 80 percent coverage
+      - name: Build, static analysis, types, tests and 93 percent coverage
         run: node '14-week/hu-status/Sesión 1/quality.mjs' "$RUNNER_TEMP/week14-sources/security" "$RUNNER_TEMP/week14-quality"
       - name: Build and deploy a tagged candidate in the disposable test environment
         run: |

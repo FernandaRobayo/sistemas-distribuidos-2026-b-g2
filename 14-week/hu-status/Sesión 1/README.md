@@ -2,6 +2,8 @@
 
 Maria Fernanda Robayo Laguna · FernandaRobayo · ErrorCapa8
 
+Session 2 supersedes the PR entry point with per-service selection and raises security's coverage threshold to its measured 93% baseline. This page retains the session 1 policy and execution as historical evidence. [Session 2](../Sesi%C3%B3n%202/README.md)
+
 This delivery adds executable CI/CD to the course repository using real Multi Tour sources. The detailed build, type, coverage and image target is `multi-tour-security` at the immutable revision in the [source lock](../../../13-week/hu-status/Sesi%C3%B3n%201/sources-lock.json). Shared security verification also exercises the commercial, identity-audit, operations-cost and cash-reporting APIs, gateway and event relay. This is a representative service pipeline, not a claim that every product repository has been reconfigured.
 
 ## Blocking PR gates

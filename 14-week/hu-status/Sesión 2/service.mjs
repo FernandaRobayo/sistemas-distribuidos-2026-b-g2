@@ -9,6 +9,8 @@ const name = process.argv[2], sources = path.resolve(process.argv[3]), output = 
 const source = path.join(sources, name), baseline = readJson(path.join(here, 'coverage-baselines.json'))[name];
 if (!['security', 'commercial', 'identity-audit', 'operations-cost', 'cash-reporting', 'relay'].includes(name)) throw new Error('Unknown service.');
 fs.mkdirSync(output, {recursive: true});
+writeJson(path.join(output, 'runtime.json'), {node: process.version, platform: process.platform,
+  kernel: process.platform === 'linux' ? run('uname', ['-r'], source).output.trim() : null});
 const prefix = `week14-${name}-${randomBytes(5).toString('hex')}`;
 const containers = [], env = {...process.env, MSYS_NO_PATHCONV: '1', MAVEN_OPTS: '-Xmx512m'};
 const redact = text => text.replace(/(?:jdbc:)?(?:postgres(?:ql)?|mongodb):\/\/[^\s"'<>]+/gi, '[TEST_DATABASE_URL]');
@@ -21,7 +23,7 @@ function command(label, tool, args) {
   if (result.code) throw new Error(`${label} failed; inspect its redacted log.`);
   return result.output.trim();
 }
-let coverage, tests = 0, skipped = 0, coverageUnit;
+let coverage, tests = 0, skipped = 0, coverageUnit, nativeBuildExitCode;
 try {
   if (name === 'security') {
     command('quality', 'node', [path.join(here, '../Sesión 1/quality.mjs'), source, output]);
@@ -73,8 +75,8 @@ try {
     const nativeCoverage = fs.readFileSync(path.join(source, 'pom.xml'), 'utf8').includes('<artifactId>jacoco-maven-plugin</artifactId>');
     const goals = nativeCoverage ? ['verify'] : ['org.jacoco:jacoco-maven-plugin:0.8.14:prepare-agent', 'verify', 'org.jacoco:jacoco-maven-plugin:0.8.14:report'];
     const build = maven(goals, source, env);
+    nativeBuildExitCode = build.code;
     fs.writeFileSync(path.join(output, 'verify.log'), redact(build.output));
-    if (build.code) throw new Error('mvn verify failed; inspect verify.log.');
     const files = walk(source);
     const reports = files.filter(file => /surefire-reports[\\/]TEST-.*\.xml$/.test(file));
     for (const file of reports) {
@@ -82,13 +84,14 @@ try {
       tests += Number(suite.match(/\btests="(\d+)"/)?.[1] || 0);
       skipped += Number(suite.match(/\bskipped="(\d+)"/)?.[1] || 0);
     }
-    if (!reports.some(file => file.includes(name === 'commercial' ? 'CatalogContractTest' : 'ContractGateTest'))) throw new Error('API First contract gate report is absent.');
     let covered = 0, missed = 0;
     for (const file of files.filter(file => /target[\\/]site[\\/]jacoco[\\/]jacoco.xml$/.test(file))) {
       const counter = [...fs.readFileSync(file, 'utf8').matchAll(/<counter type="INSTRUCTION" missed="(\d+)" covered="(\d+)"\/>/g)].at(-1);
       if (counter) { missed += Number(counter[1]); covered += Number(counter[2]); }
     }
     coverage = Math.floor(1000 * covered / (covered + missed)) / 10; coverageUnit = 'instructions';
+    if (build.code) throw new Error('mvn verify failed; inspect verify.log. Partial metrics do not establish a healthy baseline.');
+    if (!reports.some(file => file.includes(name === 'commercial' ? 'CatalogContractTest' : 'ContractGateTest'))) throw new Error('API First contract gate report is absent.');
   }
   if (!tests || skipped) throw new Error(`Expected executed tests and zero skipped, got ${tests} / ${skipped}.`);
   if (!Number.isFinite(coverage)) throw new Error('Coverage report is missing or invalid.');
@@ -102,7 +105,9 @@ try {
     const logs = run('docker', ['logs', container], source);
     fs.writeFileSync(path.join(output, `${container}-diagnostic.log`), redact(logs.output));
   }
-  if (!fs.existsSync(path.join(output, 'service-summary.json'))) writeJson(path.join(output, 'service-summary.json'), {name, status: 'blocked', reason: redact(error.message)});
+  if (!fs.existsSync(path.join(output, 'service-summary.json'))) writeJson(path.join(output, 'service-summary.json'), {
+    name, status: 'blocked', reason: redact(error.message), tests, skipped, coverage, coverageUnit, baseline, nativeBuildExitCode,
+    metricsScope: 'Partial if native verification failed; not a healthy baseline.', sources: readJson(path.join(sources, 'sources.json'))});
   console.error(redact(error.message)); process.exitCode = 1;
 } finally {
   for (const container of containers) run('docker', ['rm', '-f', container], source);
