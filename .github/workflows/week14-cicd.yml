@@ -1,7 +1,5 @@
 name: Week 14 Multi Tour CI/CD
 on:
-  pull_request:
-    branches: [main, develop, qa]
   workflow_dispatch:
   push:
     branches: [docs/14-week-session1-cicd]
@@ -55,9 +53,12 @@ jobs:
           QUALITY: ${{ needs.quality.result }}
           SECURITY: ${{ needs.security.result }}
         run: test "$QUALITY" = success && test "$SECURITY" = success
+  finalization:
+    if: startsWith(github.ref, 'refs/tags/security-v') && github.event_name == 'push'
+    uses: ./.github/workflows/week14-final-pipeline.yml
   deploy:
     if: startsWith(github.ref, 'refs/tags/security-v') && github.event_name == 'push'
-    needs: required
+    needs: [required, finalization]
     runs-on: ubuntu-latest
     timeout-minutes: 25
     permissions:

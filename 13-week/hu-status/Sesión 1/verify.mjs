@@ -7,7 +7,8 @@ import {randomBytes, generateKeyPairSync} from 'node:crypto';
 
 const here = path.dirname(fileURLToPath(import.meta.url));
 const product = process.env.WORKSHOP_PRODUCT_ROOT || path.resolve(here, '../../../../MultiTour');
-const evidence = path.join(here, 'evidence');
+const evidence = process.env.SESSION1_EVIDENCE || path.join(here, 'evidence');
+const contractOnly = process.env.SESSION1_CONTRACT_ONLY === 'true';
 const temp = fs.mkdtempSync(path.join(os.tmpdir(), 'week13-security-'));
 const containers = [], networks = [], images = [], children = [], results = [];
 const redact = s => s.replace(/eyJ[A-Za-z0-9_-]*\.[A-Za-z0-9_-]+\.[A-Za-z0-9_-]*/g, '[JWT]')
@@ -25,7 +26,7 @@ const records = [
   ['gateway','transversales/multi-tour-api-gateway','HEAD']
 ];
 const sources = {};
-const lockFile=path.join(here,'sources-lock.json');
+const lockFile=process.env.SESSION1_SOURCES_LOCK || path.join(here,'sources-lock.json');
 const locked=fs.existsSync(lockFile)?JSON.parse(fs.readFileSync(lockFile,'utf8')):{};
 const previous=fs.existsSync(path.join(evidence,'sources.json'))?JSON.parse(fs.readFileSync(path.join(evidence,'sources.json'),'utf8').replace(/^\uFEFF/,'')):{};
 fs.mkdirSync(evidence,{recursive:true});
@@ -34,7 +35,7 @@ for (const [name, relative, ref] of records) {
   const repo = path.join(product,relative), sha = sync('git',['-C',repo,'rev-parse',locked[name]?.revision||ref]);
   const dest = path.join(temp,name); fs.mkdirSync(dest);
   const archive = path.join(temp,`${name}.tar`);
-  execFileSync('git',['-C',repo,'archive','--format=tar',`--output=${archive}`,sha]);
+  execFileSync('git',['-c','core.autocrlf=false','-C',repo,'archive','--format=tar',`--output=${archive}`,sha]);
   sync('tar',['-xf',archive,'-C',dest]); fs.unlinkSync(archive);
   sources[name] = {repository:relative, revision:sha, directory:dest};
 }
@@ -120,6 +121,7 @@ try {
   sync('docker',['run','-d','--rm','--name',mongoName,'-p','127.0.0.1::27017','mongo:8.0']);
   const mongoPort=sync('docker',['port',mongoName,'27017/tcp']).split(':').at(-1);
   const identityEnv={...process.env,TEST_DATABASE_URL:`mongodb://127.0.0.1:${mongoPort}/week13_session1`};
+  if (!contractOnly) {
   const checks=await Promise.all([
     resumed('security')?0:run('security','go',['test','-count=1','-v','./...'],sources.security.directory,testEnv),
     resumed('relay')?0:run('relay','go',['test','-count=1','-v','./...'],sources.relay.directory),
@@ -132,6 +134,7 @@ try {
   checks.push(await javaCheck('operations-cost','JwtFilterTest,RouteAuthorizationTest,InternalOutboxRouteTest,HttpShellTest'));
   if(checks.some(x=>x))throw Error('A product check failed; see evidence logs');
   if(results.find(x=>x.component==='security').skippedGoTests)throw Error('Security integration tests were skipped');
+  }
 
   // The additional tests run only in exported snapshots, never in product checkouts.
   const javaDir=path.join(sources.commercial.directory,'commercial-reservation-app/src/test/java/co/edu/corhuila/multi_tour/commercial_reservation/app');
@@ -177,7 +180,8 @@ try {
   fs.writeFileSync(path.join(evidence,'live-gateway.log'),redact(sync('docker',['logs',gwName]))+'\n');
   fs.writeFileSync(path.join(temp,'java-stop'),'stop');const javaCode=await java.done;save('live-java-server',java,javaCode);
   if(code||javaCode)throw Error('Live integration failed');
-  fs.writeFileSync(path.join(evidence,'completion.json'),JSON.stringify({checkedAt:new Date().toISOString(),status:'passed',results,scope:'session-1 local integration; no production deployment'},null,2)+'\n');
+  if(results.find(x=>x.component==='live-integration').passedSubtests < 29)throw Error('Cross-service contract coverage decreased');
+  fs.writeFileSync(path.join(evidence,'completion.json'),JSON.stringify({checkedAt:new Date().toISOString(),status:'passed',results,scope:contractOnly?'security producer to commercial consumer contracts over HTTPS; no production deployment':'session-1 local integration; no production deployment'},null,2)+'\n');
   console.log('SESSION 1: ALL CHECKS PASSED, with no skipped security integration tests.');
 } catch(error) { console.error(redact(error.message));console.error(`Diagnostic directory: ${temp}`);process.exitCode=1; }
 finally {

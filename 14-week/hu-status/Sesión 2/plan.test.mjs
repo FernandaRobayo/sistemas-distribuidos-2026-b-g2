@@ -1,0 +1,16 @@
+import assert from 'node:assert/strict';
+import {select, services} from './plan.mjs';
+const commercial = 'd02-comercial-reservas/multi-tour-commercial-reservation-api/src/Controller.java';
+assert.deepEqual(select(['README.md']), {services: [], contracts: false, smoke: false});
+assert.deepEqual(select([commercial]).services, ['commercial', 'relay']);
+assert.equal(select([commercial]).contracts, true);
+assert.deepEqual(select(['transversales/multi-tour-security/go.mod']).services, services);
+assert.deepEqual(select(['transversales/multi-tour-api-gateway/nginx.conf']).services, []);
+assert.equal(select(['transversales/multi-tour-api-gateway/nginx.conf']).smoke, true);
+assert.deepEqual(select(['.github/workflows/ci.yml']).services, services);
+assert.deepEqual(select(['unknown-build-input.conf']).services, services);
+assert.deepEqual(select(['sources-lock.json'], ['cash-reporting']).services, ['cash-reporting', 'relay']);
+assert.deepEqual(select(['sources-lock.json'], []).services, []);
+assert.deepEqual(select([], [], true).services, services);
+assert.equal(select(['14-week/hu-status/Sesión 2/evidence/result.json']).smoke, false);
+console.log('12 path-selection assertions passed: docs, provider/consumer propagation, shared/unknown inputs, lock changes and forced runs.');

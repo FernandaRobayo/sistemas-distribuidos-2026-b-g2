@@ -1,0 +1,139 @@
+name: Week 14 final Multi Tour pipeline
+on:
+  workflow_call:
+  workflow_dispatch:
+  pull_request:
+    branches: [develop, qa, main]
+  push:
+    branches: [docs/14-week-session2-pipeline]
+    paths:
+      - '.github/workflows/**'
+      - '13-week/hu-status/**'
+      - '14-week/hu-status/**/*.mjs'
+      - '14-week/hu-status/**/sources-lock.json'
+      - '14-week/hu-status/**/coverage-baselines.json'
+      - '14-week/hu-status/**/dod-policy.json'
+permissions:
+  contents: read
+jobs:
+  plan:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    outputs:
+      matrix: ${{ steps.paths.outputs.matrix }}
+      services: ${{ steps.paths.outputs.services }}
+      contracts: ${{ steps.paths.outputs.contracts }}
+      smoke: ${{ steps.paths.outputs.smoke }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Verify path-selection regressions and complete DoD mapping
+        run: |
+          node '14-week/hu-status/Sesión 2/plan.test.mjs'
+          node '14-week/hu-status/Sesión 2/dod-gate.mjs' "$RUNNER_TEMP/plan/dod-audit.json"
+      - id: paths
+        name: Select affected services and consumers
+        run: node '14-week/hu-status/Sesión 2/plan.mjs' "$RUNNER_TEMP/plan/plan.json"
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: week14-s2-plan
+          path: ${{ runner.temp }}/plan/
+  services:
+    needs: plan
+    if: needs.plan.outputs.services == 'true'
+    strategy:
+      fail-fast: false
+      max-parallel: 3
+      matrix: ${{ fromJSON(needs.plan.outputs.matrix) }}
+    name: service-${{ matrix.service }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - uses: actions/setup-go@v5
+        with:
+          go-version: '1.26.9'
+          cache: false
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+      - name: Export the service and its domain-owned migration source
+        env:
+          COMPONENT: ${{ matrix.service }}
+        run: node '14-week/hu-status/Sesión 2/prepare.mjs' "$RUNNER_TEMP/sources" "$COMPONENT"
+      - name: Build, types, tests, API First gate and coverage baseline
+        env:
+          COMPONENT: ${{ matrix.service }}
+        run: node '14-week/hu-status/Sesión 2/service.mjs' "$COMPONENT" "$RUNNER_TEMP/sources" "$RUNNER_TEMP/evidence"
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: week14-s2-service-${{ matrix.service }}
+          path: ${{ runner.temp }}/evidence/
+  contracts:
+    needs: plan
+    if: needs.plan.outputs.contracts == 'true'
+    uses: ./.github/workflows/week13-security.yml
+    with:
+      contract_only: true
+      sources_lock: '14-week/hu-status/Sesión 2/sources-lock.json'
+  smoke:
+    needs: plan
+    if: needs.plan.outputs.smoke == 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Export pinned security image source
+        run: node '14-week/hu-status/Sesión 2/prepare.mjs' "$RUNNER_TEMP/sources" security
+      - name: Build tagged image and verify health, 401, identity, privileges, ports and cleanup
+        run: |
+          IMAGE="multi-tour-security:ci-$GITHUB_SHA"
+          SOURCE=$(node -p "require(process.env.RUNNER_TEMP + '/sources/sources.json').security.revision")
+          docker build --label "org.opencontainers.image.revision=$SOURCE" -t "$IMAGE" "$RUNNER_TEMP/sources/security"
+          node '14-week/hu-status/Sesión 1/preview.mjs' "$RUNNER_TEMP/sources/security" "$RUNNER_TEMP/smoke" "$IMAGE"
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: week14-s2-smoke
+          path: ${{ runner.temp }}/smoke/
+  security:
+    uses: ./.github/workflows/week13-threat-model-security.yml
+    with:
+      run_authorization: false
+      sources_lock: '14-week/hu-status/Sesión 2/sources-lock.json'
+  required:
+    name: week14-required
+    if: always()
+    needs: [plan, services, contracts, smoke, security]
+    runs-on: ubuntu-latest
+    timeout-minutes: 2
+    steps:
+      - name: Enforce every selected gate and reject unexpected skips
+        env:
+          PLAN: ${{ needs.plan.result }}
+          SECURITY: ${{ needs.security.result }}
+          SERVICES: ${{ needs.services.result }}
+          CONTRACTS: ${{ needs.contracts.result }}
+          SMOKE: ${{ needs.smoke.result }}
+          HAS_SERVICES: ${{ needs.plan.outputs.services }}
+          HAS_CONTRACTS: ${{ needs.plan.outputs.contracts }}
+          HAS_SMOKE: ${{ needs.plan.outputs.smoke }}
+        run: |
+          test "$PLAN" = success && test "$SECURITY" = success
+          for item in SERVICES CONTRACTS SMOKE; do
+            flag="HAS_$item"
+            if [ "${!flag}" = true ]; then test "${!item}" = success; else test "${!item}" = skipped; fi
+          done

@@ -2,6 +2,13 @@ name: Week 13 session 2 security gates
 
 on:
   workflow_call:
+    inputs:
+      run_authorization:
+        type: boolean
+        default: true
+      sources_lock:
+        type: string
+        default: '13-week/hu-status/Sesión 1/sources-lock.json'
   workflow_dispatch:
   pull_request:
     branches: [main]
@@ -37,6 +44,8 @@ jobs:
       - name: Prove clean inputs pass and unsafe inputs block
         run: node '13-week/hu-status/Sesión 2/gate-self-test.mjs' "$RUNNER_TEMP/session2-evidence"
       - name: Export the Multi Tour source revisions
+        env:
+          SECURITY_SOURCES_LOCK: ${{ inputs.sources_lock }}
         run: node '13-week/hu-status/Sesión 2/prepare-sources.mjs' "$RUNNER_TEMP/session2-sources"
       - name: Reject unreviewed secrets in product snapshots and delivery history
         run: node '13-week/hu-status/Sesión 2/secret-gate.mjs' "$RUNNER_TEMP/session2-sources" "$RUNNER_TEMP/session2-evidence"
@@ -67,6 +76,8 @@ jobs:
           GH_TOKEN: ${{ github.token }}
         run: bash '13-week/hu-status/Sesión 2/install-tools.sh' "$RUNNER_TEMP/session2-tools"
       - name: Export the Multi Tour source revisions
+        env:
+          SECURITY_SOURCES_LOCK: ${{ inputs.sources_lock }}
         run: node '13-week/hu-status/Sesión 2/prepare-sources.mjs' "$RUNNER_TEMP/session2-sources"
       - name: Resolve runtime dependencies and block reported advisories
         run: node '13-week/hu-status/Sesión 2/dependency-gate.mjs' "$RUNNER_TEMP/session2-sources" "$RUNNER_TEMP/session2-evidence"
@@ -77,4 +88,5 @@ jobs:
           path: ${{ runner.temp }}/session2-evidence/
 
   authorization:
+    if: ${{ !contains(toJSON(inputs), 'run_authorization') || inputs.run_authorization }}
     uses: ./.github/workflows/week13-security.yml

@@ -52,15 +52,15 @@ function findMaven(directory) {
   }
 }
 
-export function maven(args, cwd) {
+export function maven(args, cwd, env = process.env) {
   const home = process.env.MAVEN_HOME || (process.platform === 'win32'
     ? findMaven(path.join(os.homedir(), '.m2/wrapper/dists')) : undefined);
-  if (!home) return run('mvn', ['-B', '-ntp', ...args], cwd);
+  if (!home) return run('mvn', ['-B', '-ntp', ...args], cwd, env);
   const boot = fs.readdirSync(path.join(home, 'boot')).find(name => /^plexus-classworlds.*\.jar$/.test(name));
   return run('java', ['-Xmx384m', '-classpath', path.join(home, 'boot', boot),
     `-Dclassworlds.conf=${path.join(home, 'bin/m2.conf')}`, `-Dmaven.home=${home}`,
     `-Dmaven.multiModuleProjectDirectory=${cwd}`, 'org.codehaus.plexus.classworlds.launcher.Launcher',
-    '-B', '-ntp', ...args], cwd);
+    '-B', '-ntp', ...args], cwd, env);
 }
 
 export function executable(name) {

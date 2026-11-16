@@ -2,6 +2,13 @@ name: Week 13 session 1 security integration
 
 on:
   workflow_call:
+    inputs:
+      contract_only:
+        type: boolean
+        default: false
+      sources_lock:
+        type: string
+        default: '13-week/hu-status/Sesión 1/sources-lock.json'
   workflow_dispatch:
   pull_request:
     paths:
@@ -49,12 +56,13 @@ jobs:
       - name: Obtain the exact product revisions used by this exercise
         env:
           WORKSHOP_PRODUCT_ROOT: ${{ runner.temp }}/MultiTour
+          SESSION1_SOURCES_LOCK: ${{ inputs.sources_lock }}
         run: |
           node --input-type=module <<'JS'
           import fs from 'node:fs';
           import path from 'node:path';
           import {execFileSync} from 'node:child_process';
-          const lock=JSON.parse(fs.readFileSync('13-week/hu-status/Sesión 1/sources-lock.json','utf8'));
+          const lock=JSON.parse(fs.readFileSync(process.env.SESSION1_SOURCES_LOCK || '13-week/hu-status/Sesión 1/sources-lock.json','utf8'));
           for(const {repository,revision} of Object.values(lock)) {
             const dest=path.join(process.env.WORKSHOP_PRODUCT_ROOT,repository);
             fs.mkdirSync(dest,{recursive:true});
@@ -67,9 +75,12 @@ jobs:
       - name: Run real authentication, service authorization and rotation checks
         env:
           WORKSHOP_PRODUCT_ROOT: ${{ runner.temp }}/MultiTour
+          SESSION1_SOURCES_LOCK: ${{ inputs.sources_lock }}
+          SESSION1_CONTRACT_ONLY: ${{ inputs.contract_only }}
+          SESSION1_EVIDENCE: ${{ runner.temp }}/session1-evidence
         run: node '13-week/hu-status/Sesión 1/verify.mjs'
       - uses: actions/upload-artifact@v4
         if: always()
         with:
           name: week13-session1-evidence
-          path: '13-week/hu-status/Sesión 1/evidence/'
+          path: ${{ runner.temp }}/session1-evidence/

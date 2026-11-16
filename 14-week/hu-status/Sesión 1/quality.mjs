@@ -44,15 +44,15 @@ try {
   if (!passed.length || skipped.length) throw new Error('Tests must run with zero skipped cases.');
   const coverage = execute('coverage', 'go', ['tool', 'cover', `-func=${profile}`]);
   const total = Number(coverage.match(/total:\s+\(statements\)\s+([\d.]+)%/)?.[1]);
-  if (!Number.isFinite(total) || total < 80) throw new Error(`Statement coverage ${total}% is below 80%.`);
+  if (!Number.isFinite(total) || total < 93) throw new Error(`Statement coverage ${total}% is below 93%.`);
   execute('coverage-html', 'go', ['tool', 'cover', `-html=${profile}`, '-o', path.join(output, 'coverage.html')]);
   writeJson(path.join(output, 'quality-summary.json'), {checkedAt: new Date().toISOString(), status: 'passed',
     scope: 'Multi Tour security service, pinned source export', coveragePercent: total,
-    minimumCoveragePercent: 80, passedTestEvents: passed.length, skippedTestEvents: skipped.length, results});
+    minimumCoveragePercent: 93, passedTestEvents: passed.length, skippedTestEvents: skipped.length, results});
   console.log(`Quality passed: ${total}% statements, ${passed.length} test events, zero skipped.`);
 } catch (error) {
   writeJson(path.join(output, 'quality-summary.json'), {checkedAt: new Date().toISOString(), status: 'blocked',
-    reason: error.message, minimumCoveragePercent: 80, results});
+    reason: error.message, minimumCoveragePercent: 93, results});
   console.error(error.message);
   process.exitCode = 1;
 } finally {

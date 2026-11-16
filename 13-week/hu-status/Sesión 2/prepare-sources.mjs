@@ -8,7 +8,7 @@ const here = path.dirname(fileURLToPath(import.meta.url));
 const destination = path.resolve(process.argv[2] || fs.mkdtempSync(path.join(os.tmpdir(), 'multi-tour-session2-')));
 fs.mkdirSync(destination, {recursive: true});
 if (fs.readdirSync(destination).length) throw new Error('Choose an empty source-export directory.');
-const lock = readJson(path.join(here, '../Sesión 1/sources-lock.json'));
+const lock = readJson(process.env.SECURITY_SOURCES_LOCK || path.join(here, '../Sesión 1/sources-lock.json'));
 const manifest = {};
 
 for (const name of ['commercial', 'security', 'gateway']) {

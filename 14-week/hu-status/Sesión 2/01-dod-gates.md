@@ -1,0 +1,73 @@
+# Complete DoD to blocking-gate matrix
+
+Source: [Multi Tour DoD, pinned blob 2b72b71](https://github.com/code-corhuila/multi-tour-docs/blob/main/00-governance/definition-of-done.md). The immutable source is retained locally; the mapping covers every checkbox, including promotion and documentation.
+
+Each criterion retains the branch-review gate. Reviewers assess applicability and require linked evidence; automated checks cover the narrower behavior listed below. Passing the mapping audit proves completeness of the mapping, not completion of a business story.
+
+| ID | Section | Original criterion | Blocking gates |
+|---|---|---|---|
+| DOD-01 | Code | Code implements all acceptance criteria of the user story | branch-review |
+| DOD-02 | Code | The implemented behavior preserves the product identity: `Multitour` is the platform and `Travesia Natural` is only the main validation tenant | branch-review |
+| DOD-03 | Code | Code was reviewed and approved according to the review rule of its target branch in [git conventions](git-conventions.md#review-rule-per-branch-norm-94) (norm §9.4) | branch-review |
+| DOD-04 | Code | Every commit follows the Conventional Commits rules of [git conventions](git-conventions.md#commit-format-conventional-commits); non-conforming history is penalized even when the code is correct (norm §8, §8.4) | branch-review, services |
+| DOD-05 | Code | The work was done in one child branch per task that lived at most 5 business days (norm §6.4) | branch-review |
+| DOD-06 | Code | Code follows project standards; linting and formatting pass in the repository `ci.yml` (norm §5.1, Annex I) | branch-review, services, smoke |
+| DOD-07 | Code | The domain layer does not import web, persistence or messaging frameworks; the service keeps the hexagonal layers of Annex C (norm §5.3.1-§5.3.3) | branch-review, services, smoke |
+| DOD-08 | Code | The domain entity is never serialized directly: the HTTP adapter translates it into a response object, so renaming an internal field cannot break a client (norm §5.3.4) | branch-review |
+| DOD-09 | Code | An aggregate is the transactional boundary: one transaction writes in a single aggregate and in a single domain, and consistency between domains stays eventual through events or the owner API (Annex J.3.5, norm §5.3.11; [shared invariants](../02-domain/entities-and-rules.md#shared-invariants)) | branch-review, smoke |
+| DOD-10 | Code | Endpoints, fields, tables, collections and events use the ubiquitous language of [the domain map](../02-domain/domain-map.md); renaming a domain concept in a contract or a schema is a defect, not a style choice (Annex J.1.1) | branch-review, contracts, smoke |
+| DOD-11 | Code | The composition root declares every limit with its value: server read-header, write and idle timeouts, connection pool size, wait for a connection, per-statement timeout and graceful shutdown. An undeclared default is not a decision (norm §5.3.10, Annex C) | branch-review, services, smoke |
+| DOD-12 | Code | No schema, migration or seed lives in an `-api` repository; data structure changes live only in the domain `-db` repository (norm §5.2.1) | branch-review |
+| DOD-13 | Code | No portal implements its own HTTP client, session or token handling; it uses the ones of `-front` (norm §5.4.1) | branch-review |
+| DOD-14 | Code | No secret, key, token or `.env` file is committed; `.env.example` lists every variable with placeholders only (norm §13, Annex I) | branch-review, security, smoke |
+| DOD-15 | Code | No technical debt introduced without registering it in the project control record under `15-project-control/README.md` | branch-review |
+| DOD-16 | Tests | Unit tests written for new business logic | branch-review, services |
+| DOD-17 | Tests | Test coverage does not decrease from the project baseline | branch-review, coverage |
+| DOD-18 | Tests | All applicable tests pass in the repository `ci.yml`; a red CI does not prove anything, even if it works locally (norm §5.1, Annex I) | branch-review, services, smoke, week14-required |
+| DOD-19 | Tests | If the story changes an `-api` or the `-workflow`, the HTTP contract checks of Annex C are automated and green: authentication, error envelope, correlation, validation, idempotent creation, state transitions and bounded listing (norm §5.3.12) | branch-review, contracts, smoke |
+| DOD-20 | Tests | If the story changes an `-api` or the `-workflow`, its OpenAPI contract was written before the code and the API First contract tests in `ci.yml` validate every response against it; this is the contract-test gate for `qa` (Pact is not required). The published contract is `openapi/openapi.yaml` of the repository; the tool is `swagger-request-validator` in Java and `kin-openapi` in Go, and the suite fails if an operation of the contract has no test (ADR-004 D7) | branch-review, contracts |
+| DOD-21 | Tests | If the story changes a `-db` repository, it defines no database service or volume (the single instance per engine lives in the infrastructure repository: `multi-tour-infra-postgres` and `multi-tour-infra-mongo`, Annex J.8) and it uses its own migration control table (Annex J.3.1, J.6) | branch-review, smoke |
+| DOD-22 | Tests | If the story changes a `-db` repository, `db-ci.yml` is green: full build from an empty database, a second run applies nothing, full rollback, rebuild (norm §5.2.8, Annexes A and B) | branch-review, smoke, week14-required |
+| DOD-23 | Tests | If the story changes another piece, the "how it is verified" list of its annex passes: | branch-review, smoke |
+| DOD-24 | Tests | Acceptance criteria verified (manual or automated) | branch-review |
+| DOD-25 | Tests | If the story affects bookings, payments, cash flow, discounts, or service execution, there is functional evidence for that flow | branch-review |
+| DOD-26 | Tests | If the story affects multitenancy, there is explicit validation that data is not mixed across tenants | branch-review, contracts |
+| DOD-27 | Tests | Applicable cases in the [domain validation matrix](../02-domain/validation-scenarios.md) have reproducible results; pending scenarios are not reported as passing | branch-review |
+| DOD-28 | Tests | Collaborator access, catalog lifecycle and establishment publication changes include actor/tenant rejection cases and preserve historical references | branch-review, contracts |
+| DOD-29 | Tests | Payment changes prove that uploading evidence does not by itself create cash income and that rejection/retry does not erase earlier valid receipts | branch-review |
+| DOD-30 | Tests | If the story affects a resource with limited capacity, concurrent attempts for the last available slot are tested and do not cause overselling within a tenant | branch-review |
+| DOD-31 | Tests | If the story affects the final customer channel, the applicable main flows have evidence of WCAG 2.1 AA accessibility and completion on the team-defined desktop and mobile browsers | branch-review |
+| DOD-32 | Tests | If the story affects consultation or registration performance, evidence shows the applicable main operation completes within 3 seconds under normal Phase 1 conditions | branch-review |
+| DOD-33 | Tests | If the story affects expected capacity, evidence covers the Phase 1 scenario of 10 active tenants, up to 20 internal users and 5,000 registered customers per tenant | branch-review |
+| DOD-34 | Tests | If the story affects user interaction, evidence shows that the applicable main flow is understandable and completable without external instructions | branch-review |
+| DOD-35 | Integration | Changes do not break other services (integration tests pass) | branch-review, contracts, week14-required |
+| DOD-36 | Integration | If API changes: the OpenAPI contract is updated in both places, through Pull Requests that reference the same user story: the design copy in `07-api/contracts/` of this repository (API First review) and the versioned copy published in the `-api` repository, which is the one CI tests and the teacher evaluates (norm §5.3). Both copies match and follow the common contract: camelCase, UUID identifiers, money as integer minor units, RFC 3339 UTC dates, single error envelope with `traceId` (norm §5.3.5) | branch-review, contracts |
+| DOD-37 | Integration | Every creation requires `Idempotency-Key` and every listing is paginated (`page`, `limit` 1-100, `{data, meta}`) (norm §5.3.6, §5.3.8) | branch-review, contracts |
+| DOD-38 | Integration | Every request reuses or generates `X-Correlation-Id`, returns it and writes it in each structured log line (norm §5.3.9) | branch-review, contracts |
+| DOD-39 | Integration | If data model changes: the versioned migration with its rollback and the data dictionary are updated in the domain `-db` repository, which is the source of truth for tables, columns and constraints (norm §5.2); the service `data-model.md` in this repository keeps only the summary and the link to that dictionary | branch-review |
+| DOD-40 | Integration | If new/modified events: they are written to an outbox table in the same transaction as the change, and the service `events.md` is updated (norm §5.3.11) | branch-review |
+| DOD-41 | Integration | Each service writes only in its own domain schema and connects with its domain user `<domain>_app`, never with the administrator (Annex J.2, J.3.2). Cross-domain data comes through events or the owner's published API; a read-only `SELECT` on another domain's tables is accepted only with a `GRANT` from the owner's `-db` and an ADR recording it as technical debt (Annex J.3.3). This project does not use that option, so a service never reads another domain's tables (ADR-005 E7). No foreign keys across domain schemas (Annex J.3.4) | branch-review, smoke |
+| DOD-42 | Integration | If the story changes a PostgreSQL schema or its grants, the isolation query of Annex J.10 returns `escribe = true` only in each user's own schema ([query](../06-data/migration-strategy.md#isolation-check-annex-j10)). The MongoDB equivalent is the `mongosh` query in the same section, from the course professor's written answer of 2026-10-03; each `<domain>_app` must show `escribe = true` only in its own database | branch-review, smoke |
+| DOD-43 | Integration | If permissions, authentication, or sensitive actions change, traceability of actor, tenant, action, affected record, timestamp, and justification when applicable is verified | branch-review |
+| DOD-44 | Integration | If the story affects functional errors, authentications, state changes, economic operations, or integrity events, logs identify the tenant, actor, action, and moment of the event | branch-review |
+| DOD-45 | Integration | If the story affects sensitive data, consent, retention, or recovery, access restrictions and the one-year retention/auto-deletion rule are verified (PDR v1.9 C4/E8) | branch-review |
+| DOD-46 | Integration | If the story affects operational data backup or restoration, the documented procedure and applicable Phase 1 RPO/RTO objectives are verified | branch-review |
+| DOD-47 | Deployment | Code is merged into `develop` through a Pull Request from a `feat/`, `fix/` or `chore/` branch; it reaches `qa` and `main` only by promotion (norm §6.2, §10) | branch-review |
+| DOD-48 | Deployment | The Pull Request follows `.github/pull_request_template.md` where the repository has it, references its user story (`code-corhuila/multi-tour-docs#NN`) and stays within 400 changed lines (norm §9.1, §9.2, Annex I) | branch-review, smoke |
+| DOD-49 | Deployment | Every automated review finding is answered in the PR: applied, or not applied with a technical justification (norm §9.9) | branch-review |
+| DOD-50 | Deployment | The board `Environment` field (Dev, QA, Main) matches where the story actually is (norm §16.7, Annex I) | branch-review, smoke |
+| DOD-51 | Deployment | `ci.yml` is green on `develop` | branch-review, week14-required |
+| DOD-52 | Deployment | If a staging environment is formally provisioned for the change, deployment and smoke-test evidence pass there; otherwise, reproducible local validation and the deployment risk are documented | branch-review, smoke |
+| DOD-53 | Deployment | If the story affects availability or operational resilience, the change preserves the Phase 1 95% monthly availability objective and the applicable recovery controls | branch-review |
+| DOD-54 | Deployment | If the story affects the customer-facing channel, the evidence covers the applicable responsive web and mobile flow | branch-review |
+| DOD-55 | Deployment | The commit carries its `(cherry picked from commit <sha>)` trail in `qa` and in the release branch, and the cited SHA exists in the source branch (norm §10.3-§10.5) | branch-review |
+| DOD-56 | Deployment | `ci.yml` is green on `develop` and on `qa` (the workflows run only on pull requests to those two branches); a pull request to `main` runs no check, so for `main` the evidence is the green `qa` and the local run recorded in the release pull request; the `Environment` field is updated | branch-review, week14-required |
+| DOD-57 | Documentation | Service `README.md` updated if the public interface changed | branch-review |
+| DOD-58 | Documentation | The story and its evidence use consistent domain terms such as booking, payment, cash flow, tenant, final customer, administrator, or operational collaborator, as applicable | branch-review |
+| DOD-59 | Documentation | If a significant technical decision was made: ADR created or updated with context, at least two real options, dominant criterion, accepted cost and consequences (norm §4.2.3) | branch-review |
+| DOD-60 | Documentation | Models and dictionary agree on record/field meaning, tenant scope and conditional requirements; logical designs are not described as deployed schemas | branch-review |
+| DOD-61 | Documentation | Source version, coverage and outstanding propagation are recorded in [PDR alignment](pdr-alignment.md); open source issues are not silently declared resolved | branch-review, coverage |
+
+CONFLICTO CON NORMA (Annex I): the source promotion paragraph says PRs to main run no check. This activity runs required checks on develop, qa and main, as requested. The obsolete sentence is preserved in the source snapshot and is not applied.
+
+Security-specific migration ownership follows the later Annex J clarification and ADR-005: security owns its schema/migrations in its own repository. Conditional migration, UI, accessibility, performance, capacity, backup and business criteria retain review evidence requirements. They are not declared passed by a CI-only exercise.
