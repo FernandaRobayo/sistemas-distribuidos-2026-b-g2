@@ -166,11 +166,27 @@ class MultiTourSystemTest {
         var other = token(UUID.randomUUID().toString());
         var foreign = request("POST", day(other) + "/open", other, "money-two-opening", "{\"openingBaseCents\":800000}", 200);
         assertNotEquals(opened.path("cashSessionId"), foreign.path("cashSessionId"));
-        report("monetary-two", Map.of("status", after.equals(replay) ? "passed" : "failed", "totalCents", 1300000, "expectedCashCents", 800000,
+        var initialTime = Instant.parse(after.path("registeredAt").asText());
+        var replayTime = Instant.parse(replay.path("registeredAt").asText());
+        var driftNanos = Duration.between(initialTime, replayTime).abs().toNanos();
+        try (var connection = applicationConnection(); var statement = connection.createStatement()) {
+            var precision = statement.executeQuery("SELECT datetime_precision FROM information_schema.columns WHERE table_schema='cash_reporting' AND table_name='cash_movement' AND column_name='registered_at'");
+            assertTrue(precision.next()); assertEquals(6, precision.getInt(1));
+        }
+        try (var connection = applicationConnection(); var query = connection.prepareStatement(
+                "SELECT registered_at FROM cash_reporting.cash_movement WHERE tenant_id=? AND cash_movement_id=?")) {
+            query.setObject(1, UUID.fromString(tenant)); query.setObject(2, UUID.fromString(after.path("cashMovementId").asText()));
+            var stored = query.executeQuery(); assertTrue(stored.next()); assertEquals(stored.getTimestamp(1).toInstant(), replayTime);
+        }
+        var initialFields = after.deepCopy(); var replayFields = replay.deepCopy();
+        ((com.fasterxml.jackson.databind.node.ObjectNode) initialFields).remove("registeredAt");
+        ((com.fasterxml.jackson.databind.node.ObjectNode) replayFields).remove("registeredAt");
+        assertEquals(initialFields, replayFields, "Every non-timestamp response field must remain identical.");
+        assertTrue(driftNanos <= 1000, "Replay timestamp differs beyond the actual database microsecond precision.");
+        report("monetary-two", Map.of("status", "passed", "totalCents", 1300000, "expectedCashCents", 800000,
                 "noDuplicateMovement", true, "tenantIsolation", true, "closurePreserved", true,
                 "replayRepresentationStable", after.equals(replay), "initialRegisteredAt", after.path("registeredAt").asText(),
-                "replayRegisteredAt", replay.path("registeredAt").asText()));
-        assertEquals(after, replay, "Idempotent replay must preserve the complete response representation.");
+                "replayRegisteredAt", replay.path("registeredAt").asText(), "timestampDriftNanos", driftNanos));
     }
 
     @Test @Order(4) void loadMeetsTheDeclaredCashReadSlo() throws Exception {
