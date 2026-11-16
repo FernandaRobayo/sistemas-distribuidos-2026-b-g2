@@ -41,7 +41,7 @@ jobs:
             15-week/hu-status/Sesión 1/harness/target/evidence/
             15-week/hu-status/Sesión 1/harness/target/surefire-reports/
   contracts:
-    if: !contains(toJSON(inputs), 'run_contracts') || inputs.run_contracts
+    if: ${{ !contains(toJSON(inputs), 'run_contracts') || inputs.run_contracts }}
     uses: ./.github/workflows/week13-security.yml
     with:
       contract_only: true
