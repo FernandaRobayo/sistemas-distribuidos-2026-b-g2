@@ -1,0 +1,31 @@
+{
+  "checkedAt": "2026-11-15T14:49:10.294Z",
+  "status": "passed",
+  "results": [
+    {
+      "name": "clean source passes secret scanning",
+      "expectedExitCode": 0,
+      "observedExitCode": 0
+    },
+    {
+      "name": "new synthetic credential blocks secret scanning",
+      "expectedExitCode": 1,
+      "observedExitCode": 1
+    },
+    {
+      "name": "synthetic dependency with no advisory passes",
+      "expectedExitCode": 0,
+      "observedExitCode": 0
+    },
+    {
+      "name": "known vulnerable Log4j fixture blocks dependency scanning",
+      "expectedExitCode": 1,
+      "observedExitCode": 1
+    }
+  ],
+  "fixtureReviewChecks": [
+    "exact content accepted",
+    "CRLF/LF equivalence accepted",
+    "changed content rejected"
+  ]
+}

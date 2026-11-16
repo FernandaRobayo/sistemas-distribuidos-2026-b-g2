@@ -1,0 +1,36 @@
+{
+  "checkedAt": "2026-11-16T04:13:26.738Z",
+  "status": "blocked",
+  "reason": "tests failed; see its log.",
+  "minimumCoveragePercent": 93,
+  "results": [
+    {
+      "name": "build",
+      "exitCode": 0
+    },
+    {
+      "name": "format",
+      "exitCode": 0
+    },
+    {
+      "name": "static-analysis",
+      "exitCode": 0
+    },
+    {
+      "name": "types",
+      "exitCode": 0
+    },
+    {
+      "name": "database-start",
+      "exitCode": 0
+    },
+    {
+      "name": "database-port",
+      "exitCode": 0
+    },
+    {
+      "name": "tests",
+      "exitCode": 1
+    }
+  ]
+}

@@ -1,0 +1,4 @@
+-------------------------------------------------------------------------------
+Test set: week15.MultiTourSystemTest
+-------------------------------------------------------------------------------
+Tests run: 5, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 71.94 s -- in week15.MultiTourSystemTest

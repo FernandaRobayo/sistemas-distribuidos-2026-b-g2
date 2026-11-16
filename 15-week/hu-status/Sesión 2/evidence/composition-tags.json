@@ -1,0 +1,247 @@
+{
+    "compositionRepository":  "code-corhuila/multi-tour-infra-postgres",
+    "compositionRef":  "v3.0.0",
+    "compositionBlob":  "50af0560bd3b84e352792e70649140a80f01d08d",
+    "repositories":  [
+                         {
+                             "repository":  "code-corhuila/multi-tour-api-gateway",
+                             "tag":  "v3.0.0",
+                             "type":  "tag",
+                             "tagObject":  "38fb8890645de52429f25fa3b35185ff3880c2f7",
+                             "commit":  "13b4e560f4b2152beccb6ad6ecd01bddd30135eb",
+                             "url":  "https://github.com/code-corhuila/multi-tour-api-gateway/releases/tag/v3.0.0"
+                         },
+                         {
+                             "repository":  "code-corhuila/multi-tour-cash-reporting-api",
+                             "tag":  "v3.0.0",
+                             "type":  "tag",
+                             "tagObject":  "538432c0f947d35fff4a12709c0b25cdb4d84a15",
+                             "commit":  "7f08d885498b4929da3c316c08742e9afde088c7",
+                             "url":  "https://github.com/code-corhuila/multi-tour-cash-reporting-api/releases/tag/v3.0.0"
+                         },
+                         {
+                             "repository":  "code-corhuila/multi-tour-cash-reporting-db",
+                             "tag":  "v3.0.0",
+                             "type":  "tag",
+                             "tagObject":  "72c6af65b9b253ddf433f6227c0d2f542fe3d069",
+                             "commit":  "87d261ade7a6ff4705e17b6dad02b78c06209479",
+                             "url":  "https://github.com/code-corhuila/multi-tour-cash-reporting-db/releases/tag/v3.0.0"
+                         },
+                         {
+                             "repository":  "code-corhuila/multi-tour-cash-reporting-portal",
+                             "tag":  "v3.0.0",
+                             "type":  "tag",
+                             "tagObject":  "21eb11aa7ea351be49c04fb8bf40ac1cde195ac2",
+                             "commit":  "cb600f096dc4c488c1f16ba2767114b1f80efbc2",
+                             "url":  "https://github.com/code-corhuila/multi-tour-cash-reporting-portal/releases/tag/v3.0.0"
+                         },
+                         {
+                             "repository":  "code-corhuila/multi-tour-commercial-reservation-api",
+                             "tag":  "v3.0.0",
+                             "type":  "tag",
+                             "tagObject":  "e1992f769b64d3b6105ad5c1da79cd3e88ba21f6",
+                             "commit":  "b97d57e2e8767f7e7cf2808c634e0b452ae3664b",
+                             "url":  "https://github.com/code-corhuila/multi-tour-commercial-reservation-api/releases/tag/v3.0.0"
+                         },
+                         {
+                             "repository":  "code-corhuila/multi-tour-commercial-reservation-db",
+                             "tag":  "v3.0.0",
+                             "type":  "tag",
+                             "tagObject":  "b572ac102811b79c5ba9b560f0b86fd4fd013b99",
+                             "commit":  "5edb15c91f5aa66f998c72d9cf442d07fcdf24ae",
+                             "url":  "https://github.com/code-corhuila/multi-tour-commercial-reservation-db/releases/tag/v3.0.0"
+                         },
+                         {
+                             "repository":  "code-corhuila/multi-tour-commercial-reservation-portal",
+                             "tag":  "v3.0.0",
+                             "type":  "tag",
+                             "tagObject":  "c1d0a805eb6ce3d06331cda48c023ec5b6657e5f",
+                             "commit":  "8ea1d9e4b976d4b0a0e9a2ac384636a231c926a6",
+                             "url":  "https://github.com/code-corhuila/multi-tour-commercial-reservation-portal/releases/tag/v3.0.0"
+                         },
+                         {
+                             "repository":  "code-corhuila/multi-tour-front",
+                             "tag":  "v3.0.0",
+                             "type":  "tag",
+                             "tagObject":  "844edfb28e3bee28cb3386b6061acb648455eeef",
+                             "commit":  "b59db4df6ea6527242a6560351cc973658f852dc",
+                             "url":  "https://github.com/code-corhuila/multi-tour-front/releases/tag/v3.0.0"
+                         },
+                         {
+                             "repository":  "code-corhuila/multi-tour-identity-audit-api",
+                             "tag":  "v3.0.0",
+                             "type":  "tag",
+                             "tagObject":  "43d9948fedf371dafaae6857cb1d9783e22c7214",
+                             "commit":  "316ab39a1f26c827e3473ed990a209c711d4c273",
+                             "url":  "https://github.com/code-corhuila/multi-tour-identity-audit-api/releases/tag/v3.0.0"
+                         },
+                         {
+                             "repository":  "code-corhuila/multi-tour-identity-audit-db",
+                             "tag":  "v3.0.0",
+                             "type":  "tag",
+                             "tagObject":  "8c8a7dbef926ab1de80da1f21253720628d5286a",
+                             "commit":  "943ff54ef44faa2569c413e8450d26cc636c67ef",
+                             "url":  "https://github.com/code-corhuila/multi-tour-identity-audit-db/releases/tag/v3.0.0"
+                         },
+                         {
+                             "repository":  "code-corhuila/multi-tour-identity-audit-portal",
+                             "tag":  "v3.0.0",
+                             "type":  "tag",
+                             "tagObject":  "0edca10352c0e3657d43ca54b6ee5c7b90df3049",
+                             "commit":  "e9059160e15e30ec132becaab35272e1f4d80403",
+                             "url":  "https://github.com/code-corhuila/multi-tour-identity-audit-portal/releases/tag/v3.0.0"
+                         },
+                         {
+                             "repository":  "code-corhuila/multi-tour-infra-mongo",
+                             "tag":  "v3.0.0",
+                             "type":  "tag",
+                             "tagObject":  "ee5741a6bcadf77f5197360a375b6a16082c1e96",
+                             "commit":  "52bd1d8cd6c8cb78791320340ca05acb87f83846",
+                             "url":  "https://github.com/code-corhuila/multi-tour-infra-mongo/releases/tag/v3.0.0"
+                         },
+                         {
+                             "repository":  "code-corhuila/multi-tour-infra-postgres",
+                             "tag":  "v3.0.0",
+                             "type":  "tag",
+                             "tagObject":  "86e632188993f867e5eb8dd35a0e3eeaace496a4",
+                             "commit":  "f4f4d3f79e037996c98d0bcfbfae48c06b37e85c",
+                             "url":  "https://github.com/code-corhuila/multi-tour-infra-postgres/releases/tag/v3.0.0"
+                         },
+                         {
+                             "repository":  "code-corhuila/multi-tour-operations-cost-api",
+                             "tag":  "v3.0.0",
+                             "type":  "tag",
+                             "tagObject":  "d431793033a1ae223e000adf76d990b51da106d5",
+                             "commit":  "72897c08e14798d2e821a4b914618590bfdaeada",
+                             "url":  "https://github.com/code-corhuila/multi-tour-operations-cost-api/releases/tag/v3.0.0"
+                         },
+                         {
+                             "repository":  "code-corhuila/multi-tour-operations-cost-db",
+                             "tag":  "v3.0.0",
+                             "type":  "tag",
+                             "tagObject":  "b02ad76c9131e5c4c58f01a384cc7b2908d3e9ba",
+                             "commit":  "67a27f0b2c420916080d4ccc4c76d5b8a869752f",
+                             "url":  "https://github.com/code-corhuila/multi-tour-operations-cost-db/releases/tag/v3.0.0"
+                         },
+                         {
+                             "repository":  "code-corhuila/multi-tour-operations-cost-portal",
+                             "tag":  "v3.0.0",
+                             "type":  "tag",
+                             "tagObject":  "295cead99513b17c92757192373e4fcee25ff701",
+                             "commit":  "7c5bc49bf328a1dfe1b9e5a7b4a404ad9e22cd1c",
+                             "url":  "https://github.com/code-corhuila/multi-tour-operations-cost-portal/releases/tag/v3.0.0"
+                         },
+                         {
+                             "repository":  "code-corhuila/multi-tour-security",
+                             "tag":  "v3.0.0",
+                             "type":  "tag",
+                             "tagObject":  "f03909686165a8c2256d84e206bf1a7cb1002297",
+                             "commit":  "1dcb3e284876af5e98d9504b8e41f5cee4ea3b97",
+                             "url":  "https://github.com/code-corhuila/multi-tour-security/releases/tag/v3.0.0"
+                         },
+                         {
+                             "repository":  "code-corhuila/multi-tour-worker-cash-close",
+                             "tag":  "v3.0.0",
+                             "type":  "tag",
+                             "tagObject":  "224498f3584af87c405a9b98c0d79a96ae6fa941",
+                             "commit":  "dc7709ab4172c8d01f71907719486ae774c3c2d2",
+                             "url":  "https://github.com/code-corhuila/multi-tour-worker-cash-close/releases/tag/v3.0.0"
+                         },
+                         {
+                             "repository":  "code-corhuila/multi-tour-worker-departure-deadlines",
+                             "tag":  "v3.0.0",
+                             "type":  "tag",
+                             "tagObject":  "77554ba16b92dfc673d5e09b9a6ad596676898fa",
+                             "commit":  "f334adfd0ede284c768da83446bc5e6b2ac3ece2",
+                             "url":  "https://github.com/code-corhuila/multi-tour-worker-departure-deadlines/releases/tag/v3.0.0"
+                         },
+                         {
+                             "repository":  "code-corhuila/multi-tour-worker-event-relay",
+                             "tag":  "v3.0.0",
+                             "type":  "tag",
+                             "tagObject":  "e165e4256783a8607d20c94e1d506ce118ae2fcf",
+                             "commit":  "1163de13704425c015d80f864f89f5c2007d9adb",
+                             "url":  "https://github.com/code-corhuila/multi-tour-worker-event-relay/releases/tag/v3.0.0"
+                         },
+                         {
+                             "repository":  "code-corhuila/multi-tour-worker-financial-timeouts",
+                             "tag":  "v3.0.0",
+                             "type":  "tag",
+                             "tagObject":  "4025163a667679f1c2142cece62aa9a387c32096",
+                             "commit":  "136d558174fbac99764ea81ce257ab41e819dcc9",
+                             "url":  "https://github.com/code-corhuila/multi-tour-worker-financial-timeouts/releases/tag/v3.0.0"
+                         },
+                         {
+                             "repository":  "code-corhuila/multi-tour-worker-notifications",
+                             "tag":  "v3.0.0",
+                             "type":  "tag",
+                             "tagObject":  "6d5956ab81a0548d4633fa167362cdbcd51e95c1",
+                             "commit":  "50ceed8d32936f6c934a3c91533929414f22abc7",
+                             "url":  "https://github.com/code-corhuila/multi-tour-worker-notifications/releases/tag/v3.0.0"
+                         },
+                         {
+                             "repository":  "code-corhuila/multi-tour-worker-payment-expiry",
+                             "tag":  "v3.0.0",
+                             "type":  "tag",
+                             "tagObject":  "42c67cbdff4dc8d5ff495355504ebc356764d132",
+                             "commit":  "12dddeb822ba9cb1b405b088445a42012d88f51c",
+                             "url":  "https://github.com/code-corhuila/multi-tour-worker-payment-expiry/releases/tag/v3.0.0"
+                         },
+                         {
+                             "repository":  "code-corhuila/multi-tour-worker-reprogramming-timers",
+                             "tag":  "v3.0.0",
+                             "type":  "tag",
+                             "tagObject":  "2297e45c6de4f0c68df57f00643277cdce47d2e5",
+                             "commit":  "271bd530a6abe4d3ea4464493461cf05e801ed3b",
+                             "url":  "https://github.com/code-corhuila/multi-tour-worker-reprogramming-timers/releases/tag/v3.0.0"
+                         },
+                         {
+                             "repository":  "code-corhuila/multi-tour-worker-retention",
+                             "tag":  "v3.0.0",
+                             "type":  "tag",
+                             "tagObject":  "79b1a2b40894b103ca48acc6055293109996b200",
+                             "commit":  "7268ee37869c12ad9e31e3af1ce3ebf4f18fd26d",
+                             "url":  "https://github.com/code-corhuila/multi-tour-worker-retention/releases/tag/v3.0.0"
+                         },
+                         {
+                             "repository":  "code-corhuila/multi-tour-workflow-cancel-departure",
+                             "tag":  "v3.0.0",
+                             "type":  "tag",
+                             "tagObject":  "7a84324c0b4dab5ed8c125e27c28d6f9e627cddf",
+                             "commit":  "b2e117f4a378ab3acc37d03fc29e5f803e510cae",
+                             "url":  "https://github.com/code-corhuila/multi-tour-workflow-cancel-departure/releases/tag/v3.0.0"
+                         },
+                         {
+                             "repository":  "code-corhuila/multi-tour-workflow-change-departure-vehicles",
+                             "tag":  "v3.0.0",
+                             "type":  "tag",
+                             "tagObject":  "9476f2052390e921ad216d1dc029498b89a98001",
+                             "commit":  "a7943a2155cfa7f78383c5514205bd60a4d5cd9d",
+                             "url":  "https://github.com/code-corhuila/multi-tour-workflow-change-departure-vehicles/releases/tag/v3.0.0"
+                         },
+                         {
+                             "repository":  "code-corhuila/multi-tour-workflow-execute-refund",
+                             "tag":  "v3.0.0",
+                             "type":  "tag",
+                             "tagObject":  "74ca046d1276e778f7fe945425a8dad17b1cb4b7",
+                             "commit":  "4d5f27d649730b08a97506ae8a63bd79720a761d",
+                             "url":  "https://github.com/code-corhuila/multi-tour-workflow-execute-refund/releases/tag/v3.0.0"
+                         },
+                         {
+                             "repository":  "code-corhuila/multi-tour-workflow-onboard-tenant",
+                             "tag":  "v3.0.0",
+                             "type":  "tag",
+                             "tagObject":  "e32fc53ba2e7ef465df3aeaf264c6d86fc7dfbe8",
+                             "commit":  "645d61190b9420364dd634f8061c7bb05832a0b4",
+                             "url":  "https://github.com/code-corhuila/multi-tour-workflow-onboard-tenant/releases/tag/v3.0.0"
+                         },
+                         {
+                             "repository":  "code-corhuila/multi-tour-workflow-register-payment",
+                             "tag":  "v3.0.0",
+                             "type":  "tag",
+                             "tagObject":  "a6a94af66837b78d58715d3cf4d3813e96c94d18",
+                             "commit":  "45e8ae82c90219c67ec3ce3933ed590df28d559e",
+                             "url":  "https://github.com/code-corhuila/multi-tour-workflow-register-payment/releases/tag/v3.0.0"
+                         }
+                     ]
+}

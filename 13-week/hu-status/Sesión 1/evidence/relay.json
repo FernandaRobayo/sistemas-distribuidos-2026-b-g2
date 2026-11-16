@@ -1,0 +1,9 @@
+{
+  "component": "relay",
+  "exitCode": 0,
+  "checkedAt": "2026-11-15T07:55:44.157Z",
+  "passedGoTests": 67,
+  "passedSubtests": 17,
+  "skippedGoTests": 0,
+  "passedSmokeChecks": 0
+}

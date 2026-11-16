@@ -1,0 +1,4 @@
+Starting filesystem walk for root: C:\
+Scanned C:\www\sistemas-distribuido\sistemas-distribuidos-2026-b-g2\13-week\hu-status\Sesión 2\evidence\commercial.bom.cdx.json file and found 43 packages
+Scanned C:\Users\robay\AppData\Local\Temp\week13-session2-sources-20261115\security\go.mod file and found 16 packages
+End status: 0 dirs visited, 2 inodes visited, 2 Extract calls, 147.468ms elapsed, 147.468ms wall time

@@ -1,0 +1,10 @@
+{
+  "restoredCents" : 100000,
+  "scope" : "disposable PostgreSQL fixture recovery point and known-image redeployment after injected startup failure",
+  "knownImageId" : "sha256:b33f07f5c7e4d3668e0b943fd9a03f28a5ae3d8fb3b0dc5ddcb18f6ceb8efd76",
+  "status" : "passed",
+  "candidateExitCode" : 42,
+  "recoveryMs" : 5573,
+  "backupRestored" : true,
+  "postBackupCentsRemoved" : 50000
+}

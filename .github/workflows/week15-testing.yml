@@ -1,0 +1,56 @@
+name: Week 15 Multi Tour system tests
+on:
+  workflow_call:
+    inputs:
+      run_contracts:
+        type: boolean
+        default: true
+  workflow_dispatch:
+  push:
+    branches: [docs/15-week-session1-testing]
+    paths:
+      - '15-week/hu-status/**/*.java'
+      - '15-week/hu-status/**/*.xml'
+      - '15-week/hu-status/**/*.js'
+      - '15-week/hu-status/**/*.mjs'
+      - '14-week/hu-status/**/sources-lock.json'
+      - '14-week/hu-status/**/prepare.mjs'
+      - '13-week/hu-status/**/*.mjs'
+      - '.github/workflows/**'
+permissions:
+  contents: read
+jobs:
+  testing:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+          cache: maven
+          cache-dependency-path: '15-week/hu-status/Sesión 1/harness/pom.xml'
+      - name: Export immutable product snapshots
+        run: node '14-week/hu-status/Sesión 2/prepare.mjs' "$RUNNER_TEMP/week15-sources" all
+      - name: Build actual service and gateway images
+        run: node '15-week/hu-status/Sesión 1/bootstrap.mjs' "$RUNNER_TEMP/week15-sources"
+      - name: Testcontainers integration, money E2E, k6 SLO and isolated chaos
+        working-directory: '15-week/hu-status/Sesión 1/harness'
+        run: mvn -B -ntp test
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: week15-system-evidence
+          path: |
+            15-week/hu-status/Sesión 1/harness/target/evidence/
+            15-week/hu-status/Sesión 1/harness/target/surefire-reports/
+  contracts:
+    if: ${{ !contains(toJSON(inputs), 'run_contracts') || inputs.run_contracts }}
+    uses: ./.github/workflows/week13-security.yml
+    with:
+      contract_only: true
+      sources_lock: '14-week/hu-status/Sesión 2/sources-lock.json'

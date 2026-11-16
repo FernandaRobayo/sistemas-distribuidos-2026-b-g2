@@ -1,0 +1,11 @@
+{
+  "tenants" : 10,
+  "maxMs" : 148.770894,
+  "requests" : 800,
+  "vus" : 20,
+  "p95Ms" : 34.758598999999904,
+  "status" : "passed",
+  "errorRate" : 0.0,
+  "durationSeconds" : 40,
+  "scope" : "authenticated cash-day reads; CI probe, not full Phase 1 population or monthly availability"
+}

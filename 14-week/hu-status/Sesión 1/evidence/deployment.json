@@ -1,0 +1,12 @@
+{
+  "checkedAt": "2026-11-16T01:08:46.138Z",
+  "status": "passed",
+  "environment": "isolated disposable exercise; no QA/production deployment",
+  "image": "multi-tour-security:ci-715fdeda6fb2a4b2a22636c06829333cf9281f34",
+  "imageId": "sha256:0fe223a752e90b2983be081980dd380e36f2fcbb3a12a5417d0b2cf61ac8deae",
+  "runtimeUser": "10001",
+  "hostPortBindings": "{}",
+  "health": "passed",
+  "unauthenticatedInternalOutbox": 401,
+  "cleanup": "containers/network/temporary keys removed in finally"
+}

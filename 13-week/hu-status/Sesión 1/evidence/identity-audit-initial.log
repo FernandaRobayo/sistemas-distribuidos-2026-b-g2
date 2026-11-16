@@ -1,0 +1,30 @@
+﻿Revision: a5e4ebb07d487b2c26bb7eb8b74c4cc511029c9b
+Exit code: 1
+[INFO] Running co.edu.corhuila.multi_tour.identity_audit.adapters.security.RouteAuthorizationTest
+[INFO] Tests run: 4, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.589 s -- in co.edu.corhuila.multi_tour.identity_audit.adapters.security.RouteAuthorizationTest
+[INFO] Tests run: 4, Failures: 0, Errors: 0, Skipped: 0
+[INFO] Running co.edu.corhuila.multi_tour.identity_audit.app.JwtFilterTest
+[ERROR] Tests run: 19, Failures: 1, Errors: 0, Skipped: 0, Time elapsed: 45.89 s <<< FAILURE! -- in co.edu.corhuila.multi_tour.identity_audit.app.JwtFilterTest
+[ERROR] co.edu.corhuila.multi_tour.identity_audit.app.JwtFilterTest.C_the_health_route_and_the_public_profile_need_no_token -- Time elapsed: 7.399 s <<< FAILURE!
+[INFO] Running co.edu.corhuila.multi_tour.identity_audit.app.JwtIssuerAudienceTest
+[INFO] Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 1.528 s -- in co.edu.corhuila.multi_tour.identity_audit.app.JwtIssuerAudienceTest
+[ERROR] Failures: 
+[ERROR]   JwtFilterTest.C_the_health_route_and_the_public_profile_need_no_token:100 
+[ERROR] Tests run: 22, Failures: 1, Errors: 0, Skipped: 0
+[INFO] Reactor Summary for identity-audit 0.1.0:
+[INFO] BUILD FAILURE
+[INFO] Total time:  01:49 min
+[ERROR] Failed to execute goal org.apache.maven.plugins:maven-surefire-plugin:3.5.4:test (default-test) on project identity-audit-app: There are test failures.
+[ERROR] 
+[ERROR] See C:\www\sistemas-distribuido\MultiTour\d01-plataforma\multi-tour-identity-audit-api\app\target\surefire-reports for the individual test results.
+[ERROR] See dump files (if any exist) [date].dump, [date]-jvmRun[N].dump and [date].dumpstream.
+[ERROR] -> [Help 1]
+[ERROR] 
+[ERROR] To see the full stack trace of the errors, re-run Maven with the -e switch.
+[ERROR] Re-run Maven using the -X switch to enable full debug logging.
+[ERROR] 
+[ERROR] For more information about the errors and possible solutions, please read the following articles:
+[ERROR] [Help 1] http://cwiki.apache.org/confluence/display/MAVEN/MojoFailureException
+[ERROR] 
+[ERROR] After correcting the problems, you can resume the build with the command
+[ERROR]   mvn <args> -rf :identity-audit-app

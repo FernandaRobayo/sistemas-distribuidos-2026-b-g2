@@ -1,0 +1,7 @@
+{
+  "passedTestEvents": 1010,
+  "failedTests": [
+    "TestC_ATakenEmailIsRefusedSayingWhoseItIsAndCreatesNothing"
+  ],
+  "skippedTestEvents": 0
+}

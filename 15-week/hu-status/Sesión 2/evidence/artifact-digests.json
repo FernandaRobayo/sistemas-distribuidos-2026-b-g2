@@ -1,0 +1,62 @@
+[
+  {
+    "id": 14197620059,
+    "name": "week13-session2-secrets",
+    "sha256": "sha256:db2d75bade5646f0c9ba5330ba7decf83b3722b0e94a7920d2622d0cf63570c5",
+    "verified": true
+  },
+  {
+    "id": 14197610213,
+    "name": "week13-session2-dependencies",
+    "sha256": "sha256:b80687313c112b8c91978446c9ef7fe33f34eb10a0ced863dc6c10d44db55df9",
+    "verified": true
+  },
+  {
+    "id": 14197605284,
+    "name": "week15-mvp3-service-identity-audit",
+    "sha256": "sha256:62cdfc3ed44395e376763d11595920a99efd52284b2a28ae6160c1c7d528f928",
+    "verified": true
+  },
+  {
+    "id": 14197595809,
+    "name": "week15-mvp3-service-cash-reporting",
+    "sha256": "sha256:729aa0920555fac1b0e4b45f974977b4eef0659b86839cfb9f34cb28be8cfe44",
+    "verified": true
+  },
+  {
+    "id": 14197446017,
+    "name": "week13-session1-evidence",
+    "sha256": "sha256:e291ae603c038a5736d1e669fbb2e6e0889122f8132488f51799c592d8d5c8c4",
+    "verified": true
+  },
+  {
+    "id": 14197186804,
+    "name": "week15-mvp3-service-security",
+    "sha256": "sha256:aebd0690215910b8a2ed4aeef1d3379c7ccf13a92656706b49aa2cbef1ec64fd",
+    "verified": true
+  },
+  {
+    "id": 14197137248,
+    "name": "week15-mvp3-system",
+    "sha256": "sha256:f24366e02ab26f742bb3b631170ea9816ac1068958782a385861e43477b01115",
+    "verified": true
+  },
+  {
+    "id": 14197072560,
+    "name": "week15-mvp3-service-relay",
+    "sha256": "sha256:44b26eb6d4c4fbf4b17d8df8c26c372eec10df27764364e88c9165c2b9614c8f",
+    "verified": true
+  },
+  {
+    "id": 14197032263,
+    "name": "week15-mvp3-service-commercial",
+    "sha256": "sha256:6c0866a73c99530b9bdd6b6575cf4220eb9e9af95d2d36210476e3958b78f212",
+    "verified": true
+  },
+  {
+    "id": 14196664008,
+    "name": "week15-mvp3-service-operations-cost",
+    "sha256": "sha256:9029816822a27f809e717905b9c861d047492bebab0e3da8590af29cbae318fc",
+    "verified": true
+  }
+]

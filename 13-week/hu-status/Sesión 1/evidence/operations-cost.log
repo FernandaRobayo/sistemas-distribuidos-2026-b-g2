@@ -1,0 +1,13 @@
+Exit code: 0
+[INFO] Running co.edu.corhuila.multi_tour.operations_cost.adapters.security.RouteAuthorizationTest
+[INFO] Tests run: 14, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.146 s -- in co.edu.corhuila.multi_tour.operations_cost.adapters.security.RouteAuthorizationTest
+[INFO] Tests run: 14, Failures: 0, Errors: 0, Skipped: 0
+[INFO] Running co.edu.corhuila.multi_tour.operations_cost.app.InternalOutboxRouteTest
+[INFO] Tests run: 11, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 8.193 s -- in co.edu.corhuila.multi_tour.operations_cost.app.InternalOutboxRouteTest
+[INFO] Running co.edu.corhuila.multi_tour.operations_cost.app.HttpShellTest
+[INFO] Tests run: 14, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.961 s -- in co.edu.corhuila.multi_tour.operations_cost.app.HttpShellTest
+[INFO] Running co.edu.corhuila.multi_tour.operations_cost.app.JwtFilterTest
+[INFO] Tests run: 21, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 1.937 s -- in co.edu.corhuila.multi_tour.operations_cost.app.JwtFilterTest
+[INFO] Tests run: 46, Failures: 0, Errors: 0, Skipped: 0
+[INFO] BUILD SUCCESS
+[INFO] Total time:  24.039 s

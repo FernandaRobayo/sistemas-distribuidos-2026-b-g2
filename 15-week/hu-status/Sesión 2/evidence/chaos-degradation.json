@@ -1,0 +1,8 @@
+{
+  "unaffectedSecurityStatus" : 401,
+  "httpStatus" : 503,
+  "degradationMs" : 2004,
+  "gatewayHealth" : 200,
+  "fault" : "stop only this suite's cash container",
+  "status" : "passed"
+}

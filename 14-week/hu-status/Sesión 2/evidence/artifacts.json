@@ -1,0 +1,79 @@
+[
+  {
+    "name": "week14-s2-service-commercial",
+    "id": 14192305426,
+    "digest": "sha256:a3cad3165d9d568488bc51d8a89a30f8e5572c697283befee7195241e17ab5aa",
+    "sourceCommit": "faa738720cb45faf12d0f494dc10a19b67441372",
+    "verified": true
+  },
+  {
+    "name": "week14-s2-smoke",
+    "id": 14192280832,
+    "digest": "sha256:f80b6d10f56c9125e3ba428caf5a58a25a479bb7ff55035c3ecb9553e363456e",
+    "sourceCommit": "faa738720cb45faf12d0f494dc10a19b67441372",
+    "verified": true
+  },
+  {
+    "name": "week14-s2-service-operations-cost",
+    "id": 14192150918,
+    "digest": "sha256:09546676174e398f3eada165219b9b42fd10578633c16360da94396282e2aa3c",
+    "sourceCommit": "faa738720cb45faf12d0f494dc10a19b67441372",
+    "verified": true
+  },
+  {
+    "name": "week13-session2-secrets",
+    "id": 14192041879,
+    "digest": "sha256:b1a503e7398c552ab0ed74eedce7d13d59531a1e8ecc6f21b0b1a20320da302a",
+    "sourceCommit": "faa738720cb45faf12d0f494dc10a19b67441372",
+    "verified": true
+  },
+  {
+    "name": "week13-session2-dependencies",
+    "id": 14191972726,
+    "digest": "sha256:c8c3d0aa5f5927dc175004728e468b2f999a42cbb3ae380dbb789c77a715256a",
+    "sourceCommit": "faa738720cb45faf12d0f494dc10a19b67441372",
+    "verified": true
+  },
+  {
+    "name": "week14-s2-service-identity-audit",
+    "id": 14191918452,
+    "digest": "sha256:6a70f8988b0734df62f9cf02960fd7da57aea322ea1f48a1614b477642a3a9b5",
+    "sourceCommit": "faa738720cb45faf12d0f494dc10a19b67441372",
+    "verified": true
+  },
+  {
+    "name": "week13-session1-evidence",
+    "id": 14191784035,
+    "digest": "sha256:dcadccf8e813b8a57c647179506439671cf7aa57d17d90fda69bcd7ecd02c30d",
+    "sourceCommit": "faa738720cb45faf12d0f494dc10a19b67441372",
+    "verified": true
+  },
+  {
+    "name": "week14-s2-service-security",
+    "id": 14191664298,
+    "digest": "sha256:cf6d917af79159a93cfe25757139e935a81de9ffd2ae179d79324586eb787cf9",
+    "sourceCommit": "faa738720cb45faf12d0f494dc10a19b67441372",
+    "verified": true
+  },
+  {
+    "name": "week14-s2-service-relay",
+    "id": 14191604826,
+    "digest": "sha256:da8cda1ca253034b2e3ba9e61bed196c87033cb3a3d2a5334daec0a550634ab8",
+    "sourceCommit": "faa738720cb45faf12d0f494dc10a19b67441372",
+    "verified": true
+  },
+  {
+    "name": "week14-s2-service-cash-reporting",
+    "id": 14191559851,
+    "digest": "sha256:a943ff1d4aff9372a8cf4b8873b63158f59b1ec0d3eaeb89b5e35bc3349a5576",
+    "sourceCommit": "faa738720cb45faf12d0f494dc10a19b67441372",
+    "verified": true
+  },
+  {
+    "name": "week14-s2-plan",
+    "id": 14191434876,
+    "digest": "sha256:023ef935190212ff8d26b0c830ec50589dd4e3b75f893aead0f2ef2df1444364",
+    "sourceCommit": "faa738720cb45faf12d0f494dc10a19b67441372",
+    "verified": true
+  }
+]

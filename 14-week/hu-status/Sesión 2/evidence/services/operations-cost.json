@@ -1,0 +1,22 @@
+{
+  "name": "operations-cost",
+  "status": "passed",
+  "checkedAt": "2026-11-16T02:09:28.569Z",
+  "tests": 708,
+  "skipped": 0,
+  "failures": 0,
+  "errors": 0,
+  "coverage": 73.9,
+  "coverageUnit": "instructions",
+  "baseline": 73.9,
+  "sources": {
+    "operations-cost": {
+      "repository": "d03-operacion-costos/multi-tour-operations-cost-api",
+      "revision": "a2833703225db61044fbd5f55454e73948b0f00d"
+    },
+    "operations-db": {
+      "repository": "d03-operacion-costos/multi-tour-operations-cost-db",
+      "revision": "3440cf34df65d821189f247ef22ccf37e5b8db78"
+    }
+  }
+}

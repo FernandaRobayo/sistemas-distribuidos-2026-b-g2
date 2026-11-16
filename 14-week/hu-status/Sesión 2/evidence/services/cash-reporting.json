@@ -1,0 +1,24 @@
+{
+  "name": "cash-reporting",
+  "status": "blocked",
+  "reason": "mvn verify failed; inspect verify.log. Partial metrics do not establish a healthy baseline.",
+  "tests": 361,
+  "skipped": 0,
+  "failures": 0,
+  "errors": 0,
+  "coverage": 94.5,
+  "coverageUnit": "instructions",
+  "baseline": null,
+  "nativeBuildExitCode": 1,
+  "metricsScope": "Partial if native verification failed; not a healthy baseline.",
+  "sources": {
+    "cash-reporting": {
+      "repository": "d04-caja-reportes/multi-tour-cash-reporting-api",
+      "revision": "cfe678853a367dee6b8b525dda07642d1e117042"
+    },
+    "cash-db": {
+      "repository": "d04-caja-reportes/multi-tour-cash-reporting-db",
+      "revision": "980454759a7dddf2852968e189c91460251c83cc"
+    }
+  }
+}

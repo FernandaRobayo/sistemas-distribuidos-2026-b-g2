@@ -1,0 +1,6 @@
+{
+  "status" : "passed",
+  "foreignSchemaAccess" : false,
+  "runtimeUser" : "cash_reporting_app",
+  "engine" : "PostgreSQL 18 Testcontainers"
+}

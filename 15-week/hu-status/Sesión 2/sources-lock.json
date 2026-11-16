@@ -1,0 +1,46 @@
+{
+    "security":  {
+                     "repository":  "transversales/multi-tour-security",
+                     "revision":  "1dcb3e284876af5e98d9504b8e41f5cee4ea3b97"
+                 },
+    "commercial":  {
+                       "repository":  "d02-comercial-reservas/multi-tour-commercial-reservation-api",
+                       "revision":  "b97d57e2e8767f7e7cf2808c634e0b452ae3664b"
+                   },
+    "identity-audit":  {
+                           "repository":  "d01-plataforma/multi-tour-identity-audit-api",
+                           "revision":  "316ab39a1f26c827e3473ed990a209c711d4c273"
+                       },
+    "cash-reporting":  {
+                           "repository":  "d04-caja-reportes/multi-tour-cash-reporting-api",
+                           "revision":  "7f08d885498b4929da3c316c08742e9afde088c7"
+                       },
+    "operations-cost":  {
+                            "repository":  "d03-operacion-costos/multi-tour-operations-cost-api",
+                            "revision":  "72897c08e14798d2e821a4b914618590bfdaeada"
+                        },
+    "relay":  {
+                  "repository":  "transversales/multi-tour-worker-event-relay",
+                  "revision":  "1163de13704425c015d80f864f89f5c2007d9adb"
+              },
+    "gateway":  {
+                    "repository":  "transversales/multi-tour-api-gateway",
+                    "revision":  "13b4e560f4b2152beccb6ad6ecd01bddd30135eb"
+                },
+    "cash-db":  {
+                    "repository":  "d04-caja-reportes/multi-tour-cash-reporting-db",
+                    "revision":  "87d261ade7a6ff4705e17b6dad02b78c06209479"
+                },
+    "commercial-db":  {
+                          "repository":  "d02-comercial-reservas/multi-tour-commercial-reservation-db",
+                          "revision":  "5edb15c91f5aa66f998c72d9cf442d07fcdf24ae"
+                      },
+    "operations-db":  {
+                          "repository":  "d03-operacion-costos/multi-tour-operations-cost-db",
+                          "revision":  "67a27f0b2c420916080d4ccc4c76d5b8a869752f"
+                      },
+    "identity-db":  {
+                        "repository":  "d01-plataforma/multi-tour-identity-audit-db",
+                        "revision":  "943ff54ef44faa2569c413e8450d26cc636c67ef"
+                    }
+}

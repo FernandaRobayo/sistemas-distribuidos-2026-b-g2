@@ -1,0 +1,2550 @@
+{
+  "checkedAt": "2026-11-16T04:11:45.276Z",
+  "scanner": "OSV-Scanner 2.7.1",
+  "sources": {
+    "commercial": {
+      "repository": "d02-comercial-reservas/multi-tour-commercial-reservation-api",
+      "revision": "b97d57e2e8767f7e7cf2808c634e0b452ae3664b"
+    },
+    "security": {
+      "repository": "transversales/multi-tour-security",
+      "revision": "1dcb3e284876af5e98d9504b8e41f5cee4ea3b97"
+    },
+    "gateway": {
+      "repository": "transversales/multi-tour-api-gateway",
+      "revision": "13b4e560f4b2152beccb6ad6ecd01bddd30135eb"
+    }
+  },
+  "policy": "Every reported vulnerability blocks CI. Scanner errors also fail the job.",
+  "runtimeBomComponents": 43,
+  "scannerExitCode": 1,
+  "status": "blocked",
+  "findings": [
+    {
+      "package": {
+        "name": "com.fasterxml.jackson.core:jackson-core",
+        "version": "2.19.2",
+        "ecosystem": "Maven",
+        "purl": "pkg:maven/com.fasterxml.jackson.core/jackson-core@2.19.2?type=jar"
+      },
+      "id": "GHSA-72hv-8253-57qq",
+      "aliases": [
+        "CVE-2026-18401"
+      ],
+      "summary": "jackson-core: Number Length Constraint Bypass in Async Parser Leads to Potential DoS Condition",
+      "severity": "MODERATE",
+      "severityVectors": [
+        {
+          "score": "CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:N/VC:N/VI:N/VA:L/SC:N/SI:N/SA:N",
+          "type": "CVSS_V4"
+        }
+      ],
+      "fixedVersions": [
+        "2.21.1",
+        "2.18.6"
+      ],
+      "url": "https://osv.dev/GHSA-72hv-8253-57qq"
+    },
+    {
+      "package": {
+        "name": "com.fasterxml.jackson.core:jackson-core",
+        "version": "2.19.2",
+        "ecosystem": "Maven",
+        "purl": "pkg:maven/com.fasterxml.jackson.core/jackson-core@2.19.2?type=jar"
+      },
+      "id": "GHSA-7hhh-6rmp-j9qf",
+      "aliases": [
+        "CVE-2026-89425"
+      ],
+      "summary": "jackson-core: UTF8DataInputJsonParser._reportInvalidToken() missing maxErrorTokenLength limit -> unbounded StringBuilder growth (DoS)",
+      "severity": "HIGH",
+      "severityVectors": [
+        {
+          "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H",
+          "type": "CVSS_V3"
+        }
+      ],
+      "fixedVersions": [
+        "2.21.7",
+        "2.22.3",
+        "2.18.11"
+      ],
+      "url": "https://osv.dev/GHSA-7hhh-6rmp-j9qf"
+    },
+    {
+      "package": {
+        "name": "com.fasterxml.jackson.core:jackson-core",
+        "version": "2.19.2",
+        "ecosystem": "Maven",
+        "purl": "pkg:maven/com.fasterxml.jackson.core/jackson-core@2.19.2?type=jar"
+      },
+      "id": "GHSA-p6pp-m3f8-5c89",
+      "aliases": [
+        "CVE-2026-89407"
+      ],
+      "summary": " jackson-core: ReDoS: quadratic backtracking in NumberInput.PATTERN_FLOAT via looksLikeValidNumber()",
+      "severity": "HIGH",
+      "severityVectors": [
+        {
+          "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H",
+          "type": "CVSS_V3"
+        }
+      ],
+      "fixedVersions": [
+        "2.18.11",
+        "2.21.7",
+        "2.22.3"
+      ],
+      "url": "https://osv.dev/GHSA-p6pp-m3f8-5c89"
+    },
+    {
+      "package": {
+        "name": "com.fasterxml.jackson.core:jackson-core",
+        "version": "2.19.2",
+        "ecosystem": "Maven",
+        "purl": "pkg:maven/com.fasterxml.jackson.core/jackson-core@2.19.2?type=jar"
+      },
+      "id": "GHSA-r7wm-3cxj-wff9",
+      "aliases": [
+        "CVE-2026-68494"
+      ],
+      "summary": "jackson-core: Async parser maxNumberLength bypass via chunked digit accumulation (incomplete fix for GHSA-72hv-8253-57qq)",
+      "severity": "HIGH",
+      "severityVectors": [
+        {
+          "score": "CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:N/VC:N/VI:N/VA:H/SC:N/SI:N/SA:N",
+          "type": "CVSS_V4"
+        }
+      ],
+      "fixedVersions": [
+        "2.18.8",
+        "2.21.4"
+      ],
+      "url": "https://osv.dev/GHSA-r7wm-3cxj-wff9"
+    },
+    {
+      "package": {
+        "name": "com.fasterxml.jackson.core:jackson-databind",
+        "version": "2.19.2",
+        "ecosystem": "Maven",
+        "purl": "pkg:maven/com.fasterxml.jackson.core/jackson-databind@2.19.2?type=jar"
+      },
+      "id": "GHSA-3pjw-73gf-8qr5",
+      "aliases": [
+        "CVE-2026-59888"
+      ],
+      "summary": "jackson-databind: @JsonIgnore on a Record property is bypassed with a PropertyNamingStrategy",
+      "severity": "MODERATE",
+      "severityVectors": [
+        {
+          "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:L/A:N",
+          "type": "CVSS_V3"
+        }
+      ],
+      "fixedVersions": [
+        "2.18.8",
+        "2.21.4"
+      ],
+      "url": "https://osv.dev/GHSA-3pjw-73gf-8qr5"
+    },
+    {
+      "package": {
+        "name": "com.fasterxml.jackson.core:jackson-databind",
+        "version": "2.19.2",
+        "ecosystem": "Maven",
+        "purl": "pkg:maven/com.fasterxml.jackson.core/jackson-databind@2.19.2?type=jar"
+      },
+      "id": "GHSA-5gvw-p9qm-jgwh",
+      "aliases": [
+        "CVE-2026-59889"
+      ],
+      "summary": "jackson-databind: @JsonView bypassed for @JsonUnwrapped container properties on deserialization",
+      "severity": "MODERATE",
+      "severityVectors": [
+        {
+          "score": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:N/I:H/A:N",
+          "type": "CVSS_V3"
+        }
+      ],
+      "fixedVersions": [
+        "2.21.5",
+        "2.18.9",
+        "2.22.1"
+      ],
+      "url": "https://osv.dev/GHSA-5gvw-p9qm-jgwh"
+    },
+    {
+      "package": {
+        "name": "com.fasterxml.jackson.core:jackson-databind",
+        "version": "2.19.2",
+        "ecosystem": "Maven",
+        "purl": "pkg:maven/com.fasterxml.jackson.core/jackson-databind@2.19.2?type=jar"
+      },
+      "id": "GHSA-5jmj-h7xm-6q6v",
+      "aliases": [
+        "CVE-2026-54515"
+      ],
+      "summary": "jackson-databind has case-insensitive deserialization bypasses per-property @JsonIgnoreProperties",
+      "severity": "MODERATE",
+      "severityVectors": [
+        {
+          "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:L/A:N",
+          "type": "CVSS_V3"
+        }
+      ],
+      "fixedVersions": [
+        "3.1.4",
+        "2.18.9",
+        "2.21.5",
+        "2.22.1"
+      ],
+      "url": "https://osv.dev/GHSA-5jmj-h7xm-6q6v"
+    },
+    {
+      "package": {
+        "name": "com.fasterxml.jackson.core:jackson-databind",
+        "version": "2.19.2",
+        "ecosystem": "Maven",
+        "purl": "pkg:maven/com.fasterxml.jackson.core/jackson-databind@2.19.2?type=jar"
+      },
+      "id": "GHSA-cxp5-3px4-pw24",
+      "aliases": [
+        "CVE-2026-91777"
+      ],
+      "summary": "jackson-databind quadratic forward-reference completion ",
+      "severity": "HIGH",
+      "severityVectors": [
+        {
+          "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H",
+          "type": "CVSS_V3"
+        }
+      ],
+      "fixedVersions": [
+        "2.21.7",
+        "2.18.11",
+        "2.22.3"
+      ],
+      "url": "https://osv.dev/GHSA-cxp5-3px4-pw24"
+    },
+    {
+      "package": {
+        "name": "com.fasterxml.jackson.core:jackson-databind",
+        "version": "2.19.2",
+        "ecosystem": "Maven",
+        "purl": "pkg:maven/com.fasterxml.jackson.core/jackson-databind@2.19.2?type=jar"
+      },
+      "id": "GHSA-gx83-3vf8-gh7j",
+      "aliases": [
+        "CVE-2026-83557"
+      ],
+      "summary": "jackson-databind: Comparable missing from DefaultBaseTypeLimitingValidator's unsafe base types (incomplete PolymorphicTypeValidator denylist)",
+      "severity": "MODERATE",
+      "severityVectors": [
+        {
+          "score": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:L/I:L/A:L",
+          "type": "CVSS_V3"
+        }
+      ],
+      "fixedVersions": [
+        "2.18.10",
+        "2.21.6",
+        "2.22.2"
+      ],
+      "url": "https://osv.dev/GHSA-gx83-3vf8-gh7j"
+    },
+    {
+      "package": {
+        "name": "com.fasterxml.jackson.core:jackson-databind",
+        "version": "2.19.2",
+        "ecosystem": "Maven",
+        "purl": "pkg:maven/com.fasterxml.jackson.core/jackson-databind@2.19.2?type=jar"
+      },
+      "id": "GHSA-hgj6-7826-r7m5",
+      "aliases": [
+        "CVE-2026-54514"
+      ],
+      "summary": "jackson-databind: InetSocketAddress deserialization triggers eager DNS resolution (SSRF)",
+      "severity": "MODERATE",
+      "severityVectors": [
+        {
+          "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:N/A:N",
+          "type": "CVSS_V3"
+        }
+      ],
+      "fixedVersions": [
+        "2.18.8",
+        "2.21.4"
+      ],
+      "url": "https://osv.dev/GHSA-hgj6-7826-r7m5"
+    },
+    {
+      "package": {
+        "name": "com.fasterxml.jackson.core:jackson-databind",
+        "version": "2.19.2",
+        "ecosystem": "Maven",
+        "purl": "pkg:maven/com.fasterxml.jackson.core/jackson-databind@2.19.2?type=jar"
+      },
+      "id": "GHSA-j3rv-43j4-c7qm",
+      "aliases": [
+        "CVE-2026-54512"
+      ],
+      "summary": "jackson-databind has a PolymorphicTypeValidator bypass via generic type parameters that allows arbitrary class instantiation",
+      "severity": "HIGH",
+      "severityVectors": [
+        {
+          "score": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:H/I:H/A:H",
+          "type": "CVSS_V3"
+        }
+      ],
+      "fixedVersions": [
+        "2.18.8",
+        "3.1.4",
+        "2.21.4"
+      ],
+      "url": "https://osv.dev/GHSA-j3rv-43j4-c7qm"
+    },
+    {
+      "package": {
+        "name": "com.fasterxml.jackson.core:jackson-databind",
+        "version": "2.19.2",
+        "ecosystem": "Maven",
+        "purl": "pkg:maven/com.fasterxml.jackson.core/jackson-databind@2.19.2?type=jar"
+      },
+      "id": "GHSA-q4xh-88c3-wmh7",
+      "aliases": [
+        "CVE-2026-68497"
+      ],
+      "summary": "jackson-databind: Duration XMLGregorianCalendar Unbounded Number Parse DoS",
+      "severity": "HIGH",
+      "severityVectors": [
+        {
+          "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H",
+          "type": "CVSS_V3"
+        }
+      ],
+      "fixedVersions": [
+        "2.18.10",
+        "2.21.6",
+        "2.22.2"
+      ],
+      "url": "https://osv.dev/GHSA-q4xh-88c3-wmh7"
+    },
+    {
+      "package": {
+        "name": "com.fasterxml.jackson.core:jackson-databind",
+        "version": "2.19.2",
+        "ecosystem": "Maven",
+        "purl": "pkg:maven/com.fasterxml.jackson.core/jackson-databind@2.19.2?type=jar"
+      },
+      "id": "GHSA-rmj7-2vxq-3g9f",
+      "aliases": [
+        "CVE-2026-54513"
+      ],
+      "summary": "jackson-databind has an array subtype allowlist bypass in BasicPolymorphicTypeValidator (allowIfSubTypeIsArray)",
+      "severity": "HIGH",
+      "severityVectors": [
+        {
+          "score": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:H/I:H/A:H",
+          "type": "CVSS_V3"
+        }
+      ],
+      "fixedVersions": [
+        "2.18.8",
+        "2.21.4",
+        "3.1.4"
+      ],
+      "url": "https://osv.dev/GHSA-rmj7-2vxq-3g9f"
+    },
+    {
+      "package": {
+        "name": "com.fasterxml.jackson.core:jackson-databind",
+        "version": "2.19.2",
+        "ecosystem": "Maven",
+        "purl": "pkg:maven/com.fasterxml.jackson.core/jackson-databind@2.19.2?type=jar"
+      },
+      "id": "GHSA-vvgp-rfg2-7rr6",
+      "aliases": [
+        "CVE-2026-77310"
+      ],
+      "summary": "jackson-databind: Incomplete fix for CVE-2026-54514: eager DNS resolution (SSRF) still present in InetAddress deserialization",
+      "severity": "MODERATE",
+      "severityVectors": [
+        {
+          "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:N/A:N",
+          "type": "CVSS_V3"
+        }
+      ],
+      "fixedVersions": [
+        "2.18.9",
+        "2.21.5",
+        "2.22.1"
+      ],
+      "url": "https://osv.dev/GHSA-vvgp-rfg2-7rr6"
+    },
+    {
+      "package": {
+        "name": "com.fasterxml.jackson.core:jackson-databind",
+        "version": "2.19.2",
+        "ecosystem": "Maven",
+        "purl": "pkg:maven/com.fasterxml.jackson.core/jackson-databind@2.19.2?type=jar"
+      },
+      "id": "GHSA-wjgm-6hv5-3cvf",
+      "aliases": [
+        "CVE-2026-19032"
+      ],
+      "summary": "jackson-databind: Path Deserialization Missing Scheme Allowlist for FileSystemProvider Resolution",
+      "severity": "MODERATE",
+      "severityVectors": [
+        {
+          "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:L",
+          "type": "CVSS_V3"
+        }
+      ],
+      "fixedVersions": [
+        "2.18.10",
+        "2.21.6",
+        "2.22.2"
+      ],
+      "url": "https://osv.dev/GHSA-wjgm-6hv5-3cvf"
+    },
+    {
+      "package": {
+        "name": "com.fasterxml.jackson.core:jackson-databind",
+        "version": "2.19.2",
+        "ecosystem": "Maven",
+        "purl": "pkg:maven/com.fasterxml.jackson.core/jackson-databind@2.19.2?type=jar"
+      },
+      "id": "GHSA-wv8q-qhhj-9h54",
+      "aliases": [
+        "CVE-2026-91776"
+      ],
+      "summary": "jackson-databind retains every unknown raw type ID ",
+      "severity": "HIGH",
+      "severityVectors": [
+        {
+          "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H",
+          "type": "CVSS_V3"
+        }
+      ],
+      "fixedVersions": [
+        "2.18.11",
+        "2.21.7",
+        "2.22.3"
+      ],
+      "url": "https://osv.dev/GHSA-wv8q-qhhj-9h54"
+    },
+    {
+      "package": {
+        "name": "org.apache.logging.log4j:log4j-api",
+        "version": "2.24.3",
+        "ecosystem": "Maven",
+        "purl": "pkg:maven/org.apache.logging.log4j/log4j-api@2.24.3?type=jar"
+      },
+      "id": "GHSA-qv9r-c865-cp47",
+      "aliases": [
+        "CVE-2026-49844"
+      ],
+      "summary": "Apache Log4j API: Improper encoding of non-finite floating-point values during MapMessage JSON serialization",
+      "severity": "MODERATE",
+      "severityVectors": [
+        {
+          "score": "CVSS:4.0/AV:N/AC:L/AT:P/PR:N/UI:N/VC:N/VI:N/VA:N/SC:N/SI:L/SA:N",
+          "type": "CVSS_V4"
+        }
+      ],
+      "fixedVersions": [
+        "2.25.5",
+        "2.26.1"
+      ],
+      "url": "https://osv.dev/GHSA-qv9r-c865-cp47"
+    },
+    {
+      "package": {
+        "name": "ch.qos.logback:logback-core",
+        "version": "1.5.18",
+        "ecosystem": "Maven",
+        "purl": "pkg:maven/ch.qos.logback/logback-core@1.5.18?type=jar"
+      },
+      "id": "GHSA-25qh-j22f-pwp8",
+      "aliases": [
+        "CVE-2025-11226"
+      ],
+      "summary": "QOS.CH logback-core is vulnerable to Arbitrary Code Execution through file processing",
+      "severity": "MODERATE",
+      "severityVectors": [
+        {
+          "score": "CVSS:4.0/AV:L/AC:L/AT:P/PR:H/UI:P/VC:H/VI:L/VA:L/SC:H/SI:L/SA:L",
+          "type": "CVSS_V4"
+        }
+      ],
+      "fixedVersions": [
+        "1.5.19",
+        "1.3.16"
+      ],
+      "url": "https://osv.dev/GHSA-25qh-j22f-pwp8"
+    },
+    {
+      "package": {
+        "name": "ch.qos.logback:logback-core",
+        "version": "1.5.18",
+        "ecosystem": "Maven",
+        "purl": "pkg:maven/ch.qos.logback/logback-core@1.5.18?type=jar"
+      },
+      "id": "GHSA-jhq6-gfmj-v8fx",
+      "aliases": [
+        "CVE-2026-10532"
+      ],
+      "summary": "Logback vulnerable to Object Injection through HardenedObjectInputStream modules",
+      "severity": "LOW",
+      "severityVectors": [
+        {
+          "score": "CVSS:4.0/AV:N/AC:H/AT:P/PR:N/UI:N/VC:L/VI:L/VA:N/SC:L/SI:L/SA:N/E:P/RE:M/U:Green",
+          "type": "CVSS_V4"
+        }
+      ],
+      "fixedVersions": [
+        "1.5.34"
+      ],
+      "url": "https://osv.dev/GHSA-jhq6-gfmj-v8fx"
+    },
+    {
+      "package": {
+        "name": "ch.qos.logback:logback-core",
+        "version": "1.5.18",
+        "ecosystem": "Maven",
+        "purl": "pkg:maven/ch.qos.logback/logback-core@1.5.18?type=jar"
+      },
+      "id": "GHSA-p47f-322f-whfh",
+      "aliases": [
+        "CVE-2026-9828"
+      ],
+      "summary": "QOS.CH Sarl logback logback-core has a deserialization of untrusted data vulnerability",
+      "severity": "LOW",
+      "severityVectors": [
+        {
+          "score": "CVSS:4.0/AV:L/AC:H/AT:P/PR:N/UI:N/VC:L/VI:L/VA:N/SC:L/SI:L/SA:N/E:P/RE:L/U:Green",
+          "type": "CVSS_V4"
+        }
+      ],
+      "fixedVersions": [
+        "1.5.33"
+      ],
+      "url": "https://osv.dev/GHSA-p47f-322f-whfh"
+    },
+    {
+      "package": {
+        "name": "ch.qos.logback:logback-core",
+        "version": "1.5.18",
+        "ecosystem": "Maven",
+        "purl": "pkg:maven/ch.qos.logback/logback-core@1.5.18?type=jar"
+      },
+      "id": "GHSA-qqpg-mvqg-649v",
+      "aliases": [
+        "CVE-2026-1225"
+      ],
+      "summary": "Logback allows an attacker to instantiate classes already present on the class path",
+      "severity": "LOW",
+      "severityVectors": [
+        {
+          "score": "CVSS:4.0/AV:L/AC:H/AT:P/PR:H/UI:N/VC:L/VI:L/VA:L/SC:L/SI:L/SA:L",
+          "type": "CVSS_V4"
+        }
+      ],
+      "fixedVersions": [
+        "1.5.25"
+      ],
+      "url": "https://osv.dev/GHSA-qqpg-mvqg-649v"
+    },
+    {
+      "package": {
+        "name": "org.postgresql:postgresql",
+        "version": "42.7.7",
+        "ecosystem": "Maven",
+        "purl": "pkg:maven/org.postgresql/postgresql@42.7.7?type=jar"
+      },
+      "id": "GHSA-98qh-xjc8-98pq",
+      "aliases": [
+        "BIT-postgresql-jdbc-driver-2026-42198",
+        "CVE-2026-42198"
+      ],
+      "summary": "pgjdbc: Unbounded PBKDF2 iterations in SCRAM authentication allows CPU exhaustion DoS",
+      "severity": "HIGH",
+      "severityVectors": [
+        {
+          "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H",
+          "type": "CVSS_V3"
+        }
+      ],
+      "fixedVersions": [
+        "42.7.11"
+      ],
+      "url": "https://osv.dev/GHSA-98qh-xjc8-98pq"
+    },
+    {
+      "package": {
+        "name": "org.postgresql:postgresql",
+        "version": "42.7.7",
+        "ecosystem": "Maven",
+        "purl": "pkg:maven/org.postgresql/postgresql@42.7.7?type=jar"
+      },
+      "id": "GHSA-j92g-9f8w-j867",
+      "aliases": [
+        "BIT-postgresql-jdbc-driver-2026-54291",
+        "CVE-2026-54291"
+      ],
+      "summary": "PostgreSQL JDBC Driver: Silent channel-binding authentication downgrade via unsupported certificate algorithms",
+      "severity": "HIGH",
+      "severityVectors": [
+        {
+          "score": "CVSS:4.0/AV:N/AC:H/AT:P/PR:N/UI:N/VC:N/VI:H/VA:N/SC:N/SI:L/SA:N",
+          "type": "CVSS_V4"
+        }
+      ],
+      "fixedVersions": [
+        "42.7.12"
+      ],
+      "url": "https://osv.dev/GHSA-j92g-9f8w-j867"
+    },
+    {
+      "package": {
+        "name": "org.springframework.boot:spring-boot",
+        "version": "3.5.6",
+        "ecosystem": "Maven",
+        "purl": "pkg:maven/org.springframework.boot/spring-boot@3.5.6?type=jar"
+      },
+      "id": "GHSA-wwpq-f5c3-7hvx",
+      "aliases": [
+        "CVE-2026-40973"
+      ],
+      "summary": "Spring Boot accepts predictable temp directory without ownership verification",
+      "severity": "HIGH",
+      "severityVectors": [
+        {
+          "score": "CVSS:3.1/AV:L/AC:H/PR:L/UI:N/S:U/C:H/I:H/A:H",
+          "type": "CVSS_V3"
+        }
+      ],
+      "fixedVersions": [
+        "4.0.6",
+        "3.5.14"
+      ],
+      "url": "https://osv.dev/GHSA-wwpq-f5c3-7hvx"
+    },
+    {
+      "package": {
+        "name": "org.springframework.boot:spring-boot-autoconfigure",
+        "version": "3.5.6",
+        "ecosystem": "Maven",
+        "purl": "pkg:maven/org.springframework.boot/spring-boot-autoconfigure@3.5.6?type=jar"
+      },
+      "id": "GHSA-ggg2-9786-hwc8",
+      "aliases": [
+        "CVE-2026-41001"
+      ],
+      "summary": "Spring Boot: Predictable Temp Directory in Artemis Auto-configuration",
+      "severity": "MODERATE",
+      "severityVectors": [
+        {
+          "score": "CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:L/I:L/A:L",
+          "type": "CVSS_V3"
+        }
+      ],
+      "fixedVersions": [
+        "4.0.7",
+        "3.5.15"
+      ],
+      "url": "https://osv.dev/GHSA-ggg2-9786-hwc8"
+    },
+    {
+      "package": {
+        "name": "org.springframework:spring-core",
+        "version": "6.2.11",
+        "ecosystem": "Maven",
+        "purl": "pkg:maven/org.springframework/spring-core@6.2.11?type=jar"
+      },
+      "id": "GHSA-659m-px2c-25wj",
+      "aliases": [
+        "CVE-2026-41848"
+      ],
+      "summary": "Spring Framework Denial of Service via AntPathMatcher",
+      "severity": "LOW",
+      "severityVectors": [
+        {
+          "score": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:N/I:N/A:L",
+          "type": "CVSS_V3"
+        }
+      ],
+      "fixedVersions": [
+        "7.0.8",
+        "6.2.19"
+      ],
+      "url": "https://osv.dev/GHSA-659m-px2c-25wj"
+    },
+    {
+      "package": {
+        "name": "org.springframework:spring-expression",
+        "version": "6.2.11",
+        "ecosystem": "Maven",
+        "purl": "pkg:maven/org.springframework/spring-expression@6.2.11?type=jar"
+      },
+      "id": "GHSA-9f52-rjqv-25qv",
+      "aliases": [
+        "CVE-2026-41852"
+      ],
+      "summary": "Spring Framework Arbitrary Method Invocation in SpEL Expressions",
+      "severity": "LOW",
+      "severityVectors": [
+        {
+          "score": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:N/I:N/A:L",
+          "type": "CVSS_V3"
+        }
+      ],
+      "fixedVersions": [
+        "7.0.8",
+        "6.2.19"
+      ],
+      "url": "https://osv.dev/GHSA-9f52-rjqv-25qv"
+    },
+    {
+      "package": {
+        "name": "org.springframework:spring-expression",
+        "version": "6.2.11",
+        "ecosystem": "Maven",
+        "purl": "pkg:maven/org.springframework/spring-expression@6.2.11?type=jar"
+      },
+      "id": "GHSA-r5w3-xv2f-j59q",
+      "aliases": [
+        "CVE-2026-41850"
+      ],
+      "summary": "Spring Framework Algorithmic Denial of Service via SpEL Expressions",
+      "severity": "HIGH",
+      "severityVectors": [
+        {
+          "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H",
+          "type": "CVSS_V3"
+        }
+      ],
+      "fixedVersions": [
+        "7.0.8",
+        "6.2.19"
+      ],
+      "url": "https://osv.dev/GHSA-r5w3-xv2f-j59q"
+    },
+    {
+      "package": {
+        "name": "org.springframework:spring-expression",
+        "version": "6.2.11",
+        "ecosystem": "Maven",
+        "purl": "pkg:maven/org.springframework/spring-expression@6.2.11?type=jar"
+      },
+      "id": "GHSA-wxpp-56q6-5pcg",
+      "aliases": [
+        "CVE-2026-41851"
+      ],
+      "summary": "Spring Framework Denial of Service via Unbounded Cache in SpEL",
+      "severity": "MODERATE",
+      "severityVectors": [
+        {
+          "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:L",
+          "type": "CVSS_V3"
+        }
+      ],
+      "fixedVersions": [
+        "7.0.8",
+        "6.2.19"
+      ],
+      "url": "https://osv.dev/GHSA-wxpp-56q6-5pcg"
+    },
+    {
+      "package": {
+        "name": "org.springframework:spring-web",
+        "version": "6.2.11",
+        "ecosystem": "Maven",
+        "purl": "pkg:maven/org.springframework/spring-web@6.2.11?type=jar"
+      },
+      "id": "GHSA-7m2p-62gw-p8qq",
+      "aliases": [
+        "CVE-2026-41854"
+      ],
+      "summary": "Spring Framework Server-Side Request Forgery via UriComponentsBuilder",
+      "severity": "MODERATE",
+      "severityVectors": [
+        {
+          "score": "CVSS:3.1/AV:N/AC:H/PR:N/UI:R/S:U/C:L/I:L/A:N",
+          "type": "CVSS_V3"
+        }
+      ],
+      "fixedVersions": [
+        "7.0.8",
+        "6.2.19"
+      ],
+      "url": "https://osv.dev/GHSA-7m2p-62gw-p8qq"
+    },
+    {
+      "package": {
+        "name": "org.springframework:spring-webmvc",
+        "version": "6.2.11",
+        "ecosystem": "Maven",
+        "purl": "pkg:maven/org.springframework/spring-webmvc@6.2.11?type=jar"
+      },
+      "id": "GHSA-3chg-m5w7-qfv5",
+      "aliases": [
+        "CVE-2026-41845"
+      ],
+      "summary": "Spring Framework Cross-site Scripting via JavaScriptUtils",
+      "severity": "HIGH",
+      "severityVectors": [
+        {
+          "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:L/A:N",
+          "type": "CVSS_V3"
+        }
+      ],
+      "fixedVersions": [
+        "7.0.8",
+        "6.2.19"
+      ],
+      "url": "https://osv.dev/GHSA-3chg-m5w7-qfv5"
+    },
+    {
+      "package": {
+        "name": "org.springframework:spring-webmvc",
+        "version": "6.2.11",
+        "ecosystem": "Maven",
+        "purl": "pkg:maven/org.springframework/spring-webmvc@6.2.11?type=jar"
+      },
+      "id": "GHSA-4773-3jfm-qmx3",
+      "aliases": [
+        "CVE-2026-22737"
+      ],
+      "summary": "Spring Framework Improper Path Limitation with Script View Templates",
+      "severity": "MODERATE",
+      "severityVectors": [
+        {
+          "score": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:H/I:N/A:N",
+          "type": "CVSS_V3"
+        }
+      ],
+      "fixedVersions": [
+        "7.0.6",
+        "6.2.17"
+      ],
+      "url": "https://osv.dev/GHSA-4773-3jfm-qmx3"
+    },
+    {
+      "package": {
+        "name": "org.springframework:spring-webmvc",
+        "version": "6.2.11",
+        "ecosystem": "Maven",
+        "purl": "pkg:maven/org.springframework/spring-webmvc@6.2.11?type=jar"
+      },
+      "id": "GHSA-6hcq-hmm3-jj3c",
+      "aliases": [
+        "CVE-2026-22735"
+      ],
+      "summary": "Spring MVC and WebFlux has Server Sent Event stream corruption",
+      "severity": "LOW",
+      "severityVectors": [
+        {
+          "score": "CVSS:3.1/AV:N/AC:H/PR:L/UI:R/S:U/C:N/I:L/A:N",
+          "type": "CVSS_V3"
+        }
+      ],
+      "fixedVersions": [
+        "7.0.6",
+        "6.2.17"
+      ],
+      "url": "https://osv.dev/GHSA-6hcq-hmm3-jj3c"
+    },
+    {
+      "package": {
+        "name": "org.springframework:spring-webmvc",
+        "version": "6.2.11",
+        "ecosystem": "Maven",
+        "purl": "pkg:maven/org.springframework/spring-webmvc@6.2.11?type=jar"
+      },
+      "id": "GHSA-6p4f-wcwh-5vvm",
+      "aliases": [
+        "CVE-2026-22745"
+      ],
+      "summary": "Spring MVC and WebFlux applications are vulnerable to Denial of Service attacks when resolving static resources",
+      "severity": "MODERATE",
+      "severityVectors": [
+        {
+          "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:L",
+          "type": "CVSS_V3"
+        }
+      ],
+      "fixedVersions": [
+        "7.0.7",
+        "6.2.18"
+      ],
+      "url": "https://osv.dev/GHSA-6p4f-wcwh-5vvm"
+    },
+    {
+      "package": {
+        "name": "org.springframework:spring-webmvc",
+        "version": "6.2.11",
+        "ecosystem": "Maven",
+        "purl": "pkg:maven/org.springframework/spring-webmvc@6.2.11?type=jar"
+      },
+      "id": "GHSA-72pg-x5f8-j25j",
+      "aliases": [
+        "CVE-2026-41843"
+      ],
+      "summary": "Spring Framework Path Traversal via Versioned Static Resources in Spring MVC and WebFlux",
+      "severity": "MODERATE",
+      "severityVectors": [
+        {
+          "score": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:H/I:N/A:N",
+          "type": "CVSS_V3"
+        }
+      ],
+      "fixedVersions": [
+        "7.0.8",
+        "6.2.19"
+      ],
+      "url": "https://osv.dev/GHSA-72pg-x5f8-j25j"
+    },
+    {
+      "package": {
+        "name": "org.springframework:spring-webmvc",
+        "version": "6.2.11",
+        "ecosystem": "Maven",
+        "purl": "pkg:maven/org.springframework/spring-webmvc@6.2.11?type=jar"
+      },
+      "id": "GHSA-957g-f97v-vppc",
+      "aliases": [
+        "CVE-2026-41846"
+      ],
+      "summary": "Spring Framework Cross-site Scripting via JSP Form Tags",
+      "severity": "MODERATE",
+      "severityVectors": [
+        {
+          "score": "CVSS:3.1/AV:N/AC:H/PR:N/UI:R/S:U/C:H/I:L/A:N",
+          "type": "CVSS_V3"
+        }
+      ],
+      "fixedVersions": [
+        "7.0.8",
+        "6.2.19"
+      ],
+      "url": "https://osv.dev/GHSA-957g-f97v-vppc"
+    },
+    {
+      "package": {
+        "name": "org.springframework:spring-webmvc",
+        "version": "6.2.11",
+        "ecosystem": "Maven",
+        "purl": "pkg:maven/org.springframework/spring-webmvc@6.2.11?type=jar"
+      },
+      "id": "GHSA-cjpg-rgq5-fr37",
+      "aliases": [
+        "CVE-2026-41853"
+      ],
+      "summary": "Spring Framework Multipart Request Smuggling in Spring MVC and WebFlux",
+      "severity": "MODERATE",
+      "severityVectors": [
+        {
+          "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:L/A:N",
+          "type": "CVSS_V3"
+        }
+      ],
+      "fixedVersions": [
+        "7.0.8",
+        "6.2.19"
+      ],
+      "url": "https://osv.dev/GHSA-cjpg-rgq5-fr37"
+    },
+    {
+      "package": {
+        "name": "org.springframework:spring-webmvc",
+        "version": "6.2.11",
+        "ecosystem": "Maven",
+        "purl": "pkg:maven/org.springframework/spring-webmvc@6.2.11?type=jar"
+      },
+      "id": "GHSA-h3qp-gqrc-q736",
+      "aliases": [
+        "CVE-2026-41844"
+      ],
+      "summary": "Spring Framework Open Redirect in Spring MVC and WebFlux",
+      "severity": "MODERATE",
+      "severityVectors": [
+        {
+          "score": "CVSS:3.1/AV:N/AC:H/PR:N/UI:R/S:U/C:L/I:L/A:N",
+          "type": "CVSS_V3"
+        }
+      ],
+      "fixedVersions": [
+        "7.0.8",
+        "6.2.19"
+      ],
+      "url": "https://osv.dev/GHSA-h3qp-gqrc-q736"
+    },
+    {
+      "package": {
+        "name": "org.springframework:spring-webmvc",
+        "version": "6.2.11",
+        "ecosystem": "Maven",
+        "purl": "pkg:maven/org.springframework/spring-webmvc@6.2.11?type=jar"
+      },
+      "id": "GHSA-j9f9-w8pj-32f8",
+      "aliases": [
+        "CVE-2026-47890"
+      ],
+      "summary": "Spring Framework Server Sent Event stream corruption while rendering fragments",
+      "severity": "CRITICAL",
+      "severityVectors": [
+        {
+          "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H",
+          "type": "CVSS_V3"
+        }
+      ],
+      "fixedVersions": [
+        "7.0.9"
+      ],
+      "url": "https://osv.dev/GHSA-j9f9-w8pj-32f8"
+    },
+    {
+      "package": {
+        "name": "org.springframework:spring-webmvc",
+        "version": "6.2.11",
+        "ecosystem": "Maven",
+        "purl": "pkg:maven/org.springframework/spring-webmvc@6.2.11?type=jar"
+      },
+      "id": "GHSA-mq64-j8f9-9gcj",
+      "aliases": [
+        "CVE-2026-41841"
+      ],
+      "summary": "Spring Framework Information Disclosure via Static Resource Cache in Spring MVC and WebFlux",
+      "severity": "MODERATE",
+      "severityVectors": [
+        {
+          "score": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:H/I:N/A:N",
+          "type": "CVSS_V3"
+        }
+      ],
+      "fixedVersions": [
+        "7.0.8",
+        "6.2.19"
+      ],
+      "url": "https://osv.dev/GHSA-mq64-j8f9-9gcj"
+    },
+    {
+      "package": {
+        "name": "org.springframework:spring-webmvc",
+        "version": "6.2.11",
+        "ecosystem": "Maven",
+        "purl": "pkg:maven/org.springframework/spring-webmvc@6.2.11?type=jar"
+      },
+      "id": "GHSA-pc63-qcmh-9cmg",
+      "aliases": [
+        "CVE-2026-47884"
+      ],
+      "summary": "Spring Framework Improper Path Limitation in XsltView",
+      "severity": "CRITICAL",
+      "severityVectors": [
+        {
+          "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H",
+          "type": "CVSS_V3"
+        }
+      ],
+      "fixedVersions": [
+        "7.0.9"
+      ],
+      "url": "https://osv.dev/GHSA-pc63-qcmh-9cmg"
+    },
+    {
+      "package": {
+        "name": "org.springframework:spring-webmvc",
+        "version": "6.2.11",
+        "ecosystem": "Maven",
+        "purl": "pkg:maven/org.springframework/spring-webmvc@6.2.11?type=jar"
+      },
+      "id": "GHSA-wg35-8jpf-2xv3",
+      "aliases": [
+        "CVE-2026-22741"
+      ],
+      "summary": "Spring MVC and WebFlux applications are vulnerable to cache poisoning when resolving static resources.",
+      "severity": "LOW",
+      "severityVectors": [
+        {
+          "score": "CVSS:3.1/AV:N/AC:H/PR:N/UI:R/S:U/C:N/I:N/A:L",
+          "type": "CVSS_V3"
+        }
+      ],
+      "fixedVersions": [
+        "7.0.7",
+        "6.2.18"
+      ],
+      "url": "https://osv.dev/GHSA-wg35-8jpf-2xv3"
+    },
+    {
+      "package": {
+        "name": "org.springframework:spring-webmvc",
+        "version": "6.2.11",
+        "ecosystem": "Maven",
+        "purl": "pkg:maven/org.springframework/spring-webmvc@6.2.11?type=jar"
+      },
+      "id": "GHSA-x23c-287f-qqv5",
+      "aliases": [
+        "CVE-2026-41842"
+      ],
+      "summary": "Spring Framework Denial of Service via Versioned Resources in Spring MVC and WebFlux",
+      "severity": "HIGH",
+      "severityVectors": [
+        {
+          "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H",
+          "type": "CVSS_V3"
+        }
+      ],
+      "fixedVersions": [
+        "7.0.8",
+        "6.2.19"
+      ],
+      "url": "https://osv.dev/GHSA-x23c-287f-qqv5"
+    },
+    {
+      "package": {
+        "name": "org.apache.tomcat.embed:tomcat-embed-core",
+        "version": "10.1.46",
+        "ecosystem": "Maven",
+        "purl": "pkg:maven/org.apache.tomcat.embed/tomcat-embed-core@10.1.46?type=jar"
+      },
+      "id": "GHSA-563x-q5rq-57qp",
+      "aliases": [
+        "BIT-tomcat-2026-24880",
+        "CVE-2026-24880"
+      ],
+      "summary": "Apache Tomcat has an HTTP Request/Response Smuggling vulnerability",
+      "severity": "HIGH",
+      "severityVectors": [
+        {
+          "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:H/A:N",
+          "type": "CVSS_V3"
+        }
+      ],
+      "fixedVersions": [
+        "9.0.116",
+        "10.1.52",
+        "11.0.20"
+      ],
+      "url": "https://osv.dev/GHSA-563x-q5rq-57qp"
+    },
+    {
+      "package": {
+        "name": "org.apache.tomcat.embed:tomcat-embed-core",
+        "version": "10.1.46",
+        "ecosystem": "Maven",
+        "purl": "pkg:maven/org.apache.tomcat.embed/tomcat-embed-core@10.1.46?type=jar"
+      },
+      "id": "GHSA-5m62-pw8w-7w9f",
+      "aliases": [
+        "BIT-tomcat-2026-43515",
+        "CVE-2026-43515"
+      ],
+      "summary": "Apache Tomcat - Security constraints not correctly applied",
+      "severity": "CRITICAL",
+      "severityVectors": [
+        {
+          "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:N",
+          "type": "CVSS_V3"
+        }
+      ],
+      "fixedVersions": [
+        "9.0.118",
+        "10.1.55",
+        "11.0.22"
+      ],
+      "url": "https://osv.dev/GHSA-5m62-pw8w-7w9f"
+    },
+    {
+      "package": {
+        "name": "org.apache.tomcat.embed:tomcat-embed-core",
+        "version": "10.1.46",
+        "ecosystem": "Maven",
+        "purl": "pkg:maven/org.apache.tomcat.embed/tomcat-embed-core@10.1.46?type=jar"
+      },
+      "id": "GHSA-5mp6-jrq3-r938",
+      "aliases": [
+        "BIT-tomcat-2026-43513",
+        "CVE-2026-43513"
+      ],
+      "summary": "Apache Tomcat: LockOutRealm treats user names as case-sensitive",
+      "severity": "HIGH",
+      "severityVectors": [
+        {
+          "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N",
+          "type": "CVSS_V3"
+        }
+      ],
+      "fixedVersions": [
+        "9.0.118",
+        "10.1.55",
+        "11.0.22"
+      ],
+      "url": "https://osv.dev/GHSA-5mp6-jrq3-r938"
+    },
+    {
+      "package": {
+        "name": "org.apache.tomcat.embed:tomcat-embed-core",
+        "version": "10.1.46",
+        "ecosystem": "Maven",
+        "purl": "pkg:maven/org.apache.tomcat.embed/tomcat-embed-core@10.1.46?type=jar"
+      },
+      "id": "GHSA-5v3h-fjv2-54fg",
+      "aliases": [
+        "BIT-tomcat-2026-55956",
+        "CVE-2026-55956"
+      ],
+      "summary": "Apache Tomcat has an Improper Authorization vulnerability",
+      "severity": "MODERATE",
+      "severityVectors": [
+        {
+          "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:L/A:N",
+          "type": "CVSS_V3"
+        }
+      ],
+      "fixedVersions": [
+        "11.0.23",
+        "10.1.56",
+        "9.0.119"
+      ],
+      "url": "https://osv.dev/GHSA-5v3h-fjv2-54fg"
+    },
+    {
+      "package": {
+        "name": "org.apache.tomcat.embed:tomcat-embed-core",
+        "version": "10.1.46",
+        "ecosystem": "Maven",
+        "purl": "pkg:maven/org.apache.tomcat.embed/tomcat-embed-core@10.1.46?type=jar"
+      },
+      "id": "GHSA-9m3c-qcxr-9x87",
+      "aliases": [
+        "BIT-tomcat-2026-25854",
+        "CVE-2026-25854"
+      ],
+      "summary": "Apache Tomcat has an Open Redirect vulnerability",
+      "severity": "MODERATE",
+      "severityVectors": [
+        {
+          "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:C/C:L/I:L/A:N",
+          "type": "CVSS_V3"
+        },
+        {
+          "score": "CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:N/VC:N/VI:N/VA:N/SC:L/SI:N/SA:N",
+          "type": "CVSS_V4"
+        }
+      ],
+      "fixedVersions": [
+        "9.0.116",
+        "10.1.53",
+        "11.0.20"
+      ],
+      "url": "https://osv.dev/GHSA-9m3c-qcxr-9x87"
+    },
+    {
+      "package": {
+        "name": "org.apache.tomcat.embed:tomcat-embed-core",
+        "version": "10.1.46",
+        "ecosystem": "Maven",
+        "purl": "pkg:maven/org.apache.tomcat.embed/tomcat-embed-core@10.1.46?type=jar"
+      },
+      "id": "GHSA-9m89-8frq-c98c",
+      "aliases": [
+        "BIT-tomcat-2026-43514",
+        "CVE-2026-43514"
+      ],
+      "summary": "Apache Tomcat - AJP secret compared in non-constant time",
+      "severity": "LOW",
+      "severityVectors": [
+        {
+          "score": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:L/I:N/A:N",
+          "type": "CVSS_V3"
+        }
+      ],
+      "fixedVersions": [
+        "9.0.118",
+        "10.1.55",
+        "11.0.22"
+      ],
+      "url": "https://osv.dev/GHSA-9m89-8frq-c98c"
+    },
+    {
+      "package": {
+        "name": "org.apache.tomcat.embed:tomcat-embed-core",
+        "version": "10.1.46",
+        "ecosystem": "Maven",
+        "purl": "pkg:maven/org.apache.tomcat.embed/tomcat-embed-core@10.1.46?type=jar"
+      },
+      "id": "GHSA-9xv2-5v5q-p794",
+      "aliases": [
+        "BIT-tomcat-2026-65905",
+        "CVE-2026-65905"
+      ],
+      "summary": "Apache Tomcat's DIGEST authenticator has an Authentication Bypass by Capture-replay vulnerability",
+      "severity": "CRITICAL",
+      "severityVectors": [
+        {
+          "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H",
+          "type": "CVSS_V3"
+        }
+      ],
+      "fixedVersions": [
+        "11.0.25",
+        "10.1.58",
+        "9.0.121"
+      ],
+      "url": "https://osv.dev/GHSA-9xv2-5v5q-p794"
+    },
+    {
+      "package": {
+        "name": "org.apache.tomcat.embed:tomcat-embed-core",
+        "version": "10.1.46",
+        "ecosystem": "Maven",
+        "purl": "pkg:maven/org.apache.tomcat.embed/tomcat-embed-core@10.1.46?type=jar"
+      },
+      "id": "GHSA-fpj8-gq4v-p354",
+      "aliases": [
+        "BIT-tomcat-2025-66614",
+        "CVE-2025-66614"
+      ],
+      "summary": "Apache Tomcat - Client certificate verification bypass",
+      "severity": "MODERATE",
+      "severityVectors": [
+        {
+          "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:N",
+          "type": "CVSS_V3"
+        },
+        {
+          "score": "CVSS:4.0/AV:N/AC:L/AT:P/PR:N/UI:N/VC:L/VI:L/VA:N/SC:N/SI:N/SA:N",
+          "type": "CVSS_V4"
+        }
+      ],
+      "fixedVersions": [
+        "11.0.15",
+        "10.1.50",
+        "9.0.113"
+      ],
+      "url": "https://osv.dev/GHSA-fpj8-gq4v-p354"
+    },
+    {
+      "package": {
+        "name": "org.apache.tomcat.embed:tomcat-embed-core",
+        "version": "10.1.46",
+        "ecosystem": "Maven",
+        "purl": "pkg:maven/org.apache.tomcat.embed/tomcat-embed-core@10.1.46?type=jar"
+      },
+      "id": "GHSA-fv25-8xcx-gqjc",
+      "aliases": [
+        "BIT-tomcat-2026-42498",
+        "CVE-2026-42498"
+      ],
+      "summary": "Apache Tomcat - WebSocket authentication header exposure",
+      "severity": "HIGH",
+      "severityVectors": [
+        {
+          "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:L/A:L",
+          "type": "CVSS_V3"
+        }
+      ],
+      "fixedVersions": [
+        "9.0.118",
+        "10.1.55",
+        "11.0.22"
+      ],
+      "url": "https://osv.dev/GHSA-fv25-8xcx-gqjc"
+    },
+    {
+      "package": {
+        "name": "org.apache.tomcat.embed:tomcat-embed-core",
+        "version": "10.1.46",
+        "ecosystem": "Maven",
+        "purl": "pkg:maven/org.apache.tomcat.embed/tomcat-embed-core@10.1.46?type=jar"
+      },
+      "id": "GHSA-gcx9-497g-6cp6",
+      "aliases": [
+        "BIT-tomcat-2026-65182",
+        "CVE-2026-65182"
+      ],
+      "summary": "Apache Tomcat has an Improper Access Control, Incorrect Authorization vulnerability",
+      "severity": "CRITICAL",
+      "severityVectors": [
+        {
+          "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:N",
+          "type": "CVSS_V3"
+        }
+      ],
+      "fixedVersions": [
+        "11.0.25",
+        "10.1.58",
+        "9.0.121"
+      ],
+      "url": "https://osv.dev/GHSA-gcx9-497g-6cp6"
+    },
+    {
+      "package": {
+        "name": "org.apache.tomcat.embed:tomcat-embed-core",
+        "version": "10.1.46",
+        "ecosystem": "Maven",
+        "purl": "pkg:maven/org.apache.tomcat.embed/tomcat-embed-core@10.1.46?type=jar"
+      },
+      "id": "GHSA-gx5v-xp9w-j4cg",
+      "aliases": [
+        "BIT-tomcat-2026-41284",
+        "CVE-2026-41284"
+      ],
+      "summary": "Apache Tomcat: Unbounded read in WebDAV LOCK and  PROPFIND handling",
+      "severity": "HIGH",
+      "severityVectors": [
+        {
+          "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H",
+          "type": "CVSS_V3"
+        }
+      ],
+      "fixedVersions": [
+        "9.0.118",
+        "10.1.55",
+        "11.0.22"
+      ],
+      "url": "https://osv.dev/GHSA-gx5v-xp9w-j4cg"
+    },
+    {
+      "package": {
+        "name": "org.apache.tomcat.embed:tomcat-embed-core",
+        "version": "10.1.46",
+        "ecosystem": "Maven",
+        "purl": "pkg:maven/org.apache.tomcat.embed/tomcat-embed-core@10.1.46?type=jar"
+      },
+      "id": "GHSA-h3x4-894j-xpx5",
+      "aliases": [
+        "BIT-tomcat-2026-68525",
+        "CVE-2026-68525"
+      ],
+      "summary": "Apache Tomcat's FORM authentication process has an Incorrect Authorization vulnerability",
+      "severity": "CRITICAL",
+      "severityVectors": [
+        {
+          "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:N",
+          "type": "CVSS_V3"
+        }
+      ],
+      "fixedVersions": [
+        "11.0.25",
+        "10.1.58",
+        "9.0.121"
+      ],
+      "url": "https://osv.dev/GHSA-h3x4-894j-xpx5"
+    },
+    {
+      "package": {
+        "name": "org.apache.tomcat.embed:tomcat-embed-core",
+        "version": "10.1.46",
+        "ecosystem": "Maven",
+        "purl": "pkg:maven/org.apache.tomcat.embed/tomcat-embed-core@10.1.46?type=jar"
+      },
+      "id": "GHSA-h6fc-48rj-7qqh",
+      "aliases": [
+        "BIT-tomcat-2026-43512",
+        "CVE-2026-43512"
+      ],
+      "summary": "Apache Tomcat - Digest authenticator will authenticate any unknown user",
+      "severity": "CRITICAL",
+      "severityVectors": [
+        {
+          "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H",
+          "type": "CVSS_V3"
+        }
+      ],
+      "fixedVersions": [
+        "9.0.118",
+        "10.1.55",
+        "11.0.22"
+      ],
+      "url": "https://osv.dev/GHSA-h6fc-48rj-7qqh"
+    },
+    {
+      "package": {
+        "name": "org.apache.tomcat.embed:tomcat-embed-core",
+        "version": "10.1.46",
+        "ecosystem": "Maven",
+        "purl": "pkg:maven/org.apache.tomcat.embed/tomcat-embed-core@10.1.46?type=jar"
+      },
+      "id": "GHSA-h792-v28v-ppgr",
+      "aliases": [
+        "BIT-tomcat-2026-53404",
+        "CVE-2026-53404"
+      ],
+      "summary": "Apache Tomcat's rewrite valve has an Always-Incorrect Control Flow Implementation vulnerability",
+      "severity": "HIGH",
+      "severityVectors": [
+        {
+          "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:L/A:L",
+          "type": "CVSS_V3"
+        }
+      ],
+      "fixedVersions": [
+        "11.0.23",
+        "10.1.56",
+        "9.0.119"
+      ],
+      "url": "https://osv.dev/GHSA-h792-v28v-ppgr"
+    },
+    {
+      "package": {
+        "name": "org.apache.tomcat.embed:tomcat-embed-core",
+        "version": "10.1.46",
+        "ecosystem": "Maven",
+        "purl": "pkg:maven/org.apache.tomcat.embed/tomcat-embed-core@10.1.46?type=jar"
+      },
+      "id": "GHSA-hgrr-935x-pq79",
+      "aliases": [
+        "BIT-tomcat-2025-61795",
+        "CVE-2025-61795"
+      ],
+      "summary": "Apache Tomcat Vulnerable to Improper Resource Shutdown or Release",
+      "severity": "LOW",
+      "severityVectors": [
+        {
+          "score": "CVSS:3.1/AV:N/AC:H/PR:L/UI:N/S:U/C:N/I:N/A:H",
+          "type": "CVSS_V3"
+        },
+        {
+          "score": "CVSS:4.0/AV:N/AC:L/AT:P/PR:L/UI:N/VC:N/VI:N/VA:H/SC:N/SI:N/SA:N/E:U",
+          "type": "CVSS_V4"
+        }
+      ],
+      "fixedVersions": [
+        "11.0.12",
+        "10.1.47",
+        "9.0.110"
+      ],
+      "url": "https://osv.dev/GHSA-hgrr-935x-pq79"
+    },
+    {
+      "package": {
+        "name": "org.apache.tomcat.embed:tomcat-embed-core",
+        "version": "10.1.46",
+        "ecosystem": "Maven",
+        "purl": "pkg:maven/org.apache.tomcat.embed/tomcat-embed-core@10.1.46?type=jar"
+      },
+      "id": "GHSA-mgp5-rv84-w37q",
+      "aliases": [
+        "BIT-tomcat-2026-24734",
+        "CVE-2026-24734"
+      ],
+      "summary": "Apache Tomcat has an Improper Input Validation vulnerability",
+      "severity": "HIGH",
+      "severityVectors": [
+        {
+          "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:H/A:N",
+          "type": "CVSS_V3"
+        }
+      ],
+      "fixedVersions": [
+        "11.0.18",
+        "10.1.52",
+        "9.0.115"
+      ],
+      "url": "https://osv.dev/GHSA-mgp5-rv84-w37q"
+    },
+    {
+      "package": {
+        "name": "org.apache.tomcat.embed:tomcat-embed-core",
+        "version": "10.1.46",
+        "ecosystem": "Maven",
+        "purl": "pkg:maven/org.apache.tomcat.embed/tomcat-embed-core@10.1.46?type=jar"
+      },
+      "id": "GHSA-mqg3-r7h5-24x4",
+      "aliases": [
+        "BIT-tomcat-2026-55276",
+        "CVE-2026-55276"
+      ],
+      "summary": "Apache Tomcat has an Always-Incorrect Control Flow Implementation vulnerability",
+      "severity": "CRITICAL",
+      "severityVectors": [
+        {
+          "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:N",
+          "type": "CVSS_V3"
+        }
+      ],
+      "fixedVersions": [
+        "11.0.23",
+        "10.1.56",
+        "9.0.119"
+      ],
+      "url": "https://osv.dev/GHSA-mqg3-r7h5-24x4"
+    },
+    {
+      "package": {
+        "name": "org.apache.tomcat.embed:tomcat-embed-core",
+        "version": "10.1.46",
+        "ecosystem": "Maven",
+        "purl": "pkg:maven/org.apache.tomcat.embed/tomcat-embed-core@10.1.46?type=jar"
+      },
+      "id": "GHSA-r29c-68gh-xp6x",
+      "aliases": [
+        "BIT-tomcat-2026-41293",
+        "CVE-2026-41293"
+      ],
+      "summary": "Apache Tomcat - HTTP/2 request headers not validated",
+      "severity": "CRITICAL",
+      "severityVectors": [
+        {
+          "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H",
+          "type": "CVSS_V3"
+        }
+      ],
+      "fixedVersions": [
+        "9.0.118",
+        "10.1.55",
+        "11.0.22"
+      ],
+      "url": "https://osv.dev/GHSA-r29c-68gh-xp6x"
+    },
+    {
+      "package": {
+        "name": "org.apache.tomcat.embed:tomcat-embed-core",
+        "version": "10.1.46",
+        "ecosystem": "Maven",
+        "purl": "pkg:maven/org.apache.tomcat.embed/tomcat-embed-core@10.1.46?type=jar"
+      },
+      "id": "GHSA-rv64-5gf8-9qq8",
+      "aliases": [
+        "BIT-tomcat-2026-34483",
+        "CVE-2026-34483"
+      ],
+      "summary": "Apache Tomcat has an Improper Encoding or Escaping of Output vulnerability in the JsonAccessLogValve",
+      "severity": "HIGH",
+      "severityVectors": [
+        {
+          "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N",
+          "type": "CVSS_V3"
+        }
+      ],
+      "fixedVersions": [
+        "9.0.116",
+        "10.1.54",
+        "11.0.21"
+      ],
+      "url": "https://osv.dev/GHSA-rv64-5gf8-9qq8"
+    },
+    {
+      "package": {
+        "name": "org.apache.tomcat.embed:tomcat-embed-core",
+        "version": "10.1.46",
+        "ecosystem": "Maven",
+        "purl": "pkg:maven/org.apache.tomcat.embed/tomcat-embed-core@10.1.46?type=jar"
+      },
+      "id": "GHSA-x4m4-345f-5h5g",
+      "aliases": [
+        "BIT-tomcat-2026-34487",
+        "CVE-2026-34487"
+      ],
+      "summary": "Apache Tomcat vulnerable to Insertion of Sensitive Information into Log File",
+      "severity": "HIGH",
+      "severityVectors": [
+        {
+          "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N",
+          "type": "CVSS_V3"
+        }
+      ],
+      "fixedVersions": [
+        "9.0.117",
+        "10.1.54",
+        "11.0.21"
+      ],
+      "url": "https://osv.dev/GHSA-x4m4-345f-5h5g"
+    },
+    {
+      "package": {
+        "name": "github.com/jackc/pgx/v5",
+        "version": "5.7.6",
+        "ecosystem": "Go",
+        "purl": "pkg:golang/github.com/jackc/pgx/v5@5.7.6"
+      },
+      "id": "GO-2026-4771",
+      "aliases": [
+        "CVE-2026-33815",
+        "GHSA-xgrm-4fwx-7qm8"
+      ],
+      "summary": "CVE-2026-33815 in github.com/jackc/pgx",
+      "fixedVersions": [
+        "5.9.0"
+      ],
+      "url": "https://osv.dev/GO-2026-4771"
+    },
+    {
+      "package": {
+        "name": "github.com/jackc/pgx/v5",
+        "version": "5.7.6",
+        "ecosystem": "Go",
+        "purl": "pkg:golang/github.com/jackc/pgx/v5@5.7.6"
+      },
+      "id": "GO-2026-4772",
+      "aliases": [
+        "CVE-2026-33816",
+        "GHSA-9jj7-4m8r-rfcm"
+      ],
+      "summary": "CVE-2026-33816 in github.com/jackc/pgx",
+      "fixedVersions": [
+        "5.9.0"
+      ],
+      "url": "https://osv.dev/GO-2026-4772"
+    },
+    {
+      "package": {
+        "name": "github.com/jackc/pgx/v5",
+        "version": "5.7.6",
+        "ecosystem": "Go",
+        "purl": "pkg:golang/github.com/jackc/pgx/v5@5.7.6"
+      },
+      "id": "GO-2026-5004",
+      "aliases": [
+        "CVE-2026-41889",
+        "GHSA-j88v-2chj-qfwx"
+      ],
+      "summary": "SQL Injection via placeholder confusion with dollar quoted string literals in github.com/jackc/pgx",
+      "fixedVersions": [
+        "5.9.2"
+      ],
+      "url": "https://osv.dev/GO-2026-5004"
+    },
+    {
+      "package": {
+        "name": "github.com/jackc/pgx/v5",
+        "version": "5.7.6",
+        "ecosystem": "Go",
+        "purl": "pkg:golang/github.com/jackc/pgx/v5@5.7.6"
+      },
+      "id": "GHSA-9jj7-4m8r-rfcm",
+      "aliases": [
+        "CVE-2026-33816",
+        "GO-2026-4772"
+      ],
+      "summary": "Memory-safety vulnerability in github.com/jackc/pgx/v5.",
+      "severity": "CRITICAL",
+      "severityVectors": [
+        {
+          "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H",
+          "type": "CVSS_V3"
+        }
+      ],
+      "fixedVersions": [
+        "5.9.0"
+      ],
+      "url": "https://osv.dev/GHSA-9jj7-4m8r-rfcm"
+    },
+    {
+      "package": {
+        "name": "github.com/jackc/pgx/v5",
+        "version": "5.7.6",
+        "ecosystem": "Go",
+        "purl": "pkg:golang/github.com/jackc/pgx/v5@5.7.6"
+      },
+      "id": "GHSA-j88v-2chj-qfwx",
+      "aliases": [
+        "CVE-2026-41889",
+        "GO-2026-5004"
+      ],
+      "summary": "pgx: SQL Injection via placeholder confusion with dollar quoted string literals",
+      "severity": "LOW",
+      "severityVectors": [
+        {
+          "score": "CVSS:4.0/AV:N/AC:H/AT:P/PR:L/UI:N/VC:N/VI:L/VA:N/SC:N/SI:N/SA:N",
+          "type": "CVSS_V4"
+        }
+      ],
+      "fixedVersions": [
+        "5.9.2"
+      ],
+      "url": "https://osv.dev/GHSA-j88v-2chj-qfwx"
+    },
+    {
+      "package": {
+        "name": "github.com/jackc/pgx/v5",
+        "version": "5.7.6",
+        "ecosystem": "Go",
+        "purl": "pkg:golang/github.com/jackc/pgx/v5@5.7.6"
+      },
+      "id": "GHSA-xgrm-4fwx-7qm8",
+      "aliases": [
+        "CVE-2026-33815",
+        "GO-2026-4771"
+      ],
+      "summary": "pgx contains memory-safety vulnerability",
+      "severity": "CRITICAL",
+      "severityVectors": [
+        {
+          "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H",
+          "type": "CVSS_V3"
+        }
+      ],
+      "fixedVersions": [
+        "5.9.0"
+      ],
+      "url": "https://osv.dev/GHSA-xgrm-4fwx-7qm8"
+    },
+    {
+      "package": {
+        "name": "golang.org/x/crypto",
+        "version": "0.37.0",
+        "ecosystem": "Go",
+        "purl": "pkg:golang/golang.org/x/crypto@0.37.0"
+      },
+      "id": "GO-2025-4116",
+      "aliases": [
+        "CVE-2025-47913",
+        "GHSA-56w8-48fp-6mgv"
+      ],
+      "summary": "Potential denial of service in golang.org/x/crypto/ssh/agent",
+      "fixedVersions": [
+        "0.43.0"
+      ],
+      "url": "https://osv.dev/GO-2025-4116"
+    },
+    {
+      "package": {
+        "name": "golang.org/x/crypto",
+        "version": "0.37.0",
+        "ecosystem": "Go",
+        "purl": "pkg:golang/golang.org/x/crypto@0.37.0"
+      },
+      "id": "GO-2025-4134",
+      "aliases": [
+        "CVE-2025-58181",
+        "GHSA-j5w8-q4qc-rx2x"
+      ],
+      "summary": "Unbounded memory consumption in golang.org/x/crypto/ssh",
+      "fixedVersions": [
+        "0.45.0"
+      ],
+      "url": "https://osv.dev/GO-2025-4134"
+    },
+    {
+      "package": {
+        "name": "golang.org/x/crypto",
+        "version": "0.37.0",
+        "ecosystem": "Go",
+        "purl": "pkg:golang/golang.org/x/crypto@0.37.0"
+      },
+      "id": "GO-2025-4135",
+      "aliases": [
+        "CVE-2025-47914",
+        "GHSA-f6x5-jh6r-wrfv"
+      ],
+      "summary": "Malformed constraint may cause denial of service in golang.org/x/crypto/ssh/agent",
+      "fixedVersions": [
+        "0.45.0"
+      ],
+      "url": "https://osv.dev/GO-2025-4135"
+    },
+    {
+      "package": {
+        "name": "golang.org/x/crypto",
+        "version": "0.37.0",
+        "ecosystem": "Go",
+        "purl": "pkg:golang/golang.org/x/crypto@0.37.0"
+      },
+      "id": "GO-2026-5005",
+      "aliases": [
+        "CVE-2026-39833",
+        "GHSA-jppx-rxg9-jmrx"
+      ],
+      "summary": "Invoking key constraints not enforced in golang.org/x/crypto/ssh/agent",
+      "fixedVersions": [
+        "0.52.0"
+      ],
+      "url": "https://osv.dev/GO-2026-5005"
+    },
+    {
+      "package": {
+        "name": "golang.org/x/crypto",
+        "version": "0.37.0",
+        "ecosystem": "Go",
+        "purl": "pkg:golang/golang.org/x/crypto@0.37.0"
+      },
+      "id": "GO-2026-5006",
+      "aliases": [
+        "CVE-2026-39832",
+        "GHSA-f5wc-c3c7-36mc"
+      ],
+      "summary": "Invoking agent constraints dropped when forwarding keys in golang.org/x/crypto/ssh/agent",
+      "fixedVersions": [
+        "0.52.0"
+      ],
+      "url": "https://osv.dev/GO-2026-5006"
+    },
+    {
+      "package": {
+        "name": "golang.org/x/crypto",
+        "version": "0.37.0",
+        "ecosystem": "Go",
+        "purl": "pkg:golang/golang.org/x/crypto@0.37.0"
+      },
+      "id": "GO-2026-5013",
+      "aliases": [
+        "CVE-2026-46597",
+        "GHSA-q4h4-gmj2-qvw2"
+      ],
+      "summary": "Invoking byte arithmetic causes underflow and panic in golang.org/x/crypto/ssh",
+      "fixedVersions": [
+        "0.52.0"
+      ],
+      "url": "https://osv.dev/GO-2026-5013"
+    },
+    {
+      "package": {
+        "name": "golang.org/x/crypto",
+        "version": "0.37.0",
+        "ecosystem": "Go",
+        "purl": "pkg:golang/golang.org/x/crypto@0.37.0"
+      },
+      "id": "GO-2026-5014",
+      "aliases": [
+        "CVE-2026-39828",
+        "GHSA-45gg-vh54-h5m9"
+      ],
+      "summary": "Invoking bypass of certificate restrictions in golang.org/x/crypto/ssh",
+      "fixedVersions": [
+        "0.52.0"
+      ],
+      "url": "https://osv.dev/GO-2026-5014"
+    },
+    {
+      "package": {
+        "name": "golang.org/x/crypto",
+        "version": "0.37.0",
+        "ecosystem": "Go",
+        "purl": "pkg:golang/golang.org/x/crypto@0.37.0"
+      },
+      "id": "GO-2026-5015",
+      "aliases": [
+        "CVE-2026-39835",
+        "GHSA-78mq-xcr3-xm33"
+      ],
+      "summary": "Invoking server panic during CheckHostKey/Authenticate in golang.org/x/crypto/ssh",
+      "fixedVersions": [
+        "0.52.0"
+      ],
+      "url": "https://osv.dev/GO-2026-5015"
+    },
+    {
+      "package": {
+        "name": "golang.org/x/crypto",
+        "version": "0.37.0",
+        "ecosystem": "Go",
+        "purl": "pkg:golang/golang.org/x/crypto@0.37.0"
+      },
+      "id": "GO-2026-5016",
+      "aliases": [
+        "CVE-2026-39827",
+        "GHSA-qpw4-5x99-6vjp"
+      ],
+      "summary": "Invoking memory leak when rejecting channels can lead to DoS in golang.org/x/crypto/ssh",
+      "fixedVersions": [
+        "0.52.0"
+      ],
+      "url": "https://osv.dev/GO-2026-5016"
+    },
+    {
+      "package": {
+        "name": "golang.org/x/crypto",
+        "version": "0.37.0",
+        "ecosystem": "Go",
+        "purl": "pkg:golang/golang.org/x/crypto@0.37.0"
+      },
+      "id": "GO-2026-5017",
+      "aliases": [
+        "CVE-2026-39830",
+        "GHSA-vgwf-h737-ff37"
+      ],
+      "summary": "Invoking client can cause server deadlock on unexpected responses in golang.org/x/crypto/ssh",
+      "fixedVersions": [
+        "0.52.0"
+      ],
+      "url": "https://osv.dev/GO-2026-5017"
+    },
+    {
+      "package": {
+        "name": "golang.org/x/crypto",
+        "version": "0.37.0",
+        "ecosystem": "Go",
+        "purl": "pkg:golang/golang.org/x/crypto@0.37.0"
+      },
+      "id": "GO-2026-5018",
+      "aliases": [
+        "CVE-2026-39829",
+        "GHSA-w879-237q-wc7r"
+      ],
+      "summary": "Invoking pathological RSA/DSA parameters may cause DoS in golang.org/x/crypto/ssh",
+      "fixedVersions": [
+        "0.52.0"
+      ],
+      "url": "https://osv.dev/GO-2026-5018"
+    },
+    {
+      "package": {
+        "name": "golang.org/x/crypto",
+        "version": "0.37.0",
+        "ecosystem": "Go",
+        "purl": "pkg:golang/golang.org/x/crypto@0.37.0"
+      },
+      "id": "GO-2026-5019",
+      "aliases": [
+        "CVE-2026-39831",
+        "GHSA-89gr-r52h-f8rx"
+      ],
+      "summary": "Invoking bypass of FIDO/U2F security keys physical interaction in golang.org/x/crypto/ssh",
+      "fixedVersions": [
+        "0.52.0"
+      ],
+      "url": "https://osv.dev/GO-2026-5019"
+    },
+    {
+      "package": {
+        "name": "golang.org/x/crypto",
+        "version": "0.37.0",
+        "ecosystem": "Go",
+        "purl": "pkg:golang/golang.org/x/crypto@0.37.0"
+      },
+      "id": "GO-2026-5020",
+      "aliases": [
+        "CVE-2026-39834",
+        "GHSA-rm3j-f69w-wqmq"
+      ],
+      "summary": "Invoking infinite loop on large channel writes in golang.org/x/crypto/ssh",
+      "fixedVersions": [
+        "0.52.0"
+      ],
+      "url": "https://osv.dev/GO-2026-5020"
+    },
+    {
+      "package": {
+        "name": "golang.org/x/crypto",
+        "version": "0.37.0",
+        "ecosystem": "Go",
+        "purl": "pkg:golang/golang.org/x/crypto@0.37.0"
+      },
+      "id": "GO-2026-5021",
+      "aliases": [
+        "CVE-2026-42508",
+        "GHSA-5cgq-3rg8-m6cv"
+      ],
+      "summary": "Invoking auth bypass via unenforced @revoked status in golang.org/x/crypto/ssh/knownhosts",
+      "fixedVersions": [
+        "0.52.0"
+      ],
+      "url": "https://osv.dev/GO-2026-5021"
+    },
+    {
+      "package": {
+        "name": "golang.org/x/crypto",
+        "version": "0.37.0",
+        "ecosystem": "Go",
+        "purl": "pkg:golang/golang.org/x/crypto@0.37.0"
+      },
+      "id": "GO-2026-5023",
+      "aliases": [
+        "CVE-2026-46595",
+        "GHSA-x527-x647-q7gg"
+      ],
+      "summary": "Invoking VerifiedPublicKeyCallback permissions skip enforcement in golang.org/x/crypto/ssh",
+      "fixedVersions": [
+        "0.52.0"
+      ],
+      "url": "https://osv.dev/GO-2026-5023"
+    },
+    {
+      "package": {
+        "name": "golang.org/x/crypto",
+        "version": "0.37.0",
+        "ecosystem": "Go",
+        "purl": "pkg:golang/golang.org/x/crypto@0.37.0"
+      },
+      "id": "GO-2026-5033",
+      "aliases": [
+        "CVE-2026-46598",
+        "GHSA-9m57-25v3-79x9"
+      ],
+      "summary": "Invoking pathological inputs can lead to client panic in golang.org/x/crypto/ssh/agent",
+      "fixedVersions": [
+        "0.52.0"
+      ],
+      "url": "https://osv.dev/GO-2026-5033"
+    },
+    {
+      "package": {
+        "name": "golang.org/x/crypto",
+        "version": "0.37.0",
+        "ecosystem": "Go",
+        "purl": "pkg:golang/golang.org/x/crypto@0.37.0"
+      },
+      "id": "GO-2026-5932",
+      "summary": "The golang.org/x/crypto/openpgp package is unmaintained, unsafe by design, and has known security issues",
+      "fixedVersions": [
+        "0.58.1-0.20261009181718-2f1f834330b2"
+      ],
+      "url": "https://osv.dev/GO-2026-5932"
+    },
+    {
+      "package": {
+        "name": "golang.org/x/crypto",
+        "version": "0.37.0",
+        "ecosystem": "Go",
+        "purl": "pkg:golang/golang.org/x/crypto@0.37.0"
+      },
+      "id": "GO-2026-6303",
+      "aliases": [
+        "CVE-2026-56854"
+      ],
+      "summary": "Source-address critical option not enforced for non-public-key auth callbacks in golang.org/x/crypto/ssh",
+      "fixedVersions": [
+        "0.55.0"
+      ],
+      "url": "https://osv.dev/GO-2026-6303"
+    },
+    {
+      "package": {
+        "name": "golang.org/x/crypto",
+        "version": "0.37.0",
+        "ecosystem": "Go",
+        "purl": "pkg:golang/golang.org/x/crypto@0.37.0"
+      },
+      "id": "GO-2026-6354",
+      "aliases": [
+        "CVE-2026-78662"
+      ],
+      "summary": "Prevent DoS on deadlocked undecided channel in golang.org/x/crypto/ssh",
+      "fixedVersions": [
+        "0.56.0"
+      ],
+      "url": "https://osv.dev/GO-2026-6354"
+    },
+    {
+      "package": {
+        "name": "golang.org/x/crypto",
+        "version": "0.37.0",
+        "ecosystem": "Go",
+        "purl": "pkg:golang/golang.org/x/crypto@0.37.0"
+      },
+      "id": "GO-2026-6355",
+      "aliases": [
+        "CVE-2026-56855"
+      ],
+      "summary": "Prevent DoS on deadlocked established channel in golang.org/x/crypto/ssh",
+      "fixedVersions": [
+        "0.56.0"
+      ],
+      "url": "https://osv.dev/GO-2026-6355"
+    },
+    {
+      "package": {
+        "name": "golang.org/x/crypto",
+        "version": "0.37.0",
+        "ecosystem": "Go",
+        "purl": "pkg:golang/golang.org/x/crypto@0.37.0"
+      },
+      "id": "GHSA-45gg-vh54-h5m9",
+      "aliases": [
+        "CVE-2026-39828",
+        "GO-2026-5014"
+      ],
+      "summary": "golang.org/x/crypto vulnerable to invoking bypass of certificate restrictions",
+      "severity": "MODERATE",
+      "severityVectors": [
+        {
+          "score": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:L/I:L/A:L",
+          "type": "CVSS_V3"
+        }
+      ],
+      "fixedVersions": [
+        "0.52.0"
+      ],
+      "url": "https://osv.dev/GHSA-45gg-vh54-h5m9"
+    },
+    {
+      "package": {
+        "name": "golang.org/x/crypto",
+        "version": "0.37.0",
+        "ecosystem": "Go",
+        "purl": "pkg:golang/golang.org/x/crypto@0.37.0"
+      },
+      "id": "GHSA-5cgq-3rg8-m6cv",
+      "aliases": [
+        "CVE-2026-42508",
+        "GO-2026-5021"
+      ],
+      "summary": "golang.org/x/crypto vulnerable to auth bypass via unenforced @revoked status",
+      "severity": "CRITICAL",
+      "severityVectors": [
+        {
+          "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:N",
+          "type": "CVSS_V3"
+        }
+      ],
+      "fixedVersions": [
+        "0.52.0"
+      ],
+      "url": "https://osv.dev/GHSA-5cgq-3rg8-m6cv"
+    },
+    {
+      "package": {
+        "name": "golang.org/x/crypto",
+        "version": "0.37.0",
+        "ecosystem": "Go",
+        "purl": "pkg:golang/golang.org/x/crypto@0.37.0"
+      },
+      "id": "GHSA-78mq-xcr3-xm33",
+      "aliases": [
+        "CVE-2026-39835",
+        "GO-2026-5015"
+      ],
+      "summary": "golang.org/x/crypto is vulnerable to invoking server panic during CheckHostKey/Authenticate flow",
+      "severity": "MODERATE",
+      "severityVectors": [
+        {
+          "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:L",
+          "type": "CVSS_V3"
+        }
+      ],
+      "fixedVersions": [
+        "0.52.0"
+      ],
+      "url": "https://osv.dev/GHSA-78mq-xcr3-xm33"
+    },
+    {
+      "package": {
+        "name": "golang.org/x/crypto",
+        "version": "0.37.0",
+        "ecosystem": "Go",
+        "purl": "pkg:golang/golang.org/x/crypto@0.37.0"
+      },
+      "id": "GHSA-89gr-r52h-f8rx",
+      "aliases": [
+        "CVE-2026-39831",
+        "GO-2026-5019"
+      ],
+      "summary": "golang.org/x/crypto: FIDO/U2F security key physical presence check can be bypassed",
+      "severity": "CRITICAL",
+      "severityVectors": [
+        {
+          "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:N",
+          "type": "CVSS_V3"
+        }
+      ],
+      "fixedVersions": [
+        "0.52.0"
+      ],
+      "url": "https://osv.dev/GHSA-89gr-r52h-f8rx"
+    },
+    {
+      "package": {
+        "name": "golang.org/x/crypto",
+        "version": "0.37.0",
+        "ecosystem": "Go",
+        "purl": "pkg:golang/golang.org/x/crypto@0.37.0"
+      },
+      "id": "GHSA-9m57-25v3-79x9",
+      "aliases": [
+        "CVE-2026-46598",
+        "GO-2026-5033"
+      ],
+      "summary": "golang.org/x/crypto: Invoking pathological inputs can lead to client panic",
+      "severity": "MODERATE",
+      "severityVectors": [
+        {
+          "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:L",
+          "type": "CVSS_V3"
+        }
+      ],
+      "fixedVersions": [
+        "0.52.0"
+      ],
+      "url": "https://osv.dev/GHSA-9m57-25v3-79x9"
+    },
+    {
+      "package": {
+        "name": "golang.org/x/crypto",
+        "version": "0.37.0",
+        "ecosystem": "Go",
+        "purl": "pkg:golang/golang.org/x/crypto@0.37.0"
+      },
+      "id": "GHSA-f5wc-c3c7-36mc",
+      "aliases": [
+        "CVE-2026-39832",
+        "GO-2026-5006"
+      ],
+      "summary": "golang.org/x/crypto doesn't drop invoking agent constraints when forwarding keys",
+      "severity": "CRITICAL",
+      "severityVectors": [
+        {
+          "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:N",
+          "type": "CVSS_V3"
+        }
+      ],
+      "fixedVersions": [
+        "0.52.0"
+      ],
+      "url": "https://osv.dev/GHSA-f5wc-c3c7-36mc"
+    },
+    {
+      "package": {
+        "name": "golang.org/x/crypto",
+        "version": "0.37.0",
+        "ecosystem": "Go",
+        "purl": "pkg:golang/golang.org/x/crypto@0.37.0"
+      },
+      "id": "GHSA-f6x5-jh6r-wrfv",
+      "aliases": [
+        "CVE-2025-47914",
+        "GO-2025-4135"
+      ],
+      "summary": "golang.org/x/crypto/ssh/agent vulnerable to panic if message is malformed due to out of bounds read",
+      "severity": "MODERATE",
+      "severityVectors": [
+        {
+          "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:L",
+          "type": "CVSS_V3"
+        }
+      ],
+      "fixedVersions": [
+        "0.45.0"
+      ],
+      "url": "https://osv.dev/GHSA-f6x5-jh6r-wrfv"
+    },
+    {
+      "package": {
+        "name": "golang.org/x/crypto",
+        "version": "0.37.0",
+        "ecosystem": "Go",
+        "purl": "pkg:golang/golang.org/x/crypto@0.37.0"
+      },
+      "id": "GHSA-j5w8-q4qc-rx2x",
+      "aliases": [
+        "CVE-2025-58181",
+        "GO-2025-4134"
+      ],
+      "summary": "golang.org/x/crypto/ssh allows an attacker to cause unbounded memory consumption",
+      "severity": "MODERATE",
+      "severityVectors": [
+        {
+          "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:L",
+          "type": "CVSS_V3"
+        }
+      ],
+      "fixedVersions": [
+        "0.45.0"
+      ],
+      "url": "https://osv.dev/GHSA-j5w8-q4qc-rx2x"
+    },
+    {
+      "package": {
+        "name": "golang.org/x/crypto",
+        "version": "0.37.0",
+        "ecosystem": "Go",
+        "purl": "pkg:golang/golang.org/x/crypto@0.37.0"
+      },
+      "id": "GHSA-jppx-rxg9-jmrx",
+      "aliases": [
+        "CVE-2026-39833",
+        "GO-2026-5005"
+      ],
+      "summary": "golang.org/x/crypto doesn't enforce invoking key constraints",
+      "severity": "CRITICAL",
+      "severityVectors": [
+        {
+          "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:N",
+          "type": "CVSS_V3"
+        }
+      ],
+      "fixedVersions": [
+        "0.52.0"
+      ],
+      "url": "https://osv.dev/GHSA-jppx-rxg9-jmrx"
+    },
+    {
+      "package": {
+        "name": "golang.org/x/crypto",
+        "version": "0.37.0",
+        "ecosystem": "Go",
+        "purl": "pkg:golang/golang.org/x/crypto@0.37.0"
+      },
+      "id": "GHSA-q4h4-gmj2-qvw2",
+      "aliases": [
+        "CVE-2026-46597",
+        "GO-2026-5013"
+      ],
+      "summary": "golang.org/x/crypto: Invoking byte arithmetic causes underflow and panic",
+      "severity": "HIGH",
+      "severityVectors": [
+        {
+          "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H",
+          "type": "CVSS_V3"
+        }
+      ],
+      "fixedVersions": [
+        "0.52.0"
+      ],
+      "url": "https://osv.dev/GHSA-q4h4-gmj2-qvw2"
+    },
+    {
+      "package": {
+        "name": "golang.org/x/crypto",
+        "version": "0.37.0",
+        "ecosystem": "Go",
+        "purl": "pkg:golang/golang.org/x/crypto@0.37.0"
+      },
+      "id": "GHSA-qpw4-5x99-6vjp",
+      "aliases": [
+        "CVE-2026-39827",
+        "GO-2026-5016"
+      ],
+      "summary": "golang.org/x/crypto: Invoking memory leak when rejecting channels can lead to DoS",
+      "severity": "MODERATE",
+      "severityVectors": [
+        {
+          "score": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:N/I:N/A:H",
+          "type": "CVSS_V3"
+        }
+      ],
+      "fixedVersions": [
+        "0.52.0"
+      ],
+      "url": "https://osv.dev/GHSA-qpw4-5x99-6vjp"
+    },
+    {
+      "package": {
+        "name": "golang.org/x/crypto",
+        "version": "0.37.0",
+        "ecosystem": "Go",
+        "purl": "pkg:golang/golang.org/x/crypto@0.37.0"
+      },
+      "id": "GHSA-rm3j-f69w-wqmq",
+      "aliases": [
+        "CVE-2026-39834",
+        "GO-2026-5020"
+      ],
+      "summary": "golang.org/x/crypto vulnerable to infinite loop on large channel writes",
+      "severity": "CRITICAL",
+      "severityVectors": [
+        {
+          "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:H/A:H",
+          "type": "CVSS_V3"
+        }
+      ],
+      "fixedVersions": [
+        "0.52.0"
+      ],
+      "url": "https://osv.dev/GHSA-rm3j-f69w-wqmq"
+    },
+    {
+      "package": {
+        "name": "golang.org/x/crypto",
+        "version": "0.37.0",
+        "ecosystem": "Go",
+        "purl": "pkg:golang/golang.org/x/crypto@0.37.0"
+      },
+      "id": "GHSA-vgwf-h737-ff37",
+      "aliases": [
+        "CVE-2026-39830",
+        "GO-2026-5017"
+      ],
+      "summary": "golang.org/x/crypto: Invoking client can cause server deadlock on unexpected responses",
+      "severity": "CRITICAL",
+      "severityVectors": [
+        {
+          "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:H",
+          "type": "CVSS_V3"
+        }
+      ],
+      "fixedVersions": [
+        "0.52.0"
+      ],
+      "url": "https://osv.dev/GHSA-vgwf-h737-ff37"
+    },
+    {
+      "package": {
+        "name": "golang.org/x/crypto",
+        "version": "0.37.0",
+        "ecosystem": "Go",
+        "purl": "pkg:golang/golang.org/x/crypto@0.37.0"
+      },
+      "id": "GHSA-w879-237q-wc7r",
+      "aliases": [
+        "CVE-2026-39829",
+        "GO-2026-5018"
+      ],
+      "summary": "golang.org/x/crypto: Invoking pathological RSA/DSA parameters may cause DoS",
+      "severity": "HIGH",
+      "severityVectors": [
+        {
+          "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H",
+          "type": "CVSS_V3"
+        }
+      ],
+      "fixedVersions": [
+        "0.52.0"
+      ],
+      "url": "https://osv.dev/GHSA-w879-237q-wc7r"
+    },
+    {
+      "package": {
+        "name": "golang.org/x/crypto",
+        "version": "0.37.0",
+        "ecosystem": "Go",
+        "purl": "pkg:golang/golang.org/x/crypto@0.37.0"
+      },
+      "id": "GHSA-x527-x647-q7gg",
+      "aliases": [
+        "CVE-2026-46595",
+        "GO-2026-5023"
+      ],
+      "summary": "golang.org/x/crypto: Invoking VerifiedPublicKeyCallback permissions skip enforcement",
+      "severity": "CRITICAL",
+      "severityVectors": [
+        {
+          "score": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:C/C:H/I:H/A:L",
+          "type": "CVSS_V3"
+        }
+      ],
+      "fixedVersions": [
+        "0.52.0"
+      ],
+      "url": "https://osv.dev/GHSA-x527-x647-q7gg"
+    },
+    {
+      "package": {
+        "name": "golang.org/x/text",
+        "version": "0.24.0",
+        "ecosystem": "Go",
+        "purl": "pkg:golang/golang.org/x/text@0.24.0"
+      },
+      "id": "GO-2026-5970",
+      "aliases": [
+        "CVE-2026-56852"
+      ],
+      "summary": "Infinite loop on invalid input in golang.org/x/text",
+      "fixedVersions": [
+        "0.39.0"
+      ],
+      "url": "https://osv.dev/GO-2026-5970"
+    },
+    {
+      "package": {
+        "name": "golang.org/x/text",
+        "version": "0.24.0",
+        "ecosystem": "Go",
+        "purl": "pkg:golang/golang.org/x/text@0.24.0"
+      },
+      "id": "GO-2026-6629",
+      "aliases": [
+        "CVE-2026-56851"
+      ],
+      "summary": "Panic parsing crafted input in x/text/secure/precis in golang.org/x/text",
+      "fixedVersions": [
+        "0.41.0"
+      ],
+      "url": "https://osv.dev/GO-2026-6629"
+    }
+  ]
+}

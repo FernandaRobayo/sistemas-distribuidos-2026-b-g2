@@ -1,0 +1,26 @@
+{
+  "cash-reporting": {
+    "tag": "multi-tour-cash-reporting:week15-12ad47ae4b6f",
+    "imageId": "sha256:b33f07f5c7e4d3668e0b943fd9a03f28a5ae3d8fb3b0dc5ddcb18f6ceb8efd76",
+    "source": {
+      "repository": "d04-caja-reportes/multi-tour-cash-reporting-api",
+      "revision": "7f08d885498b4929da3c316c08742e9afde088c7"
+    }
+  },
+  "security": {
+    "tag": "multi-tour-security:week15-12ad47ae4b6f",
+    "imageId": "sha256:e9b6a1a2af016b3e782d0089d5520ef174f4be3f335df2c4d626577fc9f66f19",
+    "source": {
+      "repository": "transversales/multi-tour-security",
+      "revision": "1dcb3e284876af5e98d9504b8e41f5cee4ea3b97"
+    }
+  },
+  "gateway": {
+    "tag": "multi-tour-gateway:week15-12ad47ae4b6f",
+    "imageId": "sha256:826cd74508c9943578af3866ecf8753b2342a9f247934818c58c19b451cd4af9",
+    "source": {
+      "repository": "transversales/multi-tour-api-gateway",
+      "revision": "13b4e560f4b2152beccb6ad6ecd01bddd30135eb"
+    }
+  }
+}

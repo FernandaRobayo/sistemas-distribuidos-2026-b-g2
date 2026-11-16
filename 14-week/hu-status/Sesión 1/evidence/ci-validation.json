@@ -1,0 +1,47 @@
+{
+  "runId": 43784282724,
+  "url": "https://github.com/FernandaRobayo/sistemas-distribuidos-2026-b-g2/actions/runs/43784282724",
+  "testedCommit": "715fdeda6fb2a4b2a22636c06829333cf9281f34",
+  "status": "completed",
+  "conclusion": "failure",
+  "dependencyMatches": 106,
+  "jobs": [
+    {
+      "name": "week14-quality",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/FernandaRobayo/sistemas-distribuidos-2026-b-g2/actions/runs/43784282724/job/133028307454"
+    },
+    {
+      "name": "security / secrets",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/FernandaRobayo/sistemas-distribuidos-2026-b-g2/actions/runs/43784282724/job/133028307691"
+    },
+    {
+      "name": "security / authorization / verify-session1",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/FernandaRobayo/sistemas-distribuidos-2026-b-g2/actions/runs/43784282724/job/133028307712"
+    },
+    {
+      "name": "security / dependencies",
+      "status": "completed",
+      "conclusion": "failure",
+      "url": "https://github.com/FernandaRobayo/sistemas-distribuidos-2026-b-g2/actions/runs/43784282724/job/133028307905"
+    },
+    {
+      "name": "week14-required",
+      "status": "completed",
+      "conclusion": "failure",
+      "url": "https://github.com/FernandaRobayo/sistemas-distribuidos-2026-b-g2/actions/runs/43784282724/job/133029643110"
+    },
+    {
+      "name": "deploy",
+      "status": "completed",
+      "conclusion": "skipped",
+      "url": "https://github.com/FernandaRobayo/sistemas-distribuidos-2026-b-g2/actions/runs/43784282724/job/133029674449"
+    }
+  ],
+  "note": "Dependency failure blocks the required gate and release job. Tagged candidate preview passed inside the quality job."
+}

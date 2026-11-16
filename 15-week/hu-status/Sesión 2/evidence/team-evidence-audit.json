@@ -1,0 +1,39 @@
+{
+  "team": "ErrorCapa8",
+  "members": [
+    {
+      "user": "FernandaRobayo",
+      "source": {
+        "repository": "FernandaRobayo/sistemas-distribuidos-2026-b-g2",
+        "ref": "5d7d72833d1914a3af4dd43e09a652c766cbecd5",
+        "blob": "3a09832065f1562323a109d065c29830db397057",
+        "path": "15-week/hu-status/README.md",
+        "url": "https://github.com/FernandaRobayo/sistemas-distribuidos-2026-b-g2/blob/5d7d72833d1914a3af4dd43e09a652c766cbecd5/15-week/hu-status/README.md"
+      },
+      "configurationPresent": true,
+      "sectionsPresent": true,
+      "storyRows": 1,
+      "rowsWithEvidenceURL": 1,
+      "blankOrPlaceholderRows": 0,
+      "allStatusesRecognized": true,
+      "claimScope": "Published weekly contribution evidence and declared limitations. Functional release acceptance is assessed by the operability run."
+    },
+    {
+      "user": "Molina211",
+      "source": {
+        "repository": "Molina211/sistemas-distribuidos-2026-b-g2",
+        "ref": "a602f875130556770d4b3450b6e97585a06edf38",
+        "blob": "b64b9403b219d495e59f51763f174fa8c830a158",
+        "path": "15-week/hu-status/README.md",
+        "url": "https://github.com/Molina211/sistemas-distribuidos-2026-b-g2/blob/a602f875130556770d4b3450b6e97585a06edf38/15-week/hu-status/README.md"
+      },
+      "configurationPresent": true,
+      "sectionsPresent": true,
+      "storyRows": 19,
+      "rowsWithEvidenceURL": 19,
+      "blankOrPlaceholderRows": 0,
+      "allStatusesRecognized": true,
+      "claimScope": "Published weekly contribution evidence and declared limitations. Functional release acceptance is assessed by the operability run."
+    }
+  ]
+}

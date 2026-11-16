@@ -1,0 +1,9 @@
+{
+  "moneyPreserved" : true,
+  "vus" : 20,
+  "healthyCashResponses" : 540,
+  "status" : "passed",
+  "durationSeconds" : 40,
+  "checkRate" : 1.0,
+  "expected503Responses" : 141
+}

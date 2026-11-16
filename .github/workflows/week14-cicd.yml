@@ -1,0 +1,114 @@
+name: Week 14 Multi Tour CI/CD
+on:
+  workflow_dispatch:
+  push:
+    branches: [docs/14-week-session1-cicd]
+    tags: ['security-v*']
+    paths:
+      - '.github/workflows/**'
+      - '13-week/hu-status/**'
+      - '14-week/hu-status/**/*.mjs'
+permissions:
+  contents: read
+jobs:
+  quality:
+    if: ${{ !startsWith(github.ref, 'refs/tags/security-v') }}
+    name: week14-quality
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - uses: actions/setup-go@v5
+        with:
+          go-version: '1.26.9'
+          cache: false
+      - name: Export immutable Multi Tour sources
+        env:
+          SECURITY_SOURCES_LOCK: '14-week/hu-status/Sesión 2/sources-lock.json'
+        run: node '13-week/hu-status/Sesión 2/prepare-sources.mjs' "$RUNNER_TEMP/week14-sources"
+      - name: Build, static analysis, types, tests and 93 percent coverage
+        run: node '14-week/hu-status/Sesión 1/quality.mjs' "$RUNNER_TEMP/week14-sources/security" "$RUNNER_TEMP/week14-quality"
+      - name: Build and deploy a tagged candidate in the disposable test environment
+        run: |
+          IMAGE="multi-tour-security:ci-$GITHUB_SHA"
+          SOURCE=$(node -p "require(process.env.RUNNER_TEMP + '/week14-sources/sources.json').security.revision")
+          docker build --label "org.opencontainers.image.revision=$SOURCE" --label "edu.corhuila.delivery-revision=$GITHUB_SHA" -t "$IMAGE" "$RUNNER_TEMP/week14-sources/security"
+          node '14-week/hu-status/Sesión 1/preview.mjs' "$RUNNER_TEMP/week14-sources/security" "$RUNNER_TEMP/week14-quality" "$IMAGE"
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: week14-quality
+          path: ${{ runner.temp }}/week14-quality/
+  security:
+    if: ${{ !startsWith(github.ref, 'refs/tags/security-v') }}
+    uses: ./.github/workflows/week13-threat-model-security.yml
+    with:
+      sources_lock: '14-week/hu-status/Sesión 2/sources-lock.json'
+  required:
+    name: week14-session1-required
+    if: ${{ always() && !startsWith(github.ref, 'refs/tags/security-v') }}
+    needs: [quality, security]
+    runs-on: ubuntu-latest
+    timeout-minutes: 2
+    steps:
+      - name: Reject failed, cancelled or skipped gates
+        env:
+          QUALITY: ${{ needs.quality.result }}
+          SECURITY: ${{ needs.security.result }}
+        run: test "$QUALITY" = success && test "$SECURITY" = success
+  finalization:
+    if: startsWith(github.ref, 'refs/tags/security-v') && github.event_name == 'push'
+    uses: ./.github/workflows/week14-final-pipeline.yml
+  deploy:
+    if: startsWith(github.ref, 'refs/tags/security-v') && github.event_name == 'push'
+    needs: finalization
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    permissions:
+      contents: read
+      packages: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Verify the release tag belongs to reviewed main
+        run: |
+          [[ "$GITHUB_REF_NAME" =~ ^security-v[0-9]+\.[0-9]+\.[0-9]+$ ]]
+          git merge-base --is-ancestor "$GITHUB_SHA" origin/main
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Export the same assessed sources
+        env:
+          SECURITY_SOURCES_LOCK: '14-week/hu-status/Sesión 2/sources-lock.json'
+        run: node '13-week/hu-status/Sesión 2/prepare-sources.mjs' "$RUNNER_TEMP/week14-sources"
+      - name: Publish the versioned image
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          IMAGE="ghcr.io/${GITHUB_REPOSITORY_OWNER,,}/multi-tour-security:$GITHUB_REF_NAME"
+          printf '%s' "$GH_TOKEN" | docker login ghcr.io -u "$GITHUB_ACTOR" --password-stdin
+          if docker manifest inspect "$IMAGE" > "$RUNNER_TEMP/manifest.json" 2> "$RUNNER_TEMP/manifest.error"; then
+            echo 'Release tag already exists; refusing overwrite.' >&2
+            exit 1
+          fi
+          grep -Eqi 'manifest unknown|no such manifest' "$RUNNER_TEMP/manifest.error" || {
+            echo 'Cannot establish that the release tag is absent.' >&2
+            exit 1
+          }
+          SOURCE=$(node -p "require(process.env.RUNNER_TEMP + '/week14-sources/sources.json').security.revision")
+          docker build --label "org.opencontainers.image.revision=$SOURCE" --label "edu.corhuila.delivery-revision=$GITHUB_SHA" -t "$IMAGE" "$RUNNER_TEMP/week14-sources/security"
+          docker push "$IMAGE"
+          docker image rm "$IMAGE"
+          docker pull "$IMAGE"
+          echo "IMAGE=$IMAGE" >> "$GITHUB_ENV"
+      - name: Deploy and smoke-test the tagged image in an isolated exercise environment
+        run: node '14-week/hu-status/Sesión 1/preview.mjs' "$RUNNER_TEMP/week14-sources/security" "$RUNNER_TEMP/week14-deploy" "$IMAGE"
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: week14-deploy
+          path: ${{ runner.temp }}/week14-deploy/

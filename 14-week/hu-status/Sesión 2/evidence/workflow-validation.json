@@ -1,0 +1,105 @@
+{
+  "runId": 43791735068,
+  "url": "https://github.com/FernandaRobayo/sistemas-distribuidos-2026-b-g2/actions/runs/43791735068",
+  "testedCommit": "228e72572f327472c52f80541379fee49d97b75b",
+  "status": "completed",
+  "conclusion": "failure",
+  "requiredCheckOwner": "week14-final-pipeline.yml",
+  "componentEvidenceRunId": 43790091251,
+  "unchangedComponentInputsVerified": [
+    ".github/workflows/week14-final-pipeline.yml",
+    ".github/workflows/week13-security.yml",
+    ".github/workflows/week13-threat-model-security.yml",
+    "14-week/hu-status/Sesión 2/service.mjs",
+    "14-week/hu-status/Sesión 2/prepare.mjs",
+    "14-week/hu-status/Sesión 2/sources-lock.json",
+    "14-week/hu-status/Sesión 2/coverage-baselines.json",
+    "14-week/hu-status/Sesión 1/quality.mjs",
+    "14-week/hu-status/Sesión 1/preview.mjs",
+    "13-week/hu-status/Sesión 1/verify.mjs",
+    "13-week/hu-status/Sesión 1/session1_e2e_test.go",
+    "13-week/hu-status/Sesión 1/Session1LiveServerTest.java",
+    "13-week/hu-status/Sesión 2"
+  ],
+  "jobs": [
+    {
+      "name": "plan",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/FernandaRobayo/sistemas-distribuidos-2026-b-g2/actions/runs/43791735068/job/133051471528"
+    },
+    {
+      "name": "security / secrets",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/FernandaRobayo/sistemas-distribuidos-2026-b-g2/actions/runs/43791735068/job/133051471967"
+    },
+    {
+      "name": "security / dependencies",
+      "status": "completed",
+      "conclusion": "failure",
+      "url": "https://github.com/FernandaRobayo/sistemas-distribuidos-2026-b-g2/actions/runs/43791735068/job/133051471982"
+    },
+    {
+      "name": "security / authorization",
+      "status": "completed",
+      "conclusion": "skipped",
+      "url": "https://github.com/FernandaRobayo/sistemas-distribuidos-2026-b-g2/actions/runs/43791735068/job/133051473263"
+    },
+    {
+      "name": "service-security",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/FernandaRobayo/sistemas-distribuidos-2026-b-g2/actions/runs/43791735068/job/133051514949"
+    },
+    {
+      "name": "smoke",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/FernandaRobayo/sistemas-distribuidos-2026-b-g2/actions/runs/43791735068/job/133051514983"
+    },
+    {
+      "name": "service-commercial",
+      "status": "completed",
+      "conclusion": "failure",
+      "url": "https://github.com/FernandaRobayo/sistemas-distribuidos-2026-b-g2/actions/runs/43791735068/job/133051514999"
+    },
+    {
+      "name": "service-relay",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/FernandaRobayo/sistemas-distribuidos-2026-b-g2/actions/runs/43791735068/job/133051515005"
+    },
+    {
+      "name": "service-identity-audit",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/FernandaRobayo/sistemas-distribuidos-2026-b-g2/actions/runs/43791735068/job/133051515041"
+    },
+    {
+      "name": "service-cash-reporting",
+      "status": "completed",
+      "conclusion": "failure",
+      "url": "https://github.com/FernandaRobayo/sistemas-distribuidos-2026-b-g2/actions/runs/43791735068/job/133051515046"
+    },
+    {
+      "name": "contracts / verify-session1",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/FernandaRobayo/sistemas-distribuidos-2026-b-g2/actions/runs/43791735068/job/133051515059"
+    },
+    {
+      "name": "service-operations-cost",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/FernandaRobayo/sistemas-distribuidos-2026-b-g2/actions/runs/43791735068/job/133051515100"
+    },
+    {
+      "name": "week14-required",
+      "status": "completed",
+      "conclusion": "failure",
+      "url": "https://github.com/FernandaRobayo/sistemas-distribuidos-2026-b-g2/actions/runs/43791735068/job/133052787856"
+    }
+  ],
+  "releasePublication": "Not executed; blocked product gates are retained."
+}

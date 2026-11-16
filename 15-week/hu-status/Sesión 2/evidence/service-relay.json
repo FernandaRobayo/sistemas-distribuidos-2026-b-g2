@@ -1,0 +1,18 @@
+{
+  "name": "relay",
+  "status": "passed",
+  "checkedAt": "2026-11-16T04:14:12.192Z",
+  "tests": 94,
+  "skipped": 0,
+  "failures": 0,
+  "errors": 0,
+  "coverage": 75,
+  "coverageUnit": "statements",
+  "baseline": 74.5,
+  "sources": {
+    "relay": {
+      "repository": "transversales/multi-tour-worker-event-relay",
+      "revision": "1163de13704425c015d80f864f89f5c2007d9adb"
+    }
+  }
+}

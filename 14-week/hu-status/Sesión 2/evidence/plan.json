@@ -1,0 +1,15 @@
+{
+  "services": [
+    "security",
+    "commercial",
+    "identity-audit",
+    "operations-cost",
+    "cash-reporting",
+    "relay"
+  ],
+  "contracts": true,
+  "smoke": true,
+  "paths": [],
+  "changedLocks": [],
+  "forced": true
+}

@@ -1,0 +1,24 @@
+{
+  "name": "commercial",
+  "status": "blocked",
+  "reason": "mvn verify failed; inspect verify.log. Partial metrics do not establish a healthy baseline.",
+  "tests": 2253,
+  "skipped": 0,
+  "failures": 2,
+  "errors": 3,
+  "coverage": 45.6,
+  "coverageUnit": "instructions",
+  "baseline": null,
+  "nativeBuildExitCode": 1,
+  "metricsScope": "Partial if native verification failed; not a healthy baseline.",
+  "sources": {
+    "commercial": {
+      "repository": "d02-comercial-reservas/multi-tour-commercial-reservation-api",
+      "revision": "a88e26bd5fefcb4f29440bd250a00a117c0ad5a1"
+    },
+    "commercial-db": {
+      "repository": "d02-comercial-reservas/multi-tour-commercial-reservation-db",
+      "revision": "2d4390a5a874dfc5cdcfba61b720a1730f76b86e"
+    }
+  }
+}

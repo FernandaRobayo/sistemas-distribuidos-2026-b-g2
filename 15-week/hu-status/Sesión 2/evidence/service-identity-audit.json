@@ -1,0 +1,22 @@
+{
+  "name": "identity-audit",
+  "status": "passed",
+  "checkedAt": "2026-11-16T04:13:04.268Z",
+  "tests": 510,
+  "skipped": 0,
+  "failures": 0,
+  "errors": 0,
+  "coverage": 73.1,
+  "coverageUnit": "instructions",
+  "baseline": 68.5,
+  "sources": {
+    "identity-audit": {
+      "repository": "d01-plataforma/multi-tour-identity-audit-api",
+      "revision": "316ab39a1f26c827e3473ed990a209c711d4c273"
+    },
+    "identity-db": {
+      "repository": "d01-plataforma/multi-tour-identity-audit-db",
+      "revision": "943ff54ef44faa2569c413e8450d26cc636c67ef"
+    }
+  }
+}

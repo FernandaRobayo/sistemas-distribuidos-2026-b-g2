@@ -1,0 +1,60 @@
+{
+  "runId": 43802517726,
+  "url": "https://github.com/FernandaRobayo/sistemas-distribuidos-2026-b-g2/actions/runs/43802517726",
+  "sourceRevision": "12ad47ae4b6f470103982517ffbf38599dc89db1",
+  "workflowConclusion": "failure",
+  "annotatedCompositionTags": 30,
+  "inspectedReleasePRs": 11,
+  "teacherApprovals": 11,
+  "inspectedReleaseCommits": 452,
+  "verifiedDirectQATrailers": 446,
+  "invalidDirectQASources": 0,
+  "systemTests": {
+    "tests": 7,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  "contracts": 29,
+  "cashResponses": 49,
+  "load": {
+    "scope": "authenticated cash-day reads; CI probe, not full Phase 1 population or monthly availability",
+    "tenants": 10,
+    "maxMs": 130.582072,
+    "requests": 800,
+    "vus": 20,
+    "p95Ms": 21.19142459999996,
+    "status": "passed",
+    "errorRate": 0,
+    "durationSeconds": 40
+  },
+  "rollback": {
+    "restoredCents": 100000,
+    "scope": "disposable PostgreSQL fixture recovery point and known-image redeployment after injected startup failure",
+    "knownImageId": "sha256:b33f07f5c7e4d3668e0b943fd9a03f28a5ae3d8fb3b0dc5ddcb18f6ceb8efd76",
+    "status": "passed",
+    "candidateExitCode": 42,
+    "recoveryMs": 5573,
+    "backupRestored": true,
+    "postBackupCentsRemoved": 50000
+  },
+  "stress": {
+    "moneyPreserved": true,
+    "vus": 20,
+    "healthyCashResponses": 540,
+    "status": "passed",
+    "durationSeconds": 40,
+    "checkRate": 1,
+    "expected503Responses": 141
+  },
+  "verifiedArtifactDigests": 10,
+  "operabilityAccepted": false,
+  "remainingFindings": [
+    "Commercial cancellation-log privacy assertion",
+    "Security account-creation native test",
+    "Cash core native coverage floors",
+    "Operations coverage regression",
+    "Runtime dependency advisories"
+  ],
+  "recoveryScope": "Disposable PostgreSQL test environment; platform MongoDB and target-environment recovery remain pending."
+}

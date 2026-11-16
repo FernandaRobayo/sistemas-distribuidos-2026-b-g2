@@ -1,0 +1,162 @@
+[
+  {
+    "file": "commercial/commercial-reservation-app/src/test/java/co/edu/corhuila/multi_tour/commercial_reservation/app/AdditionalDiscountRegistrationHttpTest.java",
+    "rule": "generic-api-key",
+    "line": 170,
+    "sha256": "5f1fad1593da8cd0dfae834aeb141abae91359080c54a56be41320ee52511160",
+    "reason": "Idempotency header input in an HTTP contract test, with runtime JWT signing keys generated separately.",
+    "sourceRevision": "a88e26bd5fefcb4f29440bd250a00a117c0ad5a1",
+    "reviewedOn": "2026-11-15",
+    "hashMode": "SHA-256 of UTF-8 source with CRLF normalized to LF"
+  },
+  {
+    "file": "commercial/commercial-reservation-app/src/test/java/co/edu/corhuila/multi_tour/commercial_reservation/app/PaymentExpiryLogsHttpTest.java",
+    "rule": "generic-api-key",
+    "line": 92,
+    "sha256": "22e284c9701c433cb74a353fbd5a613cb164134e0597a565c23c389e5449fa4a",
+    "reason": "Idempotency header input in an HTTP contract test, with runtime JWT signing keys generated separately.",
+    "sourceRevision": "a88e26bd5fefcb4f29440bd250a00a117c0ad5a1",
+    "reviewedOn": "2026-11-15",
+    "hashMode": "SHA-256 of UTF-8 source with CRLF normalized to LF"
+  },
+  {
+    "file": "commercial/commercial-reservation-app/src/test/java/co/edu/corhuila/multi_tour/commercial_reservation/app/OwnReservationHttpTest.java",
+    "rule": "generic-api-key",
+    "line": 74,
+    "sha256": "c20eb45734e1968f864d6f3ffb83493c20060ca340a66fe2b1bc1a29a27ae222",
+    "reason": "Idempotency header input in an HTTP contract test, with runtime JWT signing keys generated separately.",
+    "sourceRevision": "a88e26bd5fefcb4f29440bd250a00a117c0ad5a1",
+    "reviewedOn": "2026-11-15",
+    "hashMode": "SHA-256 of UTF-8 source with CRLF normalized to LF"
+  },
+  {
+    "file": "commercial/commercial-reservation-app/src/test/java/co/edu/corhuila/multi_tour/commercial_reservation/app/PaymentProofDecisionHttpTest.java",
+    "rule": "generic-api-key",
+    "line": 128,
+    "sha256": "f58f669f5a068d1898ab0efc89793549688577e18e00292eaf6e582421a3446c",
+    "reason": "Idempotency header input in an HTTP contract test, with runtime JWT signing keys generated separately.",
+    "sourceRevision": "a88e26bd5fefcb4f29440bd250a00a117c0ad5a1",
+    "reviewedOn": "2026-11-15",
+    "hashMode": "SHA-256 of UTF-8 source with CRLF normalized to LF"
+  },
+  {
+    "file": "security/.env.example",
+    "rule": "generic-api-key",
+    "line": 29,
+    "sha256": "b2041be4c68e6e95fb4fbd90a2ca2015584a50b90e5ddf05ce3b6a9a1d79cc21",
+    "reason": "Empty SECURITY_APP_PASSWORD and JWT_KEYS_DIR declarations in the published environment template.",
+    "sourceRevision": "aafda9c9bba60b3a486d0e502cb522c5d91e73c4",
+    "reviewedOn": "2026-11-15",
+    "hashMode": "SHA-256 of UTF-8 source with CRLF normalized to LF"
+  },
+  {
+    "file": "security/cmd/security/bootstrap_command_test.go",
+    "rule": "generic-api-key",
+    "line": 21,
+    "sha256": "2100181d3cc38b3d2655bc5db29f70b5349f0db2d7b19a3faeb10028f9fbd7ea",
+    "reason": "Synthetic password, idempotency key or token input used only by the named test fixture.",
+    "sourceRevision": "aafda9c9bba60b3a486d0e502cb522c5d91e73c4",
+    "reviewedOn": "2026-11-15",
+    "hashMode": "SHA-256 of UTF-8 source with CRLF normalized to LF"
+  },
+  {
+    "file": "security/internal/core/createaccount/fakes_test.go",
+    "rule": "generic-api-key",
+    "line": 17,
+    "sha256": "3b38cc7b8908bc4f651b55ca99572c552a15bd9dcaf7c9791cccdaa46c3f31f3",
+    "reason": "Synthetic password, idempotency key or token input used only by the named test fixture.",
+    "sourceRevision": "aafda9c9bba60b3a486d0e502cb522c5d91e73c4",
+    "reviewedOn": "2026-11-15",
+    "hashMode": "SHA-256 of UTF-8 source with CRLF normalized to LF"
+  },
+  {
+    "file": "security/internal/adapter/http/signin_routes_test.go",
+    "rule": "generic-api-key",
+    "line": 123,
+    "sha256": "23cb01bfd321a9ef6e09f41e1261e1104308b843758e17d356a8fb8536156e77",
+    "reason": "Synthetic password, idempotency key or token input used only by the named test fixture.",
+    "sourceRevision": "aafda9c9bba60b3a486d0e502cb522c5d91e73c4",
+    "reviewedOn": "2026-11-15",
+    "hashMode": "SHA-256 of UTF-8 source with CRLF normalized to LF"
+  },
+  {
+    "file": "security/internal/adapter/http/tenantevents_test.go",
+    "rule": "generic-api-key",
+    "line": 22,
+    "sha256": "b110c54a2c2469b6e29a2aac80d925e3e28785109745301597a5ee658015aa9c",
+    "reason": "Synthetic password, idempotency key or token input used only by the named test fixture.",
+    "sourceRevision": "aafda9c9bba60b3a486d0e502cb522c5d91e73c4",
+    "reviewedOn": "2026-11-15",
+    "hashMode": "SHA-256 of UTF-8 source with CRLF normalized to LF"
+  },
+  {
+    "file": "security/internal/adapter/http/changepassword_test.go",
+    "rule": "generic-api-key",
+    "line": 24,
+    "sha256": "8cb11e93a4bae3bdb8c2db9500df37b8e5df45783a19229149500d8536b34859",
+    "reason": "Synthetic password, idempotency key or token input used only by the named test fixture.",
+    "sourceRevision": "aafda9c9bba60b3a486d0e502cb522c5d91e73c4",
+    "reviewedOn": "2026-11-15",
+    "hashMode": "SHA-256 of UTF-8 source with CRLF normalized to LF"
+  },
+  {
+    "file": "security/internal/adapter/http/changepassword_test.go",
+    "rule": "generic-api-key",
+    "line": 73,
+    "sha256": "8cb11e93a4bae3bdb8c2db9500df37b8e5df45783a19229149500d8536b34859",
+    "reason": "Synthetic password, idempotency key or token input used only by the named test fixture.",
+    "sourceRevision": "aafda9c9bba60b3a486d0e502cb522c5d91e73c4",
+    "reviewedOn": "2026-11-15",
+    "hashMode": "SHA-256 of UTF-8 source with CRLF normalized to LF"
+  },
+  {
+    "file": "security/cmd/security/bootstrap_command_test.go",
+    "rule": "generic-api-key",
+    "line": 21,
+    "sha256": "2100181d3cc38b3d2655bc5db29f70b5349f0db2d7b19a3faeb10028f9fbd7ea",
+    "reason": "Synthetic password for the example.com administrator created only inside bootstrap integration tests.",
+    "sourceRevision": "1dcb3e284876af5e98d9504b8e41f5cee4ea3b97",
+    "reviewedOn": "2026-11-15",
+    "hashMode": "SHA-256 of UTF-8 source with CRLF normalized to LF"
+  },
+  {
+    "file": "security/internal/adapter/http/signin_routes_test.go",
+    "rule": "generic-api-key",
+    "line": 123,
+    "sha256": "12990176c66460e1a2ce867cc6ae02ebeae93f837ab53b90ae6d9ecd3ed8605d",
+    "reason": "Synthetic malformed-body password used to assert that request logs never expose credentials.",
+    "sourceRevision": "1dcb3e284876af5e98d9504b8e41f5cee4ea3b97",
+    "reviewedOn": "2026-11-15",
+    "hashMode": "SHA-256 of UTF-8 source with CRLF normalized to LF"
+  },
+  {
+    "file": "security/internal/core/createaccount/fakes_test.go",
+    "rule": "generic-api-key",
+    "line": 20,
+    "sha256": "9214786db772800628e041968480d321016caf0dee799924011533ceb110452f",
+    "reason": "Synthetic password in create-account in-memory unit test fixtures.",
+    "sourceRevision": "1dcb3e284876af5e98d9504b8e41f5cee4ea3b97",
+    "reviewedOn": "2026-11-15",
+    "hashMode": "SHA-256 of UTF-8 source with CRLF normalized to LF"
+  },
+  {
+    "file": "security/internal/core/supportrequest/supportrequest_test.go",
+    "rule": "generic-api-key",
+    "line": 24,
+    "sha256": "a2d063600853e9d5ae8f93696c533e651fcfd8c3332ab37a102eac32f9cd7b9c",
+    "reason": "Synthetic idempotency key in support-request in-memory unit tests.",
+    "sourceRevision": "1dcb3e284876af5e98d9504b8e41f5cee4ea3b97",
+    "reviewedOn": "2026-11-15",
+    "hashMode": "SHA-256 of UTF-8 source with CRLF normalized to LF"
+  },
+  {
+    "file": "security/internal/adapter/http/tenantevents_test.go",
+    "rule": "generic-api-key",
+    "line": 22,
+    "sha256": "24b7bab35a7328300b9f8f3b99b8acf096e90adcdd828445a2a71ae513967499",
+    "reason": "Synthetic UUID event key in tenant-event HTTP contract tests.",
+    "sourceRevision": "1dcb3e284876af5e98d9504b8e41f5cee4ea3b97",
+    "reviewedOn": "2026-11-15",
+    "hashMode": "SHA-256 of UTF-8 source with CRLF normalized to LF"
+  }
+]

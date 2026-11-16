@@ -1,0 +1,12 @@
+{
+  "initialRegisteredAt" : "2026-11-16T04:12:47.039559693Z",
+  "closurePreserved" : true,
+  "replayRegisteredAt" : "2026-11-16T04:12:47.039560Z",
+  "timestampDriftNanos" : 307,
+  "totalCents" : 1300000,
+  "replayRepresentationStable" : false,
+  "tenantIsolation" : true,
+  "status" : "passed",
+  "noDuplicateMovement" : true,
+  "expectedCashCents" : 800000
+}

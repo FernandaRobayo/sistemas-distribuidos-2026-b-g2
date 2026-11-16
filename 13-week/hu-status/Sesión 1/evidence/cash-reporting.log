@@ -1,0 +1,10 @@
+Exit code: 0
+[INFO] Running co.edu.corhuila.multi_tour.cash_reporting.app.InternalRoutesControllersTest
+[INFO] Tests run: 7, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 6.232 s -- in co.edu.corhuila.multi_tour.cash_reporting.app.InternalRoutesControllersTest
+[INFO] Running co.edu.corhuila.multi_tour.cash_reporting.app.RestEnvelopeTest
+[INFO] Tests run: 13, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 1.404 s -- in co.edu.corhuila.multi_tour.cash_reporting.app.RestEnvelopeTest
+[INFO] Running co.edu.corhuila.multi_tour.cash_reporting.app.OutboxRelayRoutesControllersTest
+[INFO] Tests run: 5, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.640 s -- in co.edu.corhuila.multi_tour.cash_reporting.app.OutboxRelayRoutesControllersTest
+[INFO] Tests run: 25, Failures: 0, Errors: 0, Skipped: 0
+[INFO] BUILD SUCCESS
+[INFO] Total time:  17.196 s

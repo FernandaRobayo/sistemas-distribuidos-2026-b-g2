@@ -1,0 +1,17 @@
+{
+  "name": "security",
+  "status": "blocked",
+  "reason": "quality failed; inspect its redacted log.",
+  "tests": 0,
+  "skipped": 0,
+  "failures": 0,
+  "errors": 0,
+  "baseline": 93,
+  "metricsScope": "Partial if native verification failed; not a healthy baseline.",
+  "sources": {
+    "security": {
+      "repository": "transversales/multi-tour-security",
+      "revision": "1dcb3e284876af5e98d9504b8e41f5cee4ea3b97"
+    }
+  }
+}

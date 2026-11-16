@@ -1,0 +1,25 @@
+{
+  "checkedAt": "2026-11-16T03:32:40.215Z",
+  "status": "passed",
+  "results": [
+    {
+      "component": "live-integration",
+      "exitCode": 0,
+      "checkedAt": "2026-11-16T03:32:39.540Z",
+      "passedGoTests": 1,
+      "passedSubtests": 29,
+      "skippedGoTests": 0,
+      "passedSmokeChecks": 0
+    },
+    {
+      "component": "live-java-server",
+      "exitCode": 0,
+      "checkedAt": "2026-11-16T03:32:40.215Z",
+      "passedGoTests": 0,
+      "passedSubtests": 0,
+      "skippedGoTests": 0,
+      "passedSmokeChecks": 0
+    }
+  ],
+  "scope": "security producer to commercial consumer contracts over HTTPS; no production deployment"
+}
