@@ -29,7 +29,7 @@ for (const name of ['commercial', 'security', 'gateway']) {
   const directory = path.join(destination, name);
   const archive = path.join(destination, `${name}.tar`);
   fs.mkdirSync(directory);
-  checked('git', ['-C', repository, 'archive', '--format=tar', `--output=${archive}`, revision]);
+  checked('git', ['-c', 'core.autocrlf=false', '-C', repository, 'archive', '--format=tar', `--output=${archive}`, revision]);
   checked('tar', ['-xf', archive, '-C', directory]);
   fs.unlinkSync(archive);
   manifest[name] = source;

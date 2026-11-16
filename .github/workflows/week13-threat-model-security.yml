@@ -1,6 +1,7 @@
 name: Week 13 session 2 security gates
 
 on:
+  workflow_call:
   workflow_dispatch:
   pull_request:
     branches: [main]
