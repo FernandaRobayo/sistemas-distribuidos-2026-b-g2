@@ -47,7 +47,9 @@ try {
       Object.assign(env, {TEST_DB_NAME: prefix, DB_REPO: dbSource,
         DB_REPO_REF: readJson(path.join(sources, 'sources.json'))[databaseKey].revision,
         MONGO_IMAGE: 'public.ecr.aws/docker/library/mongo:8.0.32', LIQUIBASE_BASE: 'ghcr.io/liquibase/liquibase:5.0.4'});
-      env.TEST_DATABASE_URL = command('database-setup', 'sh', [script, 'up']).split(/\r?\n/).at(-1);
+      const setup = command('database-setup', 'sh', [script, 'up']);
+      env.TEST_DATABASE_URL = setup.split(/\r?\n/).find(line => /^(jdbc:postgresql|mongodb):\/\//.test(line));
+      if (!env.TEST_DATABASE_URL) throw new Error('Database runner did not return a connection URL.');
     } else {
       containers.push(prefix);
       const password = randomBytes(24).toString('hex'); env.POSTGRES_PASSWORD = password;
