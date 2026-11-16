@@ -104,6 +104,11 @@ jobs:
           SOURCE=$(node -p "require(process.env.RUNNER_TEMP + '/sources/sources.json').security.revision")
           docker build --label "org.opencontainers.image.revision=$SOURCE" -t "$IMAGE" "$RUNNER_TEMP/sources/security"
           node '14-week/hu-status/Sesión 1/preview.mjs' "$RUNNER_TEMP/sources/security" "$RUNNER_TEMP/smoke" "$IMAGE"
+      - name: Export gateway source
+        run: node '14-week/hu-status/Sesión 2/prepare.mjs' "$RUNNER_TEMP/gateway-sources" gateway
+      - name: Verify NGINX configuration and gateway smoke scenarios
+        working-directory: ${{ runner.temp }}/gateway-sources/gateway
+        run: bash tests/smoke.sh > "$RUNNER_TEMP/smoke/gateway.log" 2>&1
       - uses: actions/upload-artifact@v4
         if: always()
         with:

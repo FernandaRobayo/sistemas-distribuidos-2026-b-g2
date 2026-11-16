@@ -1,5 +1,5 @@
 import assert from 'node:assert/strict';
-import {select, services} from './plan.mjs';
+import {select, services, validateBaselines} from './plan.mjs';
 const commercial = 'd02-comercial-reservas/multi-tour-commercial-reservation-api/src/Controller.java';
 assert.deepEqual(select(['README.md']), {services: [], contracts: false, smoke: false});
 assert.deepEqual(select([commercial]).services, ['commercial', 'relay']);
@@ -13,4 +13,10 @@ assert.deepEqual(select(['sources-lock.json'], ['cash-reporting']).services, ['c
 assert.deepEqual(select(['sources-lock.json'], []).services, []);
 assert.deepEqual(select([], [], true).services, services);
 assert.equal(select(['14-week/hu-status/Sesión 2/evidence/result.json']).smoke, false);
-console.log('12 path-selection assertions passed: docs, provider/consumer propagation, shared/unknown inputs, lock changes and forced runs.');
+const baseline = Object.fromEntries(services.map(name => [name, 93]));
+assert.doesNotThrow(() => validateBaselines(baseline, baseline));
+assert.doesNotThrow(() => validateBaselines(baseline, {...baseline, relay: 94}));
+assert.throws(() => validateBaselines(baseline, {...baseline, relay: 92}));
+assert.throws(() => validateBaselines(baseline, {...baseline, relay: null}));
+assert.throws(() => validateBaselines({}, {...baseline, security: 80}));
+console.log('12 path-selection assertions and five coverage-ratchet assertions passed.');

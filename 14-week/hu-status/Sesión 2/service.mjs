@@ -60,15 +60,17 @@ try {
       if (!ready) throw new Error('PostgreSQL is not ready.');
       const port = command('database-port', 'docker', ['port', prefix, '5432/tcp']).split(':').at(-1);
       const domain = name === 'commercial' ? 'commercial_reservation' : 'cash_reporting';
-      const sql = walk(path.join(dbSource, '01_ddl')).filter(file => file.endsWith('.sql')).sort().map(file => fs.readFileSync(file, 'utf8')).join('\n');
+      const sql = ['01_ddl', '03_dcl'].flatMap(directory => walk(path.join(dbSource, directory)).filter(file => file.endsWith('.sql')).sort()).map(file => fs.readFileSync(file, 'utf8')).join('\n');
       execFileSync('docker', ['exec', '-i', prefix, 'psql', '-U', 'postgres', '-v', 'ON_ERROR_STOP=1'], {
-        input: `CREATE EXTENSION IF NOT EXISTS pgcrypto;\n${sql}\nCREATE ROLE ${domain}_app LOGIN PASSWORD '${password}';\nGRANT USAGE ON SCHEMA ${domain} TO ${domain}_app;\nGRANT SELECT,INSERT,UPDATE,DELETE ON ALL TABLES IN SCHEMA ${domain} TO ${domain}_app;\nGRANT USAGE,SELECT ON ALL SEQUENCES IN SCHEMA ${domain} TO ${domain}_app;`,
+        input: `CREATE EXTENSION IF NOT EXISTS pgcrypto;\nCREATE ROLE ${domain}_app LOGIN PASSWORD '${password}';\n${sql}`,
         encoding: 'utf8', windowsHide: true, maxBuffer: 16 * 1024 * 1024});
       Object.assign(env, {TEST_DATABASE_URL: `jdbc:postgresql://127.0.0.1:${port}/postgres`,
         TEST_DATABASE_USER: `${domain}_app`, TEST_DATABASE_PASSWORD: password,
         DB_URL: `jdbc:postgresql://127.0.0.1:${port}/postgres`, DB_USER: `${domain}_app`, DB_PASSWORD: password});
     }
-    const build = maven(['org.jacoco:jacoco-maven-plugin:0.8.14:prepare-agent', 'verify', 'org.jacoco:jacoco-maven-plugin:0.8.14:report'], source, env);
+    const nativeCoverage = fs.readFileSync(path.join(source, 'pom.xml'), 'utf8').includes('<artifactId>jacoco-maven-plugin</artifactId>');
+    const goals = nativeCoverage ? ['verify'] : ['org.jacoco:jacoco-maven-plugin:0.8.14:prepare-agent', 'verify', 'org.jacoco:jacoco-maven-plugin:0.8.14:report'];
+    const build = maven(goals, source, env);
     fs.writeFileSync(path.join(output, 'verify.log'), redact(build.output));
     if (build.code) throw new Error('mvn verify failed; inspect verify.log.');
     const files = walk(source);
@@ -94,6 +96,10 @@ try {
   if (status !== 'passed') throw new Error(`${status}: measured coverage ${coverage}%, baseline ${baseline}.`);
   console.log(`${name}: ${tests} tests, zero skipped; coverage ${coverage}% ${coverageUnit}.`);
 } catch (error) {
+  for (const container of containers) {
+    const logs = run('docker', ['logs', container], source);
+    fs.writeFileSync(path.join(output, `${container}-diagnostic.log`), redact(logs.output));
+  }
   if (!fs.existsSync(path.join(output, 'service-summary.json'))) writeJson(path.join(output, 'service-summary.json'), {name, status: 'blocked', reason: redact(error.message)});
   console.error(redact(error.message)); process.exitCode = 1;
 } finally {

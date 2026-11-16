@@ -3,6 +3,14 @@ import path from 'node:path';
 import {fileURLToPath} from 'node:url';
 import {checked, readJson, writeJson} from '../../../13-week/hu-status/Sesión 2/tools.mjs';
 export const services = ['security', 'commercial', 'identity-audit', 'operations-cost', 'cash-reporting', 'relay'];
+export function validateBaselines(before, after) {
+  for (const name of services) {
+    const current = after[name], previous = before[name];
+    if (current !== null && (!Number.isFinite(current) || current < 0 || current > 100)) throw new Error(`Invalid coverage baseline ${name}`);
+    if (Number.isFinite(previous) && (current === null || current < previous)) throw new Error(`Coverage baseline decreased: ${name}`);
+  }
+  if (after.security < 93) throw new Error('Security coverage must retain the measured 93% baseline.');
+}
 export function select(paths, changedLocks = [], force = false) {
   const selected = new Set(); let contracts = false, smoke = false;
   const affect = name => {
@@ -28,6 +36,9 @@ if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.me
   const metadata = process.env.GITHUB_EVENT_PATH ? readJson(process.env.GITHUB_EVENT_PATH) : {};
   const force = event !== 'pull_request';
   const base = metadata.pull_request?.base.sha, head = metadata.pull_request?.head.sha;
+  const baselinePath = '14-week/hu-status/Sesión 2/coverage-baselines.json';
+  const before = base ? (() => { try { return JSON.parse(checked('git', ['show', `${base}:${baselinePath}`], here)); } catch { return {}; } })() : {};
+  validateBaselines(before, readJson(path.join(here, 'coverage-baselines.json')));
   const paths = force ? [] : checked('git', ['diff', '--name-only', '--no-renames', base, head], here).split(/\r?\n/).filter(Boolean);
   const changed = new Set();
   for (const file of paths.filter(file => /sources-lock\.json$/.test(file))) {
